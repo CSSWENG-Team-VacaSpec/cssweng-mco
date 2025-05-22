@@ -1,0 +1,27 @@
+{
+  "name": "cssweng-mco",
+  "version": "1.0.0",
+  "description": "A team management system for Team VacaSpec.",
+  "main": "main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jayylmao/cssweng-mco.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/jayylmao/cssweng-mco/issues"
+  },
+  "homepage": "https://github.com/jayylmao/cssweng-mco#readme",
+  "dependencies": {
+    "dotenv": "^16.5.0",
+    "express": "^5.1.0",
+    "hbs": "^4.2.0",
+    "mongoose": "^8.15.0"
+  }
+}
