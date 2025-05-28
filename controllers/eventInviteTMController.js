@@ -15,6 +15,8 @@ Allow team members to view and respond to team/event invites.
 const EventInvitation = require('../models/eventInvitations');
 const Team = require('../models/teams');
 const EmployeeAccount = require('../models/employeeAccounts');
+const Notification = require('../models/notifications'); 
+const { v4: uuidv4 } = require('uuid'); //UUIDs
 
 
 // Get a specific invitation for an employee
@@ -72,7 +74,6 @@ exports.getAcceptedMemberNames = async (req, res) => {
   }
 };
 
-
 // Respond to an invitation and notify manager
 exports.respondToInvite = async (req, res) => {
   const { poNumber, employeeCN } = req.params;
@@ -85,7 +86,7 @@ exports.respondToInvite = async (req, res) => {
   try {
     const updated = await EventInvitation.findOneAndUpdate(
       { _id: poNumber, employeeCN },
-      { response }, //updates the value of response
+      { response },
       { new: true }
     );
 
@@ -94,14 +95,21 @@ exports.respondToInvite = async (req, res) => {
     // Notify manager
     const team = await Team.findById(poNumber);
     if (team) {
-      console.log(`Notify manager ${team.manager}: Member ${employeeCN} responded "${response}" to invite ${poNumber}.`);
+      const notif = new Notification({
+        _id: uuidv4(),
+        sender: employeeCN,
+        receiver: 'Manager',
+        receiverID: team.manager,
+        date: new Date(),
+        message: `Member ${employeeCN} responded '${response}' to invite ${poNumber}.`
+      });
+
+      await notif.save();
     }
 
     res.json({ message: 'Response recorded', updated });
   } catch (err) {
-    console.error('Error responding to invite:', err); // debugging console log
+    console.error('Error responding to invite:', err);
     res.status(500).json({ error: 'An unexpected error occurred while responding to the invite. Please try again later.' });
   }
 };
-
-
