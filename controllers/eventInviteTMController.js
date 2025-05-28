@@ -13,7 +13,9 @@ Allow team members to view and respond to team/event invites.
 // use PO Number to get team members
 
 const EventInvitation = require('../models/eventInvitations');
-const Team = require('../models/team');
+const Team = require('../models/teams');
+const EmployeeAccount = require('../models/employeeAccounts');
+
 
 // Get a specific invitation for an employee
 exports.viewInvite = async (req, res) => {
@@ -40,6 +42,34 @@ exports.getAcceptedMembers = async (req, res) => {
     res.status(500).json({ error: 'Server error' });
   }
 };
+
+// Get names of employees who accepted the invite
+exports.getAcceptedMemberNames = async (req, res) => {
+  const { poNumber } = req.params;
+
+  try {
+    // get the available employeeCNs
+    const acceptedInvites = await EventInvitation.find(
+      { _id: poNumber, response: 'available' }
+    ).select('employeeCN');
+
+    const contactNumbers = acceptedInvites.map(invite => invite.employeeCN);
+
+    // get first and last names of those employees
+    if (contactNumbers.length === 0) {
+      return res.json([]); // No available members
+    }
+    const employees = await EmployeeAccount.find(
+      { _id: { $in: contactNumbers } }
+    ).select('_id firstName lastName');
+
+    res.json(employees);
+  } catch (err) {
+    console.error('Error fetching accepted member names:', err);
+    res.status(500).json({ error: 'Server error' });
+  }
+};
+
 
 // Respond to an invitation and notify manager
 exports.respondToInvite = async (req, res) => {
