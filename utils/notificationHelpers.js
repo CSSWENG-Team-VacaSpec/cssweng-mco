@@ -7,7 +7,7 @@ const Account = require('../models/Account');
 async function getManagerEventInvitations(managerContact) {
   // Find all teams managed by this manager
   const teams = await Team.find({ manager: managerContact });
-  const teamIDs = teams.map(team => team._id); // Get the PO Number: _id
+  const teamIDs = teams.map(team => team._id); // Get the IDs: PO Number
 
   // Find events linked to these teams in specific statuses
   const events = await Event.find({
@@ -24,10 +24,9 @@ async function getManagerEventInvitations(managerContact) {
   }).select('_id employeeCN response'); 
 }
 
-// Finds account activation requests that are still pending
-async function getAccountActivationRequests() {
-  return await Account.find({ status: 'pending' }).select('_id email requestedAt');
-}
+/* async function getAccountActivationRequests() {
+    // Find all accounts that are pending activation
+}*/
 
 // (Placeholder) Finds notifications meant for team members
 async function getTeamMemberNotifications(userContact) {

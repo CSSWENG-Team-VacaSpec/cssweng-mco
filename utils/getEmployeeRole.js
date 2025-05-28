@@ -16,6 +16,7 @@ exports.getEmployeeRole = async (req, res) => {
       role: employee.role
     });
   } catch (err) {
+    console.error('Error fetching employee role:', err); // Log the error for debugging
     res.status(500).json({ error: 'Server error' });
   }
 };
