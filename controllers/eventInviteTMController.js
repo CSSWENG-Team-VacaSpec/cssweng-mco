@@ -27,7 +27,8 @@ exports.viewInvite = async (req, res) => {
 
     res.json(invite);
   } catch (err) {
-    res.status(500).json({ error: 'Server error' });
+    console.error('Error fetching accepted members:', err); // debugging console log
+    res.status(500).json({ error: 'An unexpected error occurred while fetching accepted members. Please try again later.' });
   }
 };
 
@@ -39,7 +40,8 @@ exports.getAcceptedMembers = async (req, res) => {
     const accepted = await EventInvitation.find({ _id: poNumber, response: 'available' });
     res.json(accepted);
   } catch (err) {
-    res.status(500).json({ error: 'Server error' });
+    console.error('Error fetching accepted members:', err); // debugging console log
+    res.status(500).json({ error: 'An unexpected error occurred while fetching accepted members. Please try again later.' });
   }
 };
 
@@ -97,7 +99,8 @@ exports.respondToInvite = async (req, res) => {
 
     res.json({ message: 'Response recorded', updated });
   } catch (err) {
-    res.status(500).json({ error: 'Server error' });
+    console.error('Error responding to invite:', err); // debugging console log
+    res.status(500).json({ error: 'An unexpected error occurred while responding to the invite. Please try again later.' });
   }
 };
 
