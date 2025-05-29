@@ -1,5 +1,7 @@
 const bcrypt = require('bcrypt');
 const EmployeeAccount = require('../models/employeeAccounts');
+const Notification = require('../models/notifications');
+const { v4: uuidv4 } = require('uuid');
 
 // to handle login functionality
 exports.getLoginPage = (req, res) => {
@@ -57,3 +59,50 @@ exports.authenticateEmployee = async (req, res) => {
         return res.status(500).json({ error: "Server error" });
     }
 };
+
+
+/* FORGOT PASSWORD PROCESS 
+Manager makes temp pw for employee
+Employee changes temp pw 
+
+IF PASSWORD FORGOTTEN
+
+notifies manager and manager resets pw and makes another temp pw
+managers gives temp pw to employee
+employee changes temp pw */
+
+// sends notifications to all managers when a user requests a password reset
+exports.forgotPasswordRequests = async (req, res) => {
+    try {
+      const { contactNumber } = req.body;
+  
+      // validate that the requesting employee exists
+      const sender = await EmployeeAccount.findById(contactNumber);
+      if (!sender) {
+        return res.status(404).json({ error: 'Employee not found' });
+      }
+  
+      // get all active managers
+      const managers = await EmployeeAccount.find({ role: 'Manager', status: 'active' });
+  
+      // create a notification for each manager
+      const notifications = managers.map(manager => ({
+        _id: uuidv4(),
+        sender: contactNumber,
+        receiver: 'Manager',
+        receiverID: manager._id,
+        message: `${sender.firstName} ${sender.lastName} has requested a password reset.`,
+        date: new Date(),
+        hideFrom: []
+      }));
+  
+      // insert notifications into the database
+      await Notification.insertMany(notifications);
+  
+      return res.status(200).json({ message: 'Password reset request sent to managers.' });
+  
+    } catch (error) {
+      console.error('Forgot Password Notification Error:', error);
+      return res.status(500).json({ error: 'Server error while sending notifications.' });
+    }
+  };
