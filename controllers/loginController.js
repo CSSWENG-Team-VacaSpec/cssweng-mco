@@ -57,3 +57,13 @@ exports.authenticateEmployee = async (req, res) => {
         return res.status(500).json({ error: "Server error" });
     }
 };
+
+/* FORGOT PASSWORD PROCESS 
+Manager makes temp pw for employee
+Employee changes temp pw 
+
+IF PASSWORD FORGOTTEN
+
+notifies manager and manager resets pw and makes another temp pw
+managers gives temp pw to employee
+employee changes temp pw */
