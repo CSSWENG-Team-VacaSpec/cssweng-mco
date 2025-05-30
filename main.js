@@ -18,8 +18,12 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, 'public')));
 
 // view engine setup
-app.engine('hbs', exphbs.engine({ extname: '.hbs' }));
-app.set('view engine', 'hbs');
+app.engine('hbs', exphbs.engine({
+  extname: '.hbs',
+  defaultLayout: 'main', // main layout
+  layoutsDir: path.join(__dirname, 'views', 'layouts'), // Directory where layout files are stored
+  partialsDir: path.join(__dirname, 'views', 'partials') // Directory for reusable template 
+}));app.set('view engine', 'hbs');
 app.set('views', path.join(__dirname, 'views'));
 
 // routes
