@@ -7,10 +7,8 @@ const exphbs = require('express-handlebars');
 const app = express();
 
 // mongoDB connection
-mongoose.connect(process.env.MONGODB_URI, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-}).then(() => console.log('MongoDB connected'))
+mongoose.connect(process.env.MONGODB_URI)
+  .then(() => console.log('MongoDB connected'))
   .catch((err) => console.log('MongoDB connection error:', err));
 
 // middleware
@@ -22,7 +20,12 @@ app.engine('hbs', exphbs.engine({ extname: '.hbs' }));
 app.set('view engine', 'hbs');
 app.set('views', path.join(__dirname, 'views'));
 
+// route declaration
+const loginRoute = require('./routes/r_login');
+
 // routes
+app.use('/TeamVacaspecUser', loginRoute); 
+
 
 // start server
 const PORT = process.env.PORT || 3000;
