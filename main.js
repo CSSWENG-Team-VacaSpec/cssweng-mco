@@ -26,10 +26,11 @@ app.set('views', path.join(__dirname, 'views'));
 
 // route declaration
 const loginRoute = require('./routes/r_login');
+const searchBarRoute = require('./routes/r_searchBar');
 
 // routes
-app.use('/TeamVacaspecUser', loginRoute); 
-
+app.use('/', loginRoute); 
+app.use('/', searchBarRoute);
 
 // start server
 const PORT = process.env.PORT || 3000;
