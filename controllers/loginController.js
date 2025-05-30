@@ -2,8 +2,7 @@ const bcrypt = require('bcrypt');
 const EmployeeAccount = require('../models/employeeAccounts');
 const Notification = require('../models/notifications');
 const { v4: uuidv4 } = require('uuid');
-const Notification = require('../models/notifications');
-const { v4: uuidv4 } = require('uuid');
+
 
 // to handle login functionality
 exports.getLoginPage = (req, res) => {
