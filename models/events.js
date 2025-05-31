@@ -6,7 +6,11 @@ const eventSchema = new mongoose.Schema({
     description: { type: String},
     eventDate: { type: String, required: true },
     location: { type: String, required: true },
-    status: { type: String, required: true }, // planning, in progress, cancelled, postponed, completed
+    status: {
+        type: String, 
+        enum: ['planning', 'in progress', 'cancelled', 'postponed', 'completed'], 
+        default: 'planning' 
+    }, 
     CPContactNo: { type: String, required: true }, // Contact number of the contact person
     CPLastName: { type: String, required: true }, // Last name of the contact person
     CPFirstName: { type: String, required: true }, // First name of the contact person
