@@ -113,4 +113,15 @@ exports.forgotPasswordRequests = async (req, res) => {
       return res.render('login', { error: 'Server error while sending notifications.' }); // change file name (login) if necessary
     }
 };
+
+exports.logout = (req, res) => {
+    req.session.destroy((err) => {
+      if (err) {
+        console.error("Logout error:", err);
+        return res.status(500).json({ error: "Logout failed" });
+      }
+
+      res.redirect('/');
+    });
+    };
   
