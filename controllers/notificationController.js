@@ -37,18 +37,20 @@ exports.sendNotification = async (req, res) => {
     // If Manager, gather all manager-specific notifications
     if (role === 'Manager') {
       const eventInvites = await getManagerEventInvitations(userContact);
+      const changePwRequests = await getPasswordRequests();
 
-      notifications = eventInvites.map(inv => ({
-        type: 'event_invite',
-        data: inv
-      }));
+  
+      notifications = [
+        ...eventInvites.map(inv => ({ type: 'event_invite', data: inv })),
+        ...changePwRequests.map(req => ({ type: 'change_pw_request', data: req })),
+      ];
 
     } else {
       // If Team Member, get their specific notifications
       const teamMemberNotifs = await getTeamMemberNotifications(userContact);
 
       notifications = [
-        ...teamMemberNotifs.map(inv => ({ type: 'team_member_notif', data: notif })),
+        ...teamMemberNotifs.map(notif => ({ type: 'team_member_notif', data: notif })),
       ];
 
     }

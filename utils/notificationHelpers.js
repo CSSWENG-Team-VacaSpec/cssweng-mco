@@ -1,7 +1,8 @@
-const Team = require('../models/Team');
-const Event = require('../models/Event');
-const EventInvitation = require('../models/EventInvitation');
-const Account = require('../models/Account');
+const Team = require('../models/team');
+const Event = require('../models/event');
+const EventInvitation = require('../models/eventInvitation');
+const Notification = require('../models/notification');
+const EmployeeAccount = require('../models/employeeAccounts');
 
 // Gets event invitations for a manager's teams that are in specific statuses: Available and Unavailable
 async function getManagerEventInvitations(managerContact) {
@@ -24,9 +25,38 @@ async function getManagerEventInvitations(managerContact) {
   }).select('_id employeeCN response'); 
 }
 
-/* async function getAccountActivationRequests() {
-    // Find all accounts that are pending activation
-}*/
+// gets all notifications sent to managers related to password reset requests
+// no parameter since ALL managers must receive this notification
+async function getForgotPasswordRequests() {
+  try {
+    // find notifications sent to managers related to password reset
+    const notifications = await Notification.find({
+      receiver: 'Manager',
+      message: { $regex: /password reset/i } // filters only password reset requests
+    });
+
+    const enrichedRequests = await Promise.all(
+      notifications.map(async notif => {
+        const sender = await EmployeeAccount.findById(notif.sender).lean();
+        return {
+          notifID: notif._id,
+          senderCN: notif.sender,
+          senderName: sender ? `${sender.firstName} ${sender.lastName}` : 'Unknown',
+          message: notif.message,
+          date: notif.date
+        };
+      })
+    );
+
+    return enrichedRequests;
+
+  } catch (error) {
+    console.error('Error fetching forgot password requests:', error);
+    throw error;
+  }
+}
+
+
 
 // (Placeholder) Finds notifications meant for team members
 async function getTeamMemberNotifications(userContact) {
@@ -36,6 +66,6 @@ async function getTeamMemberNotifications(userContact) {
 
 module.exports = {
   getManagerEventInvitations,
-  getAccountActivationRequests,
+  getForgotPasswordRequests,
   getTeamMemberNotifications,
 };

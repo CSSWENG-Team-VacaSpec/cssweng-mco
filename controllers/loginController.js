@@ -3,6 +3,7 @@ const EmployeeAccount = require('../models/employeeAccounts');
 const Notification = require('../models/notifications');
 const { v4: uuidv4 } = require('uuid');
 
+
 // to handle login functionality
 exports.getLoginPage = (req, res) => {
     const success = req.session.success;
