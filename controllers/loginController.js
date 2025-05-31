@@ -47,7 +47,7 @@ exports.authenticateEmployee = async (req, res) => {
             email: employee.email,
             userType: "employee"
         };
-
+        req.session.message='Login successful';
         console.log("Employee stored in session:", req.session.user); // change file name if necessary
 
         return res.render('employeeDashboard', { employee });
