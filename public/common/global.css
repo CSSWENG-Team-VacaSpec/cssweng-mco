@@ -49,7 +49,7 @@ a {
 }
 
 .sunlight {
-    position: absolute;
+    position: fixed;
     left: -10vw;
     width: 20vw;
     height: 20vw;
