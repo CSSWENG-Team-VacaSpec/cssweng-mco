@@ -4,6 +4,9 @@ const mongoose = require('mongoose');
 const path = require('path');
 const exphbs = require('express-handlebars');
 
+const loginRouter = require('./routes/r_login.js');
+const eventListRouter = require('./routes/r_event_list.js');
+
 const app = express();
 
 // mongoDB connection
@@ -23,6 +26,7 @@ app.set('view engine', 'hbs');
 app.set('views', path.join(__dirname, 'views'));
 
 // routes
+app.use('/', eventListRouter);
 
 // start server
 const PORT = process.env.PORT || 3000;
