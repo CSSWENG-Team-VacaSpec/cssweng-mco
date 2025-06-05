@@ -5,6 +5,9 @@ const mongoose = require('mongoose');
 const path = require('path');
 const exphbs = require('express-handlebars');
 
+const loginRouter = require('./routes/r_login.js');
+const eventListRouter = require('./routes/r_event_list.js');
+
 const app = express();
 
 // mongoDB connection
@@ -50,6 +53,7 @@ const loginRoute = require('./routes/r_login');
 const searchBarRoute = require('./routes/r_searchBar');
 
 // routes
+app.use('/', eventListRouter);
 app.use('/', loginRoute); 
 app.use('/', searchBarRoute);
 
