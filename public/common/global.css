@@ -7,6 +7,7 @@
     --sidebar-fg: #ffffff;
     --sidebar-bg: #3a343499;
     --border-light: #afa7a1;
+    --border-dark: #6e6a67;
     --accent-light: #e7b861;
     --sunlight: #ffa60066;
     --accent-dark: #503116;
@@ -55,13 +56,14 @@ a {
 
 .sunlight {
     position: fixed;
-    left: -10vw;
-    width: 20vw;
-    height: 20vw;
+    left: -8rem;
+    width: 16rem;
+    aspect-ratio: 1;
     background-color: var(--sunlight);
     filter: blur(52px);
     border-radius: var(--circle-radius);
     z-index: -5;
+    pointer-events: none;
 }
 
 .logo {
@@ -89,11 +91,24 @@ a {
     font-family: var(--main-font);
     letter-spacing: 4px;
     text-transform: uppercase;
+    font-size: large;
 }
 
 .image {
     background-color: var(--card-bg);
     border-radius: var(--circle-radius);
+}
+
+.button {
+    border-radius: var(--button-radius);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: var(--small-gap);
+}
+
+.button i {
+    font-size: 1.5rem;
 }
 
 .nav-link-section {

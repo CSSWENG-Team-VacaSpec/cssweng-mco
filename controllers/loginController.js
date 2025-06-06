@@ -10,7 +10,11 @@ exports.getLoginPage = (req, res) => {
     const error = req.session.error;
     req.session.success = null;
     req.session.error = null;
-    res.render('login', { success, error });
+    res.render('login', { 
+        layout: 'loginLayout',
+        success, 
+        error
+    });
 }
  
 // to handle employee authentication
