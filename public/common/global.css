@@ -20,6 +20,11 @@
     --card-radius: 24px;
     --input-field-radius: 8px;
 
+    --small-gap: 0.5rem;
+    --medium-gap: 1rem;
+    --big-gap: 2rem;
+    --container-padding: 1.5rem 3rem;
+
     --main-font: 'Space Grotesk', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
 }
 
@@ -27,8 +32,9 @@ body {
     background-color: var(--page-bg);
     color: var(--primary-fg);
     font-family: var(--main-font);
-    margin: 0.5rem;
+    margin: var(--small-gap);
     display: flex;
+    gap: var(--small-gap);
 }
 
 a {
@@ -38,14 +44,13 @@ a {
 .global-sidebar {
     background-color: var(--sidebar-bg);
     color: var(--sidebar-fg);
-    width: 25vw;
-    height: calc(100vh - 1rem);
+    width: 30vw;
+    height: calc(100vh - var(--medium-gap));
     box-sizing: border-box;
     border-radius: var(--container-radius);
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    padding: 2rem;
 }
 
 .sunlight {
@@ -54,7 +59,7 @@ a {
     width: 20vw;
     height: 20vw;
     background-color: var(--sunlight);
-    filter: blur(50px);
+    filter: blur(52px);
     border-radius: var(--circle-radius);
     z-index: -5;
 }
@@ -62,16 +67,22 @@ a {
 .logo {
     display: flex;
     align-items: center;
-    gap: 1.5rem;
+    gap: var(--medium-gap);
 }
 
 .logo-image {
     width: 5rem;
     height: 2rem;
-    padding: 1rem;
+    padding: var(--medium-gap);
     box-sizing: border-box;
     background-color: var(--sidebar-fg);
     border-radius: var(--button-radius);
+}
+
+.container {
+    border-radius: var(--container-radius);
+    padding: var(--container-padding);
+    box-sizing: border-box;
 }
 
 .header {
@@ -98,10 +109,10 @@ nav-link-wrapper {
     display: flex;
     flex-direction: row;
     align-items: center;
-    gap: 1rem;
+    gap: var(--medium-gap);
     list-style-type: none;
     border-radius: var(--button-radius);
-    padding: 1rem;
+    padding: var(--medium-gap);
 }
 
 .nav-link i, .nav-link p {
@@ -140,4 +151,10 @@ nav-link-wrapper {
 
 .accounts-page-link {
     display: flex;
+}
+
+.main-content {
+    width: 100%;
+    height: calc(100vh - var(--medium-gap));
+    background-color: var(--primary-bg);
 }
