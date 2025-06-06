@@ -118,6 +118,12 @@ exports.forgotPasswordRequests = async (req, res) => {
     }
 };
 
+exports.getForgotPasswordPage = async (req, res) => {
+    res.render('forgot', {
+        layout: 'forgotLayout'
+    });
+};
+
 exports.logout = (req, res) => {
     req.session.destroy((err) => {
       if (err) {

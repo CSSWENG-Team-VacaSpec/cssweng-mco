@@ -15,6 +15,12 @@
     --error-dark: #4c2923;
     --overlay-bg: #1f1f1fee;
 
+    --login-border: #686868aa;
+	--login-bg: #1f1f1fee;
+	--login-field-bg: #3B383388;
+	--login-field-fg: #989898;
+	--login-hover-bg: #3b3b3bee;
+
     --circle-radius: 50%;
     --button-radius: 96px;
     --container-radius: 48px;
@@ -91,7 +97,7 @@ a {
     font-family: var(--main-font);
     letter-spacing: 4px;
     text-transform: uppercase;
-    font-size: large;
+    font-size: larger;
 }
 
 .image {
