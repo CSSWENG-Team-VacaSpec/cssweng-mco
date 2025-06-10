@@ -4,6 +4,7 @@ const session = require('express-session');
 const mongoose = require('mongoose');
 const path = require('path');
 const exphbs = require('express-handlebars');
+const { eq } = require('./utils/getPage.js');
 
 const loginRouter = require('./routes/r_login.js');
 const eventListRouter = require('./routes/r_event_list.js');
@@ -43,6 +44,7 @@ app.use((req, res, next) => {
 app.engine('hbs', exphbs.engine({
   extname: '.hbs',
   defaultLayout: 'main', // main layout
+  helpers: { eq },
   layoutsDir: path.join(__dirname, 'views', 'layouts'), // Directory where layout files are stored
   partialsDir: path.join(__dirname, 'views', 'partials') // Directory for reusable template 
 }));app.set('view engine', 'hbs');
