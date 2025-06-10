@@ -3,20 +3,16 @@ const mongoose = require('mongoose');
 const eventSchema = new mongoose.Schema({
     _id: { type: String, required: true }, // [Purchase Order Number]
     eventName: { type: String, required: true },
-    description: { type: String},
+    description: { type: String, required: false },
     eventDate: { type: String, required: true },
     location: { type: String, required: true },
-    status: {
-        type: String, 
-        enum: ['planning', 'in progress', 'cancelled', 'postponed', 'completed'], 
-        default: 'planning' 
-    }, 
+    status: { type: String, required: true }, // planning, in progress, cancelled, postponed, completed
     CPContactNo: { type: String, required: true }, // Contact number of the contact person
     CPLastName: { type: String, required: true }, // Last name of the contact person
     CPFirstName: { type: String, required: true }, // First name of the contact person
     clientLastName: { type: String, required: true }, // Last name of the client
     clientFirstName: { type: String, required: true }, // First name of the client
-    companyName: { type: String}, // Name of the company
+    companyName: { type: String, required: false }, // Name of the company
    
 },
 { collection: "events" });

@@ -8,7 +8,6 @@ const notificationSchema = new mongoose.Schema({
         enum: ['Manager', 'Team Members'], // Type of receiver
     },
     receiverID: { type: String, required: true }, // contactNumber of the receiver
-    message: { type: String, required: true }, // Notification message
     date: { type: Date, default: Date.now }, // Date of the invitation
     hideFrom: { type: [String], required: false } // Array of contact numbers to hide the notification from
    

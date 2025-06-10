@@ -4,6 +4,7 @@ Allow users to view notifications
 - view notifications
 
 manager:
+- [VOID] account activation request 
 - response to event invite - [from eventInvitations]
 
 TM:
@@ -11,52 +12,38 @@ TM:
 - event invite
 */
 
+// CREATE A function that identifies if the user is Manager or a Team Member
 
-const getEmployeeRole = require('../utils/getEmployeeRole');
+const EventInvitation = require('./models/EventInvitation');
+const Team = require('./models/Team');
+const Event = require('./models/Event');
 
-const {
-  getManagerEventInvitations,
-  getAccountActivationRequests,
-  getTeamMemberNotifications,
-} = require('../utils/notificationHelpers');
-
-// Controller to send all applicable notifications based on the user role
-exports.sendNotification = async (req, res) => {
+exports.getManagerEventInvitations = async (req, res) => {
   try {
-    const userContact = req.user.contactNumber;
+    const managerContact = req.user.contactNumber; 
 
-    // Determine if the logged-in user is a Manager or Team Member
-    const role = await getEmployeeRole(userContact);
+    // Get teams managed by this manager
+    const teams = await Team.find({ manager: managerContact });
 
-    if (!role) {
-      return res.status(404).json({ error: 'Employee not found' });
-    }
+    // Extract team IDs (same as event IDs)
+    const teamIDs = teams.map(team => team._id);
 
-    let notifications = [];
+    // Get events with those IDs and relevant statuses
+    const events = await Event.find({
+      _id: { $in: teamIDs },
+      status: { $in: ['planning', 'postponed', 'in progress'] }
+    });
 
-    // If Manager, gather all manager-specific notifications
-    if (role === 'Manager') {
-      const eventInvites = await getManagerEventInvitations(userContact);
-      const changePwRequests = await getPasswordRequests();
+    const eventIDs = events.map(event => event._id);
 
-  
-      notifications = [
-        ...eventInvites.map(inv => ({ type: 'event_invite', data: inv })),
-        ...changePwRequests.map(req => ({ type: 'change_pw_request', data: req })),
-      ];
+    // Get EventInvitations with response 'available' or 'unavailable' for those events
+    const invitations = await EventInvitation.find({
+      _id: { $in: eventIDs },
+      response: { $in: ['available', 'unavailable'] }
+    }).select('_id employeeCN response');
 
-    } else {
-      // If Team Member, get their specific notifications
-      const teamMemberNotifs = await getTeamMemberNotifications(userContact);
-
-      notifications = [
-        ...teamMemberNotifs.map(notif => ({ type: 'team_member_notif', data: notif })),
-      ];
-
-    }
-
-    // Send full list of notif
-    return res.json({ message: 'Notifications sent', notifications });
+    // Return filtered invitation data
+    res.json(invitations);
 
   } catch (error) {
     console.error(error);
