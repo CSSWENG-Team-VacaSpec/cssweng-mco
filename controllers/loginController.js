@@ -10,7 +10,11 @@ exports.getLoginPage = (req, res) => {
     const error = req.session.error;
     req.session.success = null;
     req.session.error = null;
-    res.render('login', { success, error });
+    res.render('login', { 
+        layout: 'loginLayout',
+        success, 
+        error
+    });
 }
  
 // to handle employee authentication
@@ -112,6 +116,12 @@ exports.forgotPasswordRequests = async (req, res) => {
       console.error('Forgot Password Notification Error:', error);
       return res.render('login', { error: 'Server error while sending notifications.' }); // change file name (login) if necessary
     }
+};
+
+exports.getForgotPasswordPage = async (req, res) => {
+    res.render('forgot', {
+        layout: 'forgotLayout'
+    });
 };
 
 exports.logout = (req, res) => {
