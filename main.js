@@ -6,9 +6,6 @@ const path = require('path');
 const exphbs = require('express-handlebars');
 const { eq } = require('./utils/getPage.js');
 
-const loginRouter = require('./routes/r_login.js');
-const eventListRouter = require('./routes/r_event_list.js');
-
 const app = express();
 
 // mongoDB connection
@@ -53,9 +50,12 @@ app.set('views', path.join(__dirname, 'views'));
 // route declaration
 const loginRoute = require('./routes/r_login');
 const searchBarRoute = require('./routes/r_searchBar');
+const eventListRoute = require('./routes/r_event_list.js');
+// const notificationRoute = require('./routes/r_notifications.js');
 
 // routes
-app.use('/', eventListRouter);
+app.use('/', eventListRoute);
+// app.use('/', notificationRoute);
 app.use('/', loginRoute); 
 app.use('/', searchBarRoute);
 
