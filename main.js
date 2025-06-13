@@ -51,11 +51,11 @@ app.set('views', path.join(__dirname, 'views'));
 const loginRoute = require('./routes/r_login');
 const searchBarRoute = require('./routes/r_searchBar');
 const eventListRoute = require('./routes/r_event_list.js');
-// const notificationRoute = require('./routes/r_notifications.js');
+const notificationRoute = require('./routes/r_notifications.js');
 
 // routes
 app.use('/', eventListRoute);
-// app.use('/', notificationRoute);
+app.use('/', notificationRoute);
 app.use('/', loginRoute); 
 app.use('/', searchBarRoute);
 

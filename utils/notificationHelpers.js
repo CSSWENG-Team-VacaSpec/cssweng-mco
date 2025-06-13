@@ -1,7 +1,7 @@
-const Team = require('../models/team');
-const Event = require('../models/event');
-const EventInvitation = require('../models/eventInvitation');
-const Notification = require('../models/notification');
+const Team = require('../models/teams');
+const Event = require('../models/events');
+const EventInvitation = require('../models/eventInvitations');
+const Notification = require('../models/notifications');
 const EmployeeAccount = require('../models/employeeAccounts');
 
 // Gets event invitations for a manager's teams that are in specific statuses: Available and Unavailable
