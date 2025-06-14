@@ -71,6 +71,75 @@ exports.authenticateEmployee = async (req, res) => {
     }
 };
 
+//  when HBS submits a GET request
+exports.authenticateEmployeeGet = async (req, res) => {
+    try {
+        const { number, password } = req.query;
+        //allias
+        const contactNumber = number; // Assuming 'number' is the contact number
+
+        // DELETE before deploying to production
+        console.log("Login GET Request - Received data:");
+        console.log("Contact Number:", contactNumber);
+        console.log("Password:", password); 
+
+        if (!contactNumber && !password) {
+            return res.render('login', {
+                layout: 'loginLayout',
+                error: "Contact number and password are required"
+            });
+        }
+        if (!contactNumber) {
+            return res.render('login', {
+                layout: 'loginLayout',
+                error: "Contact number is required"
+            });
+        }
+        if (!password) {
+            return res.render('login', {
+                layout: 'loginLayout',
+                error: "Password is required"
+            });
+        }
+
+        const employee = await EmployeeAccount.findById(contactNumber);
+        console.log("Fetched employee:", employee);
+
+        if (!employee) {
+            return res.render('login', {
+                layout: 'loginLayout',
+                error: "Employee not found"
+            });
+        }
+
+        const isPasswordMatch = await bcrypt.compare(password, employee.password);
+        if (!isPasswordMatch) {
+            return res.render('login', {
+                layout: 'loginLayout',
+                error: "Incorrect password"
+            });
+        }
+
+        req.session.user = {
+            _id: employee._id,
+            email: employee.email,
+            userType: "employee"
+        };
+
+        return res.render('eventList', {
+            layout: 'eventListLayout',
+            employee
+        });
+
+    } catch (error) {
+        console.error("Authentication error:", error);
+        return res.render('login', {
+            layout: 'loginLayout',
+            error: "Server error"
+        });
+    }
+};
+
 
 /* FORGOT PASSWORD PROCESS 
 Manager makes temp pw for employee

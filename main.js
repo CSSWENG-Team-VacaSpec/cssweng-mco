@@ -48,6 +48,12 @@ app.engine('hbs', exphbs.engine({
 }));app.set('view engine', 'hbs');
 app.set('views', path.join(__dirname, 'views'));
 
+// For parsing application/x-www-form-urlencoded (needed for HTML forms)
+app.use(express.urlencoded({ extended: true }));
+
+// For parsing JSON (optional)
+app.use(express.json());
+
 // route declaration
 const loginRoute = require('./routes/r_login');
 const searchBarRoute = require('./routes/r_searchBar');
