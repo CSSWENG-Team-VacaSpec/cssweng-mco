@@ -9,6 +9,7 @@
     --border-light: #afa7a1;
     --border-dark: #6e6a67;
     --accent-light: #e7b861;
+    --accent-medium: #a26b04;
     --sunlight: #ffa60066;
     --accent-dark: #503116;
     --error-light: #df7362;
@@ -27,13 +28,18 @@
     --card-radius: 24px;
     --input-field-radius: 8px;
 
+    --card-shadow: 0px 0px 4px #00000011;
+
     --small-gap: 0.5rem;
     --medium-gap: 1rem;
     --big-gap: 2rem;
+    
     --container-padding: 1.5rem 3rem;
+    --card-padding: 1.25rem 2rem;
     --sidebar-padding: 1.5rem;
 
     --main-font: 'Space Grotesk', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    --icon-size: 1.5rem;
 }
 
 body {
@@ -117,7 +123,7 @@ a {
 }
 
 .button i {
-    font-size: 1.5rem;
+    font-size: var(--icon-size);
 }
 
 .nav-link-section {
@@ -150,7 +156,7 @@ a {
 }
 
 .nav-link i {
-    font-size: 1.5rem;
+    font-size: var(--icon-size);
 }
 
 .nav-link:active {
@@ -204,4 +210,63 @@ a {
     width: 100%;
     height: calc(100vh - var(--medium-gap));
     background-color: var(--primary-bg);
+}
+
+.info-container {
+    width: 100%;
+    padding: var(--card-padding);
+    box-sizing: border-box;
+    background-color: var(--card-bg);
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    border-radius: var(--card-radius);
+    box-shadow: var(--card-shadow);
+}
+
+.info-container * {
+    margin: 0;
+}
+
+.info-title {
+    font-weight: normal;
+}
+
+.info-desc-header {
+    margin-top: var(--small-gap);
+    color: var(--secondary-fg);
+}
+
+.event-header {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.button {
+    border-radius: var(--button-radius);
+    border: 1px solid var(--primary-fg);
+    color: var(--primary-fg);
+    background-color: transparent;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: var(--main-font);
+    padding: var(--small-gap);
+    gap: var(--small-gap);
+}
+
+.button i {
+    font-size: var(--icon-size);
+}
+
+.button:hover {
+    color: var(--accent-medium);
+}
+
+.focus-button {
+    background-color: var(--primary-fg);
+    color: var(--primary-bg);
 }
