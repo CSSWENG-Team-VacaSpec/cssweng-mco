@@ -1,5 +1,6 @@
 exports.getEventListPage = (req, res) => {
     res.render('eventList', {
-        layout: 'eventListLayout'
+        layout: 'eventListLayout',
+        page: 'upcoming-events'
     });
 };
