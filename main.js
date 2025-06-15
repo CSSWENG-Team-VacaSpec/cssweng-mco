@@ -51,9 +51,10 @@ app.set('views', path.join(__dirname, 'views'));
 // route declaration
 const loginRoute = require('./routes/r_login');
 const searchBarRoute = require('./routes/r_searchBar');
+const eventListRoute = require('./routes/r_event_list');
 
 // routes
-app.use('/', eventListRouter);
+app.use('/', eventListRoute);
 app.use('/', loginRoute); 
 app.use('/', searchBarRoute);
 
