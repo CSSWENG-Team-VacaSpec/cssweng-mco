@@ -1,4 +1,25 @@
 {{>sidebar}}
+<script src="/common/javascript/eventList.js"></script>
 <section class="main-content container">
-    <h2 class="header">Events List</h2>
+    <h2 class="header">Upcoming Events</h2>
+
+    <div class="event-list-top">
+        <form role="search" class="search-bar">
+            <button type="submit"><i class="lni lni-search-1"></i></button>
+            <input type="search" name="q" placeholder="Search...">
+        </form>
+
+        <div class="fg-button">
+            <a  class="fg-button-wrapper" href="#">
+                <i class="lni lni-plus"></i>
+                <p>Create</p>
+            </a>
+        </div>
+    </div>
+
+    <div class="upcoming-events-container">
+        {{>eventBox}}
+        {{>eventBox}}
+        {{>eventBox}}
+    </div>
 </section>

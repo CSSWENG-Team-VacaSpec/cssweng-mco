@@ -11,7 +11,7 @@
     <section>
         <ul class="nav-link-section">
             {{#if (eq page "upcoming-events")}}
-                <a class="nav-link-wrapper" href="/">
+                <a class="nav-link-wrapper" href="/eventList">
                     <li class="nav-link" id="active-link">
                         <div class="link-name">
                             <i class="lni lni-calendar-days"></i>
@@ -21,7 +21,7 @@
                     </li>
                 </a>
             {{else}}
-                <a class="nav-link-wrapper" href="/">
+                <a class="nav-link-wrapper" href="/upcoming-events">
                     <li class="nav-link">
                         <div class="link-name">
                             <i class="lni lni-calendar-days"></i>
@@ -67,9 +67,12 @@
             {{else}}
                 <a class="nav-link-wrapper" href="/notifications">
                     <li class="nav-link notifications-page-link">
-                        <div class="link-name">
+                    <div class="link-name">
+                            <div class="link-name">
                             <i class="lni lni-bell-1"></i>
-                            <p>Notifications</p>
+                                <p>Notifications</p>
+                    </div>
+                    <i class="lni lni-arrow-right"></i>
                         </div>
                         <i class="lni lni-arrow-right"></i>
                     </li>
