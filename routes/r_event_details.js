@@ -3,6 +3,6 @@ const router = express.Router();
 const eventDetailsController = require('../controllers/eventDetailsController');
 
 // Route to render the events details page
-router.get(['/', '/eventDetails'], eventDetailsController.getEventDetailsPage);
+router.get(['/', '/event-details'], eventDetailsController.getEventDetailsPage);
 
 module.exports = router;
