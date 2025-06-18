@@ -13,6 +13,7 @@
     --error-light: #df7362;
     --error-dark: #4c2923;
     --overlay-bg: #1f1f1fee;
+    --success-light: #54c66d;
 
     --circle-radius: 50%;
     --button-radius: 96px;
@@ -234,6 +235,25 @@ a {
     display: flex;
     flex-direction: column;
     gap: var(--medium-gap);
+    margin-bottom: 1rem;
+}
+
+#date-loc span {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+#contact span {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+#description-span span {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
 }
 
 .event-box-bottom span {
@@ -435,4 +455,24 @@ a {
 #details-choices {
     margin-left: auto; 
     margin-right: 0;
+}
+
+#status[data-status="planning"] {
+    color: var(--accent-light);
+}
+
+#status[data-status="in progress"] {
+    color: var(--accent-light);
+}
+
+#status[data-status="cancelled"] {
+    color: var(--error-light);
+}
+
+#status[data-status="postponed"] {
+    color: var(--accent-dark);
+}
+
+#status[data-status="completed"] {
+    color: var(--success-light);
 }

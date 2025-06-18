@@ -1,29 +1,20 @@
 document.addEventListener('DOMContentLoaded', function() {
-    const urlParams = new URLSearchParams(window.location.search);
     const eventData = JSON.parse(sessionStorage.getItem('currentEvent'));
-    const eventName = document.getElementById('event-name');
-    const clientName = document.getElementById('client-name');
-    const date = document.getElementById('date');
-    const contactName = document.getElementById('contact-name');
-    const contactInfo = document.getElementById('contact-info');
-    const description = document.getElementById('description');
-
-    if (description) {
-        description.style.webkitLineClamp = 'unset';
-        description.style.lineClamp = 'unset';
-        description.style.overflow = 'visible';
-        description.style.display = 'block';
-    }
-
+    
     if (eventData) {
-        eventName.innerText = eventData.name;
-        clientName.textContent = eventData.client;
-        date.textContent = eventData.date;
-        description.textContent = eventData.description;
-    }
-    else if (urlParams.has('name')) {
-        eventName.textContent = decodeURIComponent(urlParams.get('name'));
-        clientName.textContent = decodeURIComponent(urlParams.get('client'));
-        date.textContent = decodeURIComponent(urlParams.get('date'));
+        document.getElementById('event-name').textContent = eventData.eventName;
+        document.getElementById('client-name').textContent = eventData.clientName;
+        document.getElementById('date').textContent = eventData.eventDate;
+        document.getElementById('location').textContent = eventData.location;
+        document.getElementById('description').textContent = eventData.description;
+        document.getElementById('contact-name').textContent = 
+            `${eventData.CPFirstName} ${eventData.CPLastName}`;
+        document.getElementById('contact-info').textContent = eventData.CPContactNo;
+        document.getElementById('status').textContent = eventData.status;
+
+        const statusElement = document.getElementById('status');
+        statusElement.setAttribute('data-status', eventData.status.toLowerCase());
+    } else {
+        window.location.href = '/eventList';
     }
 });

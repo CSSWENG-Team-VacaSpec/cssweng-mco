@@ -18,8 +18,10 @@
     </div>
 
     <div class="upcoming-events-container">
-        {{>eventBox}}
-        {{>eventBox}}
-        {{>eventBox}}
+        {{#each events}}
+            {{>eventBox this}}
+        {{else}}
+            <p>No events found</p>
+        {{/each}}
     </div>
 </section>
