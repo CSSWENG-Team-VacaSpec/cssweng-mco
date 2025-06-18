@@ -8,7 +8,7 @@ document.addEventListener('DOMContentLoaded', function() {
             const date = this.querySelector('#date').textContent;
             const description = this.querySelector('#description').textContent;
 
-            window.location.href = `/eventDetails?name=${encodeURIComponent(eventName)}&client=${encodeURIComponent(clientName)}&date=${encodeURIComponent(date)}`;
+            window.location.href = `/event-details?name=${encodeURIComponent(eventName)}&client=${encodeURIComponent(clientName)}&date=${encodeURIComponent(date)}`;
 
             sessionStorage.setItem('currentEvent', JSON.stringify({
                 name: eventName,
@@ -16,7 +16,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 date: date,
                 description: description
             }));
-            window.location.href = '/eventDetails';
+            window.location.href = '/event-details';
         });
     });
 });
