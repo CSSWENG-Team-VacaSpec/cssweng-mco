@@ -1,22 +1,23 @@
 document.addEventListener('DOMContentLoaded', function() {
-    const eventBoxes = document.querySelectorAll('.event-box');
+    document.querySelector('.upcoming-events-container').addEventListener('click', function(e) {
+        const eventBox = e.target.closest('.event-box');
+        if (!eventBox) return;
 
-    eventBoxes.forEach(box => {
-        box.addEventListener('click', function() {
-            const eventName = this.querySelector('#event-name').textContent;
-            const clientName = this.querySelector('#client-name').textContent;
-            const date = this.querySelector('#date').textContent;
-            const description = this.querySelector('#description').textContent;
+        const eventData = {
+            _id: eventBox.dataset.id,
+            eventName: eventBox.querySelector('#event-name').textContent,
+            clientName: eventBox.querySelector('#client-name').textContent,
+            eventDate: eventBox.querySelector('#date').textContent,
+            description: eventBox.querySelector('#description').textContent,
+            location: eventBox.querySelector('#location').textContent,
+            status: eventBox.querySelector('#status').textContent,
+            CPContactNo: eventBox.dataset.cpContactNo,
+            CPLastName: eventBox.dataset.cpLastName,
+            CPFirstName: eventBox.dataset.cpFirstName,
+            companyName: eventBox.dataset.companyName
+        };
 
-            window.location.href = `/event-details?name=${encodeURIComponent(eventName)}&client=${encodeURIComponent(clientName)}&date=${encodeURIComponent(date)}`;
-
-            sessionStorage.setItem('currentEvent', JSON.stringify({
-                name: eventName,
-                client: clientName,
-                date: date,
-                description: description
-            }));
-            window.location.href = '/event-details';
-        });
+        sessionStorage.setItem('currentEvent', JSON.stringify(eventData));
+        window.location.href = `/eventDetails?id=${eventData._id}`;
     });
 });

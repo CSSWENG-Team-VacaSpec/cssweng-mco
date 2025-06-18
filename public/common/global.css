@@ -21,6 +21,7 @@
     --login-field-bg: #3B383388;
     --login-field-fg: #989898;
     --login-hover-bg: #3b3b3bee;
+    --success-light: #54c66d;
 
     --circle-radius: 50%;
     --button-radius: 96px;
@@ -265,6 +266,25 @@ a {
     display: flex;
     flex-direction: column;
     gap: var(--medium-gap);
+    margin-bottom: 1rem;
+}
+
+#date-loc span {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+#contact span {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+#description-span span {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
 }
 
 .event-box-bottom span {
@@ -437,4 +457,24 @@ a {
     display: flex;
     align-items: center;
     cursor: pointer;
+}
+
+#status[data-status="planning"] {
+    color: var(--accent-light);
+}
+
+#status[data-status="in progress"] {
+    color: var(--accent-light);
+}
+
+#status[data-status="cancelled"] {
+    color: var(--error-light);
+}
+
+#status[data-status="postponed"] {
+    color: var(--accent-dark);
+}
+
+#status[data-status="completed"] {
+    color: var(--success-light);
 }
