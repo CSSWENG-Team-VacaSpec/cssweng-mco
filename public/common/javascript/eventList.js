@@ -18,6 +18,6 @@ document.addEventListener('DOMContentLoaded', function() {
         };
 
         sessionStorage.setItem('currentEvent', JSON.stringify(eventData));
-        window.location.href = `/eventDetails?id=${eventData._id}`;
+        window.location.href = `/event-details?id=${eventData._id}`;
     });
 });

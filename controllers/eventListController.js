@@ -27,7 +27,8 @@ exports.getEventListPage = async (req, res) => {
                 CPFirstName: event.CPFirstName,
                 CPLastName: event.CPLastName,
                 CPContactNo: event.CPContactNo
-            }))
+            })),
+            page: 'upcoming-events'
         });
     } catch (error) {
         console.error("Error fetching events:", error);
