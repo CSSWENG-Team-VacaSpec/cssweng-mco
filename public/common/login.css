@@ -68,6 +68,11 @@ a {
     border-color: var(--accent-dark);
 }
 
+.login-button-wrapper {
+    justify-content: center;
+    text-decoration: none;
+}
+
 @media screen and (max-width: 800px) {
     .login-form {
         width: 100vw;
