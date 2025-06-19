@@ -61,15 +61,12 @@ a {
     background-color: var(--sidebar-bg);
     color: var(--sidebar-fg);
     flex: 30%;
-    flex: 30%;
     height: calc(100vh - var(--medium-gap));
     box-sizing: border-box;
     border-radius: var(--container-radius);
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    padding: var(--sidebar-padding);
-    overflow-y: scroll;
     padding: var(--sidebar-padding);
     overflow-y: scroll;
 }
