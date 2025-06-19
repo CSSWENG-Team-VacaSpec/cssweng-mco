@@ -3,6 +3,6 @@ const router = express.Router();
 const eventListController = require('../controllers/eventListController');
 
 // Route to render the events list page
-router.get('/', eventListController.getEventListPage);
+router.get(['/', '/event-list'], eventListController.getEventListPage);
 
 module.exports = router;
