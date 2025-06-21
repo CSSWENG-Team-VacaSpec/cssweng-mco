@@ -54,7 +54,6 @@ const searchBarRoute = require('./routes/r_searchBar');
 const eventListRoute = require('./routes/r_event_list.js');
 const notificationRoute = require('./routes/r_notifications.js');
 const eventDetailsRoute = require('./routes/r_event_details.js');
-const eventListRoute = require('./routes/r_event_list');
 
 // routes
 app.use('/', eventListRoute);
