@@ -47,9 +47,9 @@ exports.authenticateEmployee = async (req, res) => {
             });
         }
 
-        const employee = await EmployeeAccount.findOne({ _id: number });
+         const employee = await EmployeeAccount.findOne({ _id: number });
         console.log("Fetched employee:", employee);
-
+        /*
         if (!employee) {
             return res.render('login', {
                 layout: 'loginLayout',
@@ -64,14 +64,21 @@ exports.authenticateEmployee = async (req, res) => {
                 error: "Incorrect password"
             });
         }
+        */
 
         req.session.user = {
             _id: employee._id,
             email: employee.email,
+            firstName: employee.firstName,
+            lastName: employee.lastName,
+            role: employee.role,
             userType: "employee"
         };
 
-        return res.redirect('/eventlist'); 
+        
+
+        return res.redirect('/eventlist');
+        
 
     } catch (error) {
         console.error("Authentication error:", error);

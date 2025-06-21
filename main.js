@@ -42,7 +42,6 @@ app.engine('hbs', exphbs.engine({
   extname: '.hbs',
   defaultLayout: 'main', // main layout
   helpers: { eq },
-  helpers: { eq },
   layoutsDir: path.join(__dirname, 'views', 'layouts'), // Directory where layout files are stored
   partialsDir: path.join(__dirname, 'views', 'partials') // Directory for reusable template 
 }));app.set('view engine', 'hbs');
