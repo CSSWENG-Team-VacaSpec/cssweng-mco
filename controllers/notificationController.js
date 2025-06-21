@@ -20,6 +20,13 @@ const {
   getTeamMemberNotifications,
 } = require('../utils/notificationHelpers');
 
+exports.getNotificationPage = (req, res) => {
+    res.render('notifications', {
+        layout: 'notificationsLayout',
+        page: 'notifications'
+    });
+};
+
 // Controller to send all applicable notifications based on the user role
 exports.sendNotification = async (req, res) => {
   try {

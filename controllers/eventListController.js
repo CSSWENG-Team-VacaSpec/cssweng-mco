@@ -1,4 +1,4 @@
-const Event = require('../models/events'); 
+const Event = require('../models/events');
 const mongoose = require('mongoose');
 
 exports.getEventListPage = async (req, res) => {
@@ -15,10 +15,23 @@ exports.getEventListPage = async (req, res) => {
 
         res.render('eventList', {
             layout: 'eventListLayout',
-            events: events
+            events: events.map(event => ({
+                eventName: event.eventName,
+                companyName: event.companyName,
+                clientFirstName: event.clientFirstName,
+                clientLastName: event.clientLastName,
+                eventDate: event.eventDate,
+                description: event.description,
+                status: event.status,
+                location: event.location,
+                CPFirstName: event.CPFirstName,
+                CPLastName: event.CPLastName,
+                CPContactNo: event.CPContactNo
+            })),
+            page: 'upcoming-events'
         });
     } catch (error) {
         console.error("Error fetching events:", error);
-        res.status(500).render('errorPage', { message: "Internal server error" });
+        res.status(500).send("Internal server error");
     }
 };

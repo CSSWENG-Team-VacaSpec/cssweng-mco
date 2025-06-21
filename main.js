@@ -4,6 +4,7 @@ const session = require('express-session');
 const mongoose = require('mongoose');
 const path = require('path');
 const exphbs = require('express-handlebars');
+const { eq } = require('./utils/getPage.js');
 
 const app = express();
 
@@ -16,7 +17,7 @@ mongoose.connect(process.env.MONGODB_URI)
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, 'public')));
 
-//opening of sessions 
+//opening of sessions
 app.use(
     session({
         secret: "my_secret_key",
@@ -40,6 +41,8 @@ app.use((req, res, next) => {
 app.engine('hbs', exphbs.engine({
   extname: '.hbs',
   defaultLayout: 'main', // main layout
+  helpers: { eq },
+  helpers: { eq },
   layoutsDir: path.join(__dirname, 'views', 'layouts'), // Directory where layout files are stored
   partialsDir: path.join(__dirname, 'views', 'partials') // Directory for reusable template 
 }));app.set('view engine', 'hbs');
@@ -52,10 +55,14 @@ app.use(express.json());
 // route declaration
 const loginRoute = require('./routes/r_login');
 const searchBarRoute = require('./routes/r_searchBar');
-const eventListRoute = require('./routes/r_event_list');
+const eventListRoute = require('./routes/r_event_list.js');
+const notificationRoute = require('./routes/r_notifications.js');
+const eventDetailsRoute = require('./routes/r_event_details.js');
 
 // routes
 app.use('/', eventListRoute);
+app.use('/', notificationRoute);
+app.use('/', eventDetailsRoute);
 app.use('/', loginRoute); 
 app.use('/', searchBarRoute);
 
