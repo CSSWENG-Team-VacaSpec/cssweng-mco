@@ -4,10 +4,11 @@ const router = express.Router();
 const loginController = require('../controllers/loginController');
 
 // GET login page
-router.get('/', loginController.getLoginPage);
+router.get('/', loginController.getLoginPage);     
+router.get('/login', loginController.getLoginPage); 
 
 // GET login form submission
-router.get('/login', loginController.authenticateEmployeeGet);
+//router.get('/login', loginController.authenticateEmployeeGet);
 
 // POST login form submission (in case the form uses POST)
 router.post('/login', loginController.authenticateEmployee);

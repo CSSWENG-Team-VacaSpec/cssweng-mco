@@ -5,9 +5,6 @@ const mongoose = require('mongoose');
 const path = require('path');
 const exphbs = require('express-handlebars');
 
-const loginRouter = require('./routes/r_login.js');
-const eventListRouter = require('./routes/r_event_list.js');
-
 const app = express();
 
 // mongoDB connection
@@ -48,8 +45,6 @@ app.engine('hbs', exphbs.engine({
 }));app.set('view engine', 'hbs');
 app.set('views', path.join(__dirname, 'views'));
 
-// For parsing application/x-www-form-urlencoded (needed for HTML forms)
-app.use(express.urlencoded({ extended: true }));
 
 // For parsing JSON (optional)
 app.use(express.json());

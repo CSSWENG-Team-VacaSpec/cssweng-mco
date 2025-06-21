@@ -20,76 +20,21 @@ exports.getLoginPage = (req, res) => {
 // to handle employee authentication
 exports.authenticateEmployee = async (req, res) => {
     try {
-        const { contactNumber, password } = req.body;
+        console.log("POST /login controller triggered");
 
-        // Validate input
-        if (!contactNumber && !password) {
-            return res.status(400).json({ error: "Contact number and password are required" });
-        }
-        if (!contactNumber) {
-            return res.status(400).json({ error: "Contact number is required" });
-        }
-        if (!password) {
-            return res.status(400).json({ error: "Password is required" });
-        }        
+        const { number, password } = req.body;
 
-        // Find employee by contact number
-        const employee = await EmployeeAccount.findById(contactNumber);
-
-        if (!employee) {
-            return res.status(404).json({ error: "Employee not found" });
-        }
-
-        const isPasswordMatch = await bcrypt.compare(password, employee.password);
-
-        if (!isPasswordMatch) {
-            return res.status(401).json({ error: "Incorrect password" });
-        }
-
-        // Store minimal user info in session
-        req.session.user = {
-            _id: employee._id, // contact number
-            email: employee.email,
-            userType: "employee"
-        };
-        req.session.message='Login successful';
-        console.log("Employee stored in session:", req.session.user); // change file name if necessary
-
-        return res.render('employeeDashboard', { employee });
-
-        /*return res.json({
-            success: true,
-            _id: employee._id,
-            email: employee.email,
-            firstName: employee.firstName,
-            lastName: employee.lastName
-        }); */      
-        
-    } catch (error) {
-        console.error("Authentication error:", error);
-        return res.status(500).json({ error: "Server error" });
-    }
-};
-
-//  when HBS submits a GET request
-exports.authenticateEmployeeGet = async (req, res) => {
-    try {
-        const { number, password } = req.query;
-        //allias
-        const contactNumber = number; // Assuming 'number' is the contact number
-
-        // DELETE before deploying to production
-        console.log("Login GET Request - Received data:");
-        console.log("Contact Number:", contactNumber);
+        console.log("Login POST Request - Received data:");
+        console.log("Contact Number:", number);
         console.log("Password:", password); 
 
-        if (!contactNumber && !password) {
+        if (!number && !password) {
             return res.render('login', {
                 layout: 'loginLayout',
                 error: "Contact number and password are required"
             });
         }
-        if (!contactNumber) {
+        if (!number) {
             return res.render('login', {
                 layout: 'loginLayout',
                 error: "Contact number is required"
@@ -102,7 +47,7 @@ exports.authenticateEmployeeGet = async (req, res) => {
             });
         }
 
-        const employee = await EmployeeAccount.findById(contactNumber);
+        const employee = await EmployeeAccount.findOne({ _id: number });
         console.log("Fetched employee:", employee);
 
         if (!employee) {
@@ -126,10 +71,7 @@ exports.authenticateEmployeeGet = async (req, res) => {
             userType: "employee"
         };
 
-        return res.render('eventList', {
-            layout: 'eventListLayout',
-            employee
-        });
+        return res.redirect('/eventlist'); 
 
     } catch (error) {
         console.error("Authentication error:", error);
@@ -139,6 +81,70 @@ exports.authenticateEmployeeGet = async (req, res) => {
         });
     }
 };
+
+// if GET
+exports.authenticateEmployeeGet = async (req, res) => {
+    try {
+        const { number, password } = req.query;
+
+        console.log("Login GET Request - Received data:");
+        console.log("Contact Number:", number);
+        console.log("Password:", password); 
+
+        if (!number && !password) {
+            return res.render('login', {
+                layout: 'loginLayout',
+                error: "Contact number and password are required"
+            });
+        }
+        if (!number) {
+            return res.render('login', {
+                layout: 'loginLayout',
+                error: "Contact number is required"
+            });
+        }
+        if (!password) {
+            return res.render('login', {
+                layout: 'loginLayout',
+                error: "Password is required"
+            });
+        }
+
+        const employee = await EmployeeAccount.findById(number);
+        console.log("Fetched employee:", employee);
+
+        if (!employee) {
+            return res.render('login', {
+                layout: 'loginLayout',
+                error: "Employee not found"
+            });
+        }
+
+        const isPasswordMatch = await bcrypt.compare(password, employee.password);
+        if (!isPasswordMatch) {
+            return res.render('login', {
+                layout: 'loginLayout',
+                error: "Incorrect password"
+            });
+        }
+
+        req.session.user = {
+            _id: employee._id,
+            email: employee.email,
+            userType: "employee"
+        };
+
+        return res.redirect('/eventlist');
+
+    } catch (error) {
+        console.error("Authentication error:", error);
+        return res.render('login', {
+            layout: 'loginLayout',
+            error: "Server error"
+        });
+    }
+};
+
 
 
 /* FORGOT PASSWORD PROCESS 
