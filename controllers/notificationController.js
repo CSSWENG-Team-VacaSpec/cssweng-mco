@@ -76,7 +76,7 @@ exports.getTeamMemberNotifications = async (req, res) => {
     const { general, invites } = await getTeamMemberNotifications(userContact); // updated destructuring
 
     const eventInvites = await Promise.all(invites.map(async inv => {
-      const event = await Event.findById(inv._id).lean(); // fetch event details
+      const event = await Event.findById(inv.event).lean(); // fetch event details
       const today = new Date();
       const daysLeft = Math.max(0, Math.ceil((new Date(inv.inviteEndDate) - today) / (1000 * 60 * 60 * 24)));
 

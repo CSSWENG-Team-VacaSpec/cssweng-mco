@@ -94,7 +94,7 @@ async function getTeamMemberNotifications(memberCN) {
     EventInvitation.find({
       employeeCN: memberCN,
       response: 'pending'
-    }).select('_id inviteDate inviteEndDate response role') // include response
+    }).select('_id inviteDate inviteEndDate response role event')
   ]);
 
   return {
@@ -102,6 +102,7 @@ async function getTeamMemberNotifications(memberCN) {
     invites: eventInvites
   };
 }
+
 
 // Event invite responses (for manager)
 async function getEventInviteResponses(managerCN) {
