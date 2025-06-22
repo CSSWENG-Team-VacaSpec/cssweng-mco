@@ -1,4 +1,4 @@
-const EmployeeAccount = require('../models/employeeAccounts'); 
+const Employee = require('../models/employeeAccounts');
 
 // Check if employee is Manager or Team Member
 exports.getEmployeeRole = async (req, res) => {
