@@ -1,17 +1,23 @@
+// routes/rr_login.js
 const express = require('express');
 const router = express.Router();
-const employeeAuthController = require('../controllers/loginController');
+const loginController = require('../controllers/loginController');
 
-// Route to display login page
-router.get('/login', employeeAuthController.getLoginPage);
+// GET login page
+router.get('/', loginController.getLoginPage);     
+router.get('/login', loginController.getLoginPage); 
 
-// Route to handle login form submission
-router.post('/login', employeeAuthController.authenticateEmployee);
+// GET login form submission
+//router.get('/login', loginController.authenticateEmployeeGet);
 
-// Route to display forgot password page
-router.get('/forgot-password', employeeAuthController.getForgotPasswordPage);
+// POST login form submission (in case the form uses POST)
+router.post('/login', loginController.authenticateEmployee);
 
-// Route to handle forgot password request 
-router.post('/forgot-password-req', employeeAuthController.forgotPasswordRequests);
+// Forgot password
+router.get('/forgot-password', loginController.getForgotPasswordPage);
+router.post('/forgot-password', loginController.forgotPasswordRequests);
+
+// Logout
+router.get('/logout', loginController.logout);
 
 module.exports = router;
