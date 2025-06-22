@@ -1,32 +1,60 @@
 <div class="event-box container">
     <div class="event-box-top">
-        <span class="event-name">{{data.eventName}}</span>
-        <span class="client-name">{{data.clientName}}</span>
+        <span class="event-name">
+            <span class="event-name">
+            {{#if (eq type "event_invite")}}
+                <strong>{{data.eventName}}</strong>
+            {{else if (eq type "change_pw_request")}}
+                <strong>Password Reset Request</strong>
+            {{else if (eq type "general_notif")}}
+                <strong>Notification</strong>
+            {{else if (eq type "event_invite_response")}}
+                <strong>{{data.eventName}} Invite Response</strong>
+            {{/if}}
+            </span>
+        </span>
+        <span class="client-name">
+        {{#if (eq type "event_invite")}}
+            {{data.clientName}}
+        {{else}}
+            {{data.senderName}}  
+        {{/if}}
+        </span>
+
     </div>
+
     <div class="event-box-bottom">
         <span class="notif-date">{{data.date}}</span>
         <span class="notif-description-label">Description</span>
-        <span class="notif-description">{{data.description}}</span>
+        <span class="notif-description">
+        {{#if (eq type "event_invite")}}
+            {{data.description}}
+        {{else}}
+            {{data.message}}  
+        {{/if}}
+        </span>
     </div>
 
     {{#if (eq type "event_invite")}}
         <div class="notif-controls">
-            <span class="notif-expiry">Invitation expires in {{data.daysLeft}} days.</span>
-            <div class="notif-buttons">
-                <button class="bg-button">
-                    <a class="bg-button-wrapper" href="#">
-                        <i class="lni lni-thumbs-down-3"></i>
-                        <p>Not available</p>
-                    </a>
-                </button>
-
-                <button class="fg-button">
-                    <a class="fg-button-wrapper" href="#">
-                        <i class="lni lni-thumbs-up-3"></i>
-                        <p>Available</p>
-                    </a>
-                </button>
-            </div>
+            <span class="notif-response">Response: <strong>{{data.response}}</strong></span>
+            {{#if (eq ../user.role "Team Member")}} 
+                <span class="notif-expiry">Invitation expires in {{data.daysLeft}} days.</span> <!-- Only show to Team Members -->
+                <div class="notif-buttons">
+                    <button class="bg-button">
+                        <a class="bg-button-wrapper" href="#">
+                            <i class="lni lni-thumbs-down-3"></i>
+                            <p>Not available</p>
+                        </a>
+                    </button>
+                    <button class="fg-button">
+                        <a class="fg-button-wrapper" href="#">
+                            <i class="lni lni-thumbs-up-3"></i>
+                            <p>Available</p>
+                        </a>
+                    </button>
+                </div>
+            {{/if}}
         </div>
     {{/if}}
 </div>

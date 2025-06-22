@@ -11,12 +11,15 @@ TM:
 - event invite
 */
 const EmployeeAccount = require('../models/employeeAccounts');
+const Event = require('../models/events');
+
 
 const {
-  getManagerEventInvRes,
+  //getManagerEventInvRes,
   getForgotPasswordRequests,
   getManagerGeneralNotifications,
-  getTeamMemberNotifications
+  getTeamMemberNotifications,
+  getEventInviteResponses
 } = require('../utils/notificationHelpers');
 
 // Main Notification Page Router (decides based on role)
@@ -39,14 +42,14 @@ exports.getManagerNotifications = async (req, res) => {
     const userContact = req.session.user._id;
     const user = await EmployeeAccount.findById(userContact).lean();
 
-    const eventInvites = await getManagerEventInvRes(userContact);
     const changePwRequests = await getForgotPasswordRequests();
-    const generalNotifs = await getManagerGeneralNotifications(userContact); 
+    const generalNotifs = await getManagerGeneralNotifications(userContact);
+    const inviteResponses = await getEventInviteResponses(userContact);
 
     const notifications = [
-      ...eventInvites.map(inv => ({ type: 'event_invite', data: inv })),
       ...changePwRequests.map(req => ({ type: 'change_pw_request', data: req })),
-      ...generalNotifs.map(notif => ({ type: 'general_notif', data: notif }))
+      ...generalNotifs.map(notif => ({ type: 'general_notif', data: notif })),
+      ...inviteResponses.map(resp => ({ type: 'event_invite_response', data: resp })) // 👈 add this
     ];
 
     // Sort by date descending if they all contain date
@@ -56,7 +59,7 @@ exports.getManagerNotifications = async (req, res) => {
       layout: 'notificationsLayout',
       page: 'notifications',
       user,
-      notifications 
+      notifications
     });
   } catch (error) {
     console.error('Manager Notification Error:', error);
@@ -70,11 +73,27 @@ exports.getTeamMemberNotifications = async (req, res) => {
     const userContact = req.session.user._id;
     const user = await EmployeeAccount.findById(userContact).lean();
 
-    const generalNotifs = await getTeamMemberNotifications(userContact);
-    const eventInvites = await getTeamMemberEventInvites(userContact);
+    const { general, invites } = await getTeamMemberNotifications(userContact); // updated destructuring
+
+    const eventInvites = await Promise.all(invites.map(async inv => {
+      const event = await Event.findById(inv._id).lean(); // fetch event details
+      const today = new Date();
+      const daysLeft = Math.max(0, Math.ceil((new Date(inv.inviteEndDate) - today) / (1000 * 60 * 60 * 24)));
+
+      const sender = await EmployeeAccount.findById(event?.CPContactNo).lean(); // fetch contact person name
+
+      return {
+        eventName: event?.eventName || 'Unnamed Event',
+        clientName: sender ? `${sender.firstName} ${sender.lastName}` : 'Unknown Sender',
+        description: 'You have been invited to an event.',
+        date: inv.inviteDate,
+        daysLeft,
+        response: inv.response
+      };
+    }));
 
     const notifications = [
-      ...generalNotifs.map(notif => ({ type: 'general_notif', data: notif })),
+      ...general.map(notif => ({ type: 'general_notif', data: notif })),
       ...eventInvites.map(inv => ({ type: 'event_invite', data: inv }))
     ];
 
@@ -91,3 +110,4 @@ exports.getTeamMemberNotifications = async (req, res) => {
     res.status(500).json({ error: 'Server error' });
   }
 };
+
