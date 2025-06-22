@@ -22,7 +22,8 @@ exports.authenticateEmployee = async (req, res) => {
     try {
         console.log("POST /login controller triggered");
 
-        const { number, password } = req.body;
+        const number = req.body.number?.trim();
+        const password = req.body.password?.trim();
 
         console.log("Login POST Request - Received data:");
         console.log("Contact Number:", number);
@@ -47,16 +48,16 @@ exports.authenticateEmployee = async (req, res) => {
             });
         }
 
-         const employee = await EmployeeAccount.findOne({ _id: number });
+        const employee = await EmployeeAccount.findOne({ _id: number });
         console.log("Fetched employee:", employee);
-        /*
+        
         if (!employee) {
             return res.render('login', {
                 layout: 'loginLayout',
                 error: "Employee not found"
             });
         }
-
+        
         const isPasswordMatch = await bcrypt.compare(password, employee.password);
         if (!isPasswordMatch) {
             return res.render('login', {
@@ -64,7 +65,6 @@ exports.authenticateEmployee = async (req, res) => {
                 error: "Incorrect password"
             });
         }
-        */
 
         req.session.user = {
             _id: employee._id,
