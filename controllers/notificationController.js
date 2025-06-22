@@ -10,63 +10,84 @@ TM:
 - postponement and cancellation of an event
 - event invite
 */
-
-
-const getEmployeeRole = require('../utils/getEmployeeRole');
+const EmployeeAccount = require('../models/employeeAccounts');
 
 const {
-  getManagerEventInvitations,
-  getAccountActivationRequests,
-  getTeamMemberNotifications,
+  getManagerEventInvRes,
+  getForgotPasswordRequests,
+  getManagerGeneralNotifications,
+  getTeamMemberNotifications
 } = require('../utils/notificationHelpers');
 
-exports.getNotificationPage = (req, res) => {
-    res.render('notifications', {
-        layout: 'notificationsLayout',
-        page: 'notifications'
-    });
+// Main Notification Page Router (decides based on role)
+exports.getNotificationPage = async (req, res) => {
+  const user = req.session.user;
+  if (!user) return res.redirect('/login');
+
+  const role = user.role;
+
+  if (role === 'Manager') {
+    return exports.getManagerNotifications(req, res);
+  } else {
+    return exports.getTeamMemberNotifications(req, res);
+  }
 };
 
-// Controller to send all applicable notifications based on the user role
-exports.sendNotification = async (req, res) => {
+// Manager-specific notifications
+exports.getManagerNotifications = async (req, res) => {
   try {
-    const userContact = req.user.contactNumber;
+    const userContact = req.session.user._id;
+    const user = await EmployeeAccount.findById(userContact).lean();
 
-    // Determine if the logged-in user is a Manager or Team Member
-    const role = await getEmployeeRole(userContact);
+    const eventInvites = await getManagerEventInvRes(userContact);
+    const changePwRequests = await getForgotPasswordRequests();
+    const generalNotifs = await getManagerGeneralNotifications(userContact); 
 
-    if (!role) {
-      return res.status(404).json({ error: 'Employee not found' });
-    }
+    const notifications = [
+      ...eventInvites.map(inv => ({ type: 'event_invite', data: inv })),
+      ...changePwRequests.map(req => ({ type: 'change_pw_request', data: req })),
+      ...generalNotifs.map(notif => ({ type: 'general_notif', data: notif }))
+    ];
 
-    let notifications = [];
+    // Sort by date descending if they all contain date
+    notifications.sort((a, b) => new Date(b.data.date) - new Date(a.data.date));
 
-    // If Manager, gather all manager-specific notifications
-    if (role === 'Manager') {
-      const eventInvites = await getManagerEventInvitations(userContact);
-      const changePwRequests = await getPasswordRequests();
-
-  
-      notifications = [
-        ...eventInvites.map(inv => ({ type: 'event_invite', data: inv })),
-        ...changePwRequests.map(req => ({ type: 'change_pw_request', data: req })),
-      ];
-
-    } else {
-      // If Team Member, get their specific notifications
-      const teamMemberNotifs = await getTeamMemberNotifications(userContact);
-
-      notifications = [
-        ...teamMemberNotifs.map(notif => ({ type: 'team_member_notif', data: notif })),
-      ];
-
-    }
-
-    // Send full list of notif
-    return res.json({ message: 'Notifications sent', notifications });
-
+    return res.render('notifications', {
+      layout: 'notificationsLayout',
+      page: 'notifications',
+      user,
+      notifications 
+    });
   } catch (error) {
-    console.error(error);
+    console.error('Manager Notification Error:', error);
+    res.status(500).json({ error: 'Server error' });
+  }
+};
+
+// Team Member-specific notifications
+exports.getTeamMemberNotifications = async (req, res) => {
+  try {
+    const userContact = req.session.user._id;
+    const user = await EmployeeAccount.findById(userContact).lean();
+
+    const generalNotifs = await getTeamMemberNotifications(userContact);
+    const eventInvites = await getTeamMemberEventInvites(userContact);
+
+    const notifications = [
+      ...generalNotifs.map(notif => ({ type: 'general_notif', data: notif })),
+      ...eventInvites.map(inv => ({ type: 'event_invite', data: inv }))
+    ];
+
+    notifications.sort((a, b) => new Date(b.data.date) - new Date(a.data.date));
+
+    return res.render('notifications', {
+      layout: 'notificationsLayout',
+      page: 'notifications',
+      user,
+      notifications
+    });
+  } catch (error) {
+    console.error('Team Member Notification Error:', error);
     res.status(500).json({ error: 'Server error' });
   }
 };
