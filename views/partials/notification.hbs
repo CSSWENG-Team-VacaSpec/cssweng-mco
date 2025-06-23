@@ -38,7 +38,14 @@
     <div class="notif-controls">
       <span class="notif-response">Response: <strong>{{data.response}}</strong></span>
       {{#if (eq @root.user.role "Team Member")}} 
-        <span class="notif-expiry">Invitation expires in {{data.daysLeft}} days.</span>
+        <span class="notif-expiry">
+          Invitation expires in 
+          {{#if (eq data.daysLeft 0)}}
+            Today
+          {{else}}
+            {{data.daysLeft}} day{{#unless (eq data.daysLeft 1)}}s{{/unless}}
+          {{/if}}.
+        </span>
         <div class="notif-buttons">
           <button class="bg-button">
             <a class="bg-button-wrapper" href="#">

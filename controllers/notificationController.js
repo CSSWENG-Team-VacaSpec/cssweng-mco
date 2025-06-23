@@ -73,28 +73,11 @@ exports.getTeamMemberNotifications = async (req, res) => {
     const userContact = req.session.user._id;
     const user = await EmployeeAccount.findById(userContact).lean();
 
-    const { general, invites } = await getTeamMemberNotifications(userContact); // updated destructuring
-
-    const eventInvites = await Promise.all(invites.map(async inv => {
-      const event = await Event.findById(inv.event).lean(); // fetch event details
-      const today = new Date();
-      const daysLeft = Math.max(0, Math.ceil((new Date(inv.inviteEndDate) - today) / (1000 * 60 * 60 * 24)));
-
-      const sender = await EmployeeAccount.findById(event?.CPContactNo).lean(); // fetch contact person name
-
-      return {
-        eventName: event?.eventName || 'Unnamed Event',
-        clientName: sender ? `${sender.firstName} ${sender.lastName}` : 'Unknown Sender',
-        description: 'You have been invited to an event.',
-        date: inv.inviteDate,
-        daysLeft,
-        response: inv.response
-      };
-    }));
+    const { general, invites } = await getTeamMemberNotifications(userContact);
 
     const notifications = [
       ...general.map(notif => ({ type: 'general_notif', data: notif })),
-      ...eventInvites.map(inv => ({ type: 'event_invite', data: inv }))
+      ...invites.map(inv => ({ type: 'event_invite', data: inv }))
     ];
 
     notifications.sort((a, b) => new Date(b.data.date) - new Date(a.data.date));
@@ -110,4 +93,5 @@ exports.getTeamMemberNotifications = async (req, res) => {
     res.status(500).json({ error: 'Server error' });
   }
 };
+
 

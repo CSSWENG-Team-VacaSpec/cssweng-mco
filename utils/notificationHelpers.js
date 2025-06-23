@@ -84,7 +84,7 @@ async function getManagerGeneralNotifications(managerCN) {
 
 // General + invite notifications for team member
 async function getTeamMemberNotifications(memberCN) {
-  const [generalNotifs, eventInvites] = await Promise.all([
+  const [generalNotifsRaw, eventInvitesRaw] = await Promise.all([
     Notification.find({
       receiver: 'Team Members',
       receiverID: memberCN,
@@ -97,12 +97,50 @@ async function getTeamMemberNotifications(memberCN) {
     }).select('_id inviteDate inviteEndDate response role event')
   ]);
 
+  const generalNotifs = await Promise.all(
+    generalNotifsRaw.map(async notif => {
+      const sender = await EmployeeAccount.findById(notif.sender).lean();
+      return {
+        notifID: notif._id,
+        senderCN: notif.sender,
+        senderName: sender ? `${sender.firstName} ${sender.lastName}` : 'Unknown',
+        message: notif.message,
+        date: notif.date
+      };
+    })
+  );
+
+  const eventInvites = await Promise.all(
+  eventInvitesRaw.map(async (inv) => {
+    const event = await Event.findById(inv.event).lean();
+    const team = await Team.findById(inv.event).lean();
+    const manager = team ? await EmployeeAccount.findById(team.manager).lean() : null;
+
+    const inviteDate = new Date(inv.inviteDate);
+    const formattedDate = `${String(inviteDate.getMonth() + 1).padStart(2, '0')}/${String(inviteDate.getDate()).padStart(2, '0')}/${inviteDate.getFullYear()}`;
+
+    const inviteEnd = new Date(inv.inviteEndDate);
+    const today = new Date();
+    const daysLeft = !isNaN(inviteEnd.getTime())
+      ? Math.max(0, Math.ceil((inviteEnd - today) / (1000 * 60 * 60 * 24)))
+      : 0;
+
+    return {
+      eventName: event?.eventName || 'Unnamed Event',
+      clientName: manager ? `${manager.firstName} ${manager.lastName}` : 'Unknown Sender',
+      date: formattedDate,
+      description: `You have been invited to an event as a ${inv.role}.`,
+      daysLeft,
+      response: inv.response
+    };
+  })
+);
+
   return {
     general: generalNotifs,
     invites: eventInvites
   };
 }
-
 
 // Event invite responses (for manager)
 async function getEventInviteResponses(managerCN) {
