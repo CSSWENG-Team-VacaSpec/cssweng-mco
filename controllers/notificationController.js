@@ -12,6 +12,10 @@ TM:
 */
 const EmployeeAccount = require('../models/employeeAccounts');
 const Event = require('../models/events');
+const EventInvitation = require('../models/eventInvitations');
+const Notification = require('../models/notifications');
+const Team = require('../models/teams');
+const mongoose = require('mongoose');
 
 
 const {
@@ -93,5 +97,59 @@ exports.getTeamMemberNotifications = async (req, res) => {
     res.status(500).json({ error: 'Server error' });
   }
 };
+
+
+// Handle invite response
+exports.respondInvite = async (req, res) => {
+  try {
+    const inviteID = req.params.id;
+    const { response } = req.body;
+    const user = req.session.user;
+
+    console.log("Invite ID:", inviteID);
+    console.log("Response:", response);
+    console.log("User:", user);
+
+    // Update invite status
+    const updated = await EventInvitation.findByIdAndUpdate(inviteID, { response });
+    console.log("Updated invite:", updated);
+
+    const invite = await EventInvitation.findById(inviteID);
+    console.log("Invite:", invite);
+
+    const team = await Team.findById(invite.event).lean();
+    console.log("Team:", team);
+
+    const managerCN = team.manager;
+
+    const userAccount = await EmployeeAccount.findById(user._id).lean();
+
+    const event = await Event.findById(invite.event).lean();
+    const eventName = event?.eventName || 'an event';
+
+    const newNotif = new Notification({
+      _id: new mongoose.Types.ObjectId(), 
+      sender: user._id,
+      receiver: 'Manager',
+      receiverID: managerCN,
+      message: `${userAccount.firstName} ${userAccount.lastName} responded "${response}" to the event '${eventName}'`,
+      date: new Date(),
+      hideFrom: []
+    });
+
+
+    await newNotif.save();
+    console.log("Notification saved.");
+
+    res.redirect('/notifications');
+  } catch (error) {
+    console.error("Respond Invite Error:", error);
+    res.status(500).send("Error processing response.");
+  }
+};
+
+
+
+
 
 

@@ -12,4 +12,7 @@ router.get('/notifications/manager', userPermitted(['Manager']), notificationCon
 // GET team member-specific notifications
 router.get('/notifications/team-member', userPermitted(['Team Member']), notificationController.getTeamMemberNotifications);
 
+router.post('/respondInvite/:id', notificationController.respondInvite);
+
+
 module.exports = router;

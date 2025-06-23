@@ -44,12 +44,15 @@ async function getForgotPasswordRequests() {
   const enriched = await Promise.all(
     notifications.map(async notif => {
       const sender = await EmployeeAccount.findById(notif.sender).lean();
+      const rawDate = new Date(notif.date);
+      const formattedDate = `${String(rawDate.getMonth() + 1).padStart(2, '0')}/${String(rawDate.getDate()).padStart(2, '0')}/${rawDate.getFullYear()}`;
+
       return {
         notifID: notif._id,
         senderCN: notif.sender,
         senderName: sender ? `${sender.firstName} ${sender.lastName}` : 'Unknown',
         message: notif.message,
-        date: notif.date
+        date: formattedDate
       };
     })
   );
@@ -69,12 +72,15 @@ async function getManagerGeneralNotifications(managerCN) {
   const enriched = await Promise.all(
     notifications.map(async notif => {
       const sender = await EmployeeAccount.findById(notif.sender).lean();
+      const rawDate = new Date(notif.date);
+      const formattedDate = `${String(rawDate.getMonth() + 1).padStart(2, '0')}/${String(rawDate.getDate()).padStart(2, '0')}/${rawDate.getFullYear()}`;
+
       return {
         notifID: notif._id,
         senderCN: notif.sender,
         senderName: sender ? `${sender.firstName} ${sender.lastName}` : 'Unknown',
         message: notif.message,
-        date: notif.date
+        date: formattedDate
       };
     })
   );
@@ -126,6 +132,7 @@ async function getTeamMemberNotifications(memberCN) {
       : 0;
 
     return {
+      inviteID: inv._id,
       eventName: event?.eventName || 'Unnamed Event',
       clientName: manager ? `${manager.firstName} ${manager.lastName}` : 'Unknown Sender',
       date: formattedDate,
@@ -153,13 +160,16 @@ async function getEventInviteResponses(managerCN) {
   const enriched = await Promise.all(
     responses.map(async notif => {
       const sender = await EmployeeAccount.findById(notif.sender).lean();
+      const rawDate = new Date(notif.date);
+      const formattedDate = `${String(rawDate.getMonth() + 1).padStart(2, '0')}/${String(rawDate.getDate()).padStart(2, '0')}/${rawDate.getFullYear()}`;
+
       return {
         notifID: notif._id,
         senderCN: notif.sender,
         senderName: sender ? `${sender.firstName} ${sender.lastName}` : 'Unknown',
         eventName: notif.message.split('to the event')[1]?.trim().replace(/['"]/g, '') || 'Event',
         message: notif.message,
-        date: notif.date
+        date: formattedDate
       };
     })
   );

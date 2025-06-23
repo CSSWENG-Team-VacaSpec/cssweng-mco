@@ -39,27 +39,35 @@
       <span class="notif-response">Response: <strong>{{data.response}}</strong></span>
       {{#if (eq @root.user.role "Team Member")}} 
         <span class="notif-expiry">
-          Invitation expires in 
+          Invitation expires
           {{#if (eq data.daysLeft 0)}}
             Today
           {{else}}
-            {{data.daysLeft}} day{{#unless (eq data.daysLeft 1)}}s{{/unless}}
+            in {{data.daysLeft}} day{{#unless (eq data.daysLeft 1)}}s{{/unless}}
           {{/if}}.
         </span>
         <div class="notif-buttons">
-          <button class="bg-button">
-            <a class="bg-button-wrapper" href="#">
-              <i class="lni lni-thumbs-down-3"></i>
-              <p>Not available</p>
-            </a>
-          </button>
-          <button class="fg-button">
-            <a class="fg-button-wrapper" href="#">
-              <i class="lni lni-thumbs-up-3"></i>
-              <p>Available</p>
-            </a>
-          </button>
+          <form action="/respondInvite/{{data.inviteID}}" method="POST" style="display:inline;">
+            <input type="hidden" name="response" value="unavailable">
+            <button class="bg-button" type="submit">
+              <div class="bg-button-wrapper">
+                <i class="lni lni-thumbs-down-3"></i>
+                <p>Not available</p>
+              </div>
+            </button>
+          </form>
+
+          <form action="/respondInvite/{{data.inviteID}}" method="POST" style="display:inline;">
+            <input type="hidden" name="response" value="available">
+            <button class="fg-button" type="submit">
+              <div class="fg-button-wrapper">
+                <i class="lni lni-thumbs-up-3"></i>
+                <p>Available</p>
+              </div>
+            </button>
+          </form>
         </div>
+
       {{/if}}
     </div>
   {{/if}}
