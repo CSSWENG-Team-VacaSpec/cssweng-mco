@@ -106,15 +106,32 @@ async function getTeamMemberNotifications(memberCN) {
   const generalNotifs = await Promise.all(
     generalNotifsRaw.map(async notif => {
       const sender = await EmployeeAccount.findById(notif.sender).lean();
+
+      const rawDate = new Date(notif.date);
+      const formattedDate = `${String(rawDate.getMonth() + 1).padStart(2, '0')}/${String(rawDate.getDate()).padStart(2, '0')}/${rawDate.getFullYear()}`;
+
+      const isUrgent = notif.message.startsWith('[URGENT]');
+      let eventTitle = 'Notification';
+
+      if (isUrgent) {
+        // extract "Tech Expo 2025" from "[URGENT] Tech Expo 2025 has been postponed..."
+        const match = notif.message.match(/\[URGENT\]\s(.+?)(?=\s(has|was))/);
+        if (match) eventTitle = `[URGENT] ${match[1]}`;
+      }
+
       return {
         notifID: notif._id,
         senderCN: notif.sender,
         senderName: sender ? `${sender.firstName} ${sender.lastName}` : 'Unknown',
         message: notif.message,
-        date: notif.date
+        date: formattedDate,
+        isUrgent,
+        eventTitle
       };
     })
   );
+
+
 
   const eventInvites = await Promise.all(
   eventInvitesRaw.map(async (inv) => {

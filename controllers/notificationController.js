@@ -10,6 +10,11 @@ TM:
 - postponement and cancellation of an event
 - event invite
 */
+/*
+//TODO
+ - create a delete notification function and connect this to the controller and the hbs
+*/
+
 const EmployeeAccount = require('../models/employeeAccounts');
 const Event = require('../models/events');
 const EventInvitation = require('../models/eventInvitations');
