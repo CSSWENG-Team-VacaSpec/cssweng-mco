@@ -355,6 +355,7 @@ a {
 .fg-button {
     border: 1px solid var(--primary-fg);
     background-color: var(--primary-fg);
+    color: var(--primary-bg);
 }
 
 .fg-button:hover {
