@@ -51,7 +51,7 @@ exports.getManagerNotifications = async (req, res) => {
     const userContact = req.session.user._id;
     const user = await EmployeeAccount.findById(userContact).lean();
 
-    const changePwRequests = await getForgotPasswordRequests();
+    const changePwRequests = await getForgotPasswordRequests(userContact);
     const generalNotifs = await getManagerGeneralNotifications(userContact);
     const inviteResponses = await getEventInviteResponses(userContact);
 

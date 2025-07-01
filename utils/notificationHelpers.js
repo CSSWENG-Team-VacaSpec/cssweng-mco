@@ -35,9 +35,10 @@ const EmployeeAccount = require('../models/employeeAccounts');
 */
 
 // Forgot password requests (for manager)
-async function getForgotPasswordRequests() {
+async function getForgotPasswordRequests(managerCN) {
   const notifications = await Notification.find({
     receiver: 'Manager',
+    receiverID: managerCN, // ✅ Only fetch if addressed to this manager
     message: { $regex: /password reset/i }
   });
 
@@ -59,6 +60,7 @@ async function getForgotPasswordRequests() {
 
   return enriched;
 }
+
 
 // General notifications for manager
 async function getManagerGeneralNotifications(managerCN) {
