@@ -1,21 +1,46 @@
 const Event = require('../models/events');
+const Team = require('../models/teams');
+
 const mongoose = require('mongoose');
 
 exports.getEventListPage = async (req, res) => {
     try {
-
         if (!req.session.user) {
-            return res.redirect('/login'); 
+            return res.redirect('/login');
         }
 
-        const events = await Event.find();
-        console.log(Event.collection.name); // Should be 'events'
-        console.log("🧭 Connected DB:", mongoose.connection.name);
-        if (events.length === 0) {
-        console.log('📭 No gievents found in the database.');
-} else {
-  console.log('📦 Events fetched from MongoDB:', events);
-}
+        const userId = req.session.user._id || req.session.user;
+        const role = req.session.user.role?.trim();
+        const isManager = role === 'Manager'; 
+        const showCreateButton = isManager
+
+        const teams = await Team.find({
+            $or: [
+                { manager: userId },
+                { programLead: userId },
+                { teamMemberList: userId }
+            ]
+        });
+
+        if (!teams || teams.length === 0) {
+            console.log('👤 User is not assigned to any teams.');
+            return res.render('eventList', {
+                layout: 'eventListLayout',
+                user: req.session.user,
+                events: [],
+                showCreateButton,
+                page: 'upcoming-events'
+            });
+        }
+
+        const poNumbers = teams.map(team => team._id);
+
+        const events = await Event.find({ _id: { $in: poNumbers } });
+
+        // Debug logs
+        console.log("PO Numbers:", poNumbers);
+        console.log("Events fetched from MongoDB:", events.length);
+        console.log(" Connected DB:", mongoose.connection.name);
 
         res.render('eventList', {
         layout: 'eventListLayout',
@@ -33,6 +58,7 @@ exports.getEventListPage = async (req, res) => {
             CPLastName: event.CPLastName,
             CPContactNo: event.CPContactNo
         })),
+        showCreateButton,
         page: 'upcoming-events'
     });
 
