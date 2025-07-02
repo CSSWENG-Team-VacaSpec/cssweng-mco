@@ -6,13 +6,15 @@
         <input type="search" name="q" placeholder="Search...">
     </form>
 
-    <div class="fg-button button">
-        <a class="fg-button-wrapper button-wrapper" href="/create/event">
-            <i class="lni lni-plus"></i>
-            <p>Create</p>
-        </a>
+    {{#if showCreateButton}}
+        <div class="fg-button button">
+            <a class="fg-button-wrapper button-wrapper" href="#">
+                <i class="lni lni-plus"></i>
+                <p>Create</p>
+            </a>
+        </div>
+    {{/if}}  
     </div>
-</div>
 
 <div class="upcoming-events-container">
     {{#each events}}
