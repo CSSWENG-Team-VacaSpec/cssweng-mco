@@ -61,7 +61,6 @@ async function getForgotPasswordRequests(managerCN) {
   return enriched;
 }
 
-
 // General notifications for manager
 async function getManagerGeneralNotifications(managerCN) {
   const notifications = await Notification.find({
@@ -105,6 +104,7 @@ async function getTeamMemberNotifications(memberCN) {
     }).select('_id inviteDate inviteEndDate response role event')
   ]);
 
+  // Format general notifications
   const generalNotifs = await Promise.all(
     generalNotifsRaw.map(async notif => {
       const sender = await EmployeeAccount.findById(notif.sender).lean();
@@ -116,7 +116,6 @@ async function getTeamMemberNotifications(memberCN) {
       let eventTitle = 'Notification';
 
       if (isUrgent) {
-        // extract "Tech Expo 2025" from "[URGENT] Tech Expo 2025 has been postponed..."
         const match = notif.message.match(/\[URGENT\]\s(.+?)(?=\s(has|was))/);
         if (match) eventTitle = `[URGENT] ${match[1]}`;
       }
@@ -133,10 +132,20 @@ async function getTeamMemberNotifications(memberCN) {
     })
   );
 
+  // Filter out and delete expired invites
+  const now = new Date();
+  const validInvites = [];
 
+  for (const inv of eventInvitesRaw) {
+    const inviteEndDate = new Date(inv.inviteEndDate);
 
-  const eventInvites = await Promise.all(
-  eventInvitesRaw.map(async (inv) => {
+    if (inviteEndDate < now) {
+      // Expired — delete it
+      await EventInvitation.findByIdAndDelete(inv._id);
+      continue;
+    }
+
+    // Still valid — include it
     const event = await Event.findById(inv.event).lean();
     const team = await Team.findById(inv.event).lean();
     const manager = team ? await EmployeeAccount.findById(team.manager).lean() : null;
@@ -144,13 +153,9 @@ async function getTeamMemberNotifications(memberCN) {
     const inviteDate = new Date(inv.inviteDate);
     const formattedDate = `${String(inviteDate.getMonth() + 1).padStart(2, '0')}/${String(inviteDate.getDate()).padStart(2, '0')}/${inviteDate.getFullYear()}`;
 
-    const inviteEnd = new Date(inv.inviteEndDate);
-    const today = new Date();
-    const daysLeft = !isNaN(inviteEnd.getTime())
-      ? Math.max(0, Math.ceil((inviteEnd - today) / (1000 * 60 * 60 * 24)))
-      : 0;
+    const daysLeft = Math.max(0, Math.ceil((inviteEndDate - now) / (1000 * 60 * 60 * 24)));
 
-    return {
+    validInvites.push({
       inviteID: inv._id,
       eventName: event?.eventName || 'Unnamed Event',
       clientName: manager ? `${manager.firstName} ${manager.lastName}` : 'Unknown Sender',
@@ -158,13 +163,12 @@ async function getTeamMemberNotifications(memberCN) {
       description: `You have been invited to an event as a ${inv.role}.`,
       daysLeft,
       response: inv.response
-    };
-  })
-);
+    });
+  }
 
   return {
     general: generalNotifs,
-    invites: eventInvites
+    invites: validInvites
   };
 }
 
