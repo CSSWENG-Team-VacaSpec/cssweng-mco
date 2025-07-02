@@ -46,6 +46,7 @@ exports.getEventListPage = async (req, res) => {
         layout: 'eventListLayout',
         user: req.session.user, 
         events: events.map(event => ({
+            _id: event._id,
             eventName: event.eventName,
             companyName: event.companyName,
             clientFirstName: event.clientFirstName,

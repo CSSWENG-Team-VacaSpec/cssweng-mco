@@ -12,12 +12,15 @@
     </div>
 
     <div class="event-details container">
+
+        {{#if showButtons}}
         <button class="bg-button button" id="details-edit-button">
             <a class="bg-button-wrapper button-wrapper" href="#">
                 <i class="lni lni-pencil-1"></i>
                 <p>Edit</p>
             </a>
         </button>
+        {{/if}}
 
         <div class="event-box-top" id="details-top-box">
             <span id="event-name"></span>
@@ -43,29 +46,37 @@
         <span id="status"></span>
 
         <div class="choice-buttons" id="details-choices">
+            {{#if showButtons}}
             <button class="bg-button button" id="cancel-button">
                 <a class="bg-button-wrapper button-wrapper" href="#">
                     <i class="lni lni-xmark"></i>
                     <p>Cancel</p>
                 </a>
             </button>
+            {{/if}}
+            {{#if showButtons}}
             <button class="fg-button button" id="mark-done-button">
                 <a class="fg-button-wrapper button-wrapper" href="#">
                     <i class="lni lni-check"></i>
                     <p>Mark as done</p>
                 </a>
             </button>
+            {{/if}}
         </div>
 
         <div class="team-members">
-            <span>Team members</span>
-            <form role="search" class="search-bar">
-                <button type="submit"><i class="lni lni-search-1"></i></button>
-                <input type="search" name="q" placeholder="Search...">
-            </form>
-            <div class="members-box">
-                <p>Currently no members in this event.</p>
+           <div class="members-box">
+             {{#if teamMembers.length}}
+                 <ul>
+                 {{#each teamMembers}}
+                 <li>{{firstName}} {{lastName}}</li>
+             {{/each}}
+                </ul>
+                {{else}}
+                 <p>Currently no members in this event.</p>
+            {{/if}}
             </div>
+
         </div>
         
     </div>
