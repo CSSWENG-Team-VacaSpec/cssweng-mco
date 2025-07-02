@@ -7,10 +7,13 @@
         If you have forgotten your password, you can send a request to a manager 
         to send you a temporary password so you can access your account.
     </p>
-    <button class="login-button button">
-        <i class="lni lni-envelope-1"></i>
-        <p>Request password reset</p>
-    </button>
+    <form class="login-input-form" action="/forgot" method="post">
+        <input type="text" placeholder="Mobile number" name="number" class="login-field" />
+        <button class="login-button button" type="submit">
+            <i class="lni lni-envelope-1"></i>
+            <p>Request password reset</p>
+        </button>
+    </form>
 
     <a href="/login"><b>Back to login</b></a>
 </div>
