@@ -1,20 +1,3 @@
-/*
-Allow users to view notifications
-
-- view notifications
-
-manager:
-- response to event invite - [from eventInvitations]
-
-TM:
-- postponement and cancellation of an event
-- event invite
-*/
-/*
-//TODO
- - create a delete notification function and connect this to the controller and the hbs
-*/
-
 const EmployeeAccount = require('../models/employeeAccounts');
 const Event = require('../models/events');
 const EventInvitation = require('../models/eventInvitations');
@@ -102,7 +85,6 @@ exports.getTeamMemberNotifications = async (req, res) => {
     res.status(500).json({ error: 'Server error' });
   }
 };
-
 
 // Handle invite response
 exports.respondInvite = async (req, res) => {
