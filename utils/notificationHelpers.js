@@ -3,6 +3,8 @@ const Event = require('../models/events');
 const EventInvitation = require('../models/eventInvitations');
 const Notification = require('../models/notifications');
 const EmployeeAccount = require('../models/employeeAccounts');
+const mongoose = require('mongoose');
+
 
 // Event invite responses (for manager)
 /* async function getManagerEventInvRes(managerContact) {
@@ -91,6 +93,8 @@ async function getManagerGeneralNotifications(managerCN) {
 
 // General + invite notifications for team member
 async function getTeamMemberNotifications(memberCN) {
+  const now = new Date();
+
   const [generalNotifsRaw, eventInvitesRaw] = await Promise.all([
     Notification.find({
       receiver: 'Team Members',
@@ -108,7 +112,6 @@ async function getTeamMemberNotifications(memberCN) {
   const generalNotifs = await Promise.all(
     generalNotifsRaw.map(async notif => {
       const sender = await EmployeeAccount.findById(notif.sender).lean();
-
       const rawDate = new Date(notif.date);
       const formattedDate = `${String(rawDate.getMonth() + 1).padStart(2, '0')}/${String(rawDate.getDate()).padStart(2, '0')}/${rawDate.getFullYear()}`;
 
@@ -132,24 +135,41 @@ async function getTeamMemberNotifications(memberCN) {
     })
   );
 
-  // Filter out and delete expired invites
-  const now = new Date();
   const validInvites = [];
 
   for (const inv of eventInvitesRaw) {
     const inviteEndDate = new Date(inv.inviteEndDate);
 
-    if (inviteEndDate < now) {
-      // Expired — delete it
-      await EventInvitation.findByIdAndDelete(inv._id);
-      continue;
-    }
-
-    // Still valid — include it
     const event = await Event.findById(inv.event).lean();
     const team = await Team.findById(inv.event).lean();
     const manager = team ? await EmployeeAccount.findById(team.manager).lean() : null;
 
+    const managerCN = manager?._id || null;
+
+    if (!event || !team || !manager) continue;
+
+    if (inviteEndDate < now) {
+      // set response to 'unavailable'
+      await EventInvitation.findByIdAndUpdate(inv._id, { response: 'unavailable' });
+
+      const userAccount = await EmployeeAccount.findById(memberCN).lean();
+      const eventName = event.eventName;
+
+      const newNotif = new Notification({
+        _id: new mongoose.Types.ObjectId(),
+        sender: memberCN,
+        receiver: 'Manager',
+        receiverID: managerCN,
+        message: `${userAccount.firstName} ${userAccount.lastName} responded "unavailable" to the event '${eventName}'`,
+        date: new Date(),
+        hideFrom: []
+      });
+
+      await newNotif.save();
+      continue; // Do not include expired invites
+    }
+
+    // still valid — include
     const inviteDate = new Date(inv.inviteDate);
     const formattedDate = `${String(inviteDate.getMonth() + 1).padStart(2, '0')}/${String(inviteDate.getDate()).padStart(2, '0')}/${inviteDate.getFullYear()}`;
 
@@ -157,8 +177,8 @@ async function getTeamMemberNotifications(memberCN) {
 
     validInvites.push({
       inviteID: inv._id,
-      eventName: event?.eventName || 'Unnamed Event',
-      clientName: manager ? `${manager.firstName} ${manager.lastName}` : 'Unknown Sender',
+      eventName: event.eventName || 'Unnamed Event',
+      clientName: `${manager.firstName} ${manager.lastName}`,
       date: formattedDate,
       description: `You have been invited to an event as a ${inv.role}.`,
       daysLeft,
