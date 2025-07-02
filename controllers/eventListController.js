@@ -18,7 +18,10 @@ exports.getEventListPage = async (req, res) => {
 }
 
         res.render('eventList', {
-        layout: 'eventListLayout',
+        layout: 'main',
+        stylesheet: 'eventList',
+        script: 'eventList',
+        title: 'Event List',
         user: req.session.user, 
         events: events.map(event => ({
             eventName: event.eventName,

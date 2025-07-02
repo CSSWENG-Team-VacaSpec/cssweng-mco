@@ -11,7 +11,9 @@ exports.getLoginPage = (req, res) => {
     req.session.success = null;
     req.session.error = null;
     res.render('login', { 
-        layout: 'loginLayout',
+        layout: 'login',
+        stylesheet: 'login',
+        title: 'Login',
         success, 
         error
     });
@@ -202,7 +204,9 @@ exports.forgotPasswordRequests = async (req, res) => {
 
 exports.getForgotPasswordPage = async (req, res) => {
     res.render('forgot', {
-        layout: 'forgotLayout'
+        layout: 'login',
+        stylesheet: 'forgot',
+        title: 'Forgot Password',
     });
 };
 
