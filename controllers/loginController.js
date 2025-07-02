@@ -33,19 +33,19 @@ exports.authenticateEmployee = async (req, res) => {
 
         if (!number && !password) {
             return res.render('login', {
-                layout: 'loginLayout',
+                layout: 'login',
                 error: "Contact number and password are required"
             });
         }
         if (!number) {
             return res.render('login', {
-                layout: 'loginLayout',
+                layout: 'login',
                 error: "Contact number is required"
             });
         }
         if (!password) {
             return res.render('login', {
-                layout: 'loginLayout',
+                layout: 'login',
                 error: "Password is required"
             });
         }
@@ -55,7 +55,7 @@ exports.authenticateEmployee = async (req, res) => {
         
         if (!employee) {
             return res.render('login', {
-                layout: 'loginLayout',
+                layout: 'login',
                 error: "Employee not found"
             });
         }
@@ -63,7 +63,7 @@ exports.authenticateEmployee = async (req, res) => {
         const isPasswordMatch = await bcrypt.compare(password, employee.password);
         if (!isPasswordMatch) {
             return res.render('login', {
-                layout: 'loginLayout',
+                layout: 'login',
                 error: "Incorrect password"
             });
         }
@@ -85,7 +85,7 @@ exports.authenticateEmployee = async (req, res) => {
     } catch (error) {
         console.error("Authentication error:", error);
         return res.render('login', {
-            layout: 'loginLayout',
+            layout: 'login',
             error: "Server error"
         });
     }
@@ -102,19 +102,19 @@ exports.authenticateEmployeeGet = async (req, res) => {
 
         if (!number && !password) {
             return res.render('login', {
-                layout: 'loginLayout',
+                layout: 'login',
                 error: "Contact number and password are required"
             });
         }
         if (!number) {
             return res.render('login', {
-                layout: 'loginLayout',
+                layout: 'login',
                 error: "Contact number is required"
             });
         }
         if (!password) {
             return res.render('login', {
-                layout: 'loginLayout',
+                layout: 'login',
                 error: "Password is required"
             });
         }
@@ -124,7 +124,7 @@ exports.authenticateEmployeeGet = async (req, res) => {
 
         if (!employee) {
             return res.render('login', {
-                layout: 'loginLayout',
+                layout: 'login',
                 error: "Employee not found"
             });
         }
@@ -132,7 +132,7 @@ exports.authenticateEmployeeGet = async (req, res) => {
         const isPasswordMatch = await bcrypt.compare(password, employee.password);
         if (!isPasswordMatch) {
             return res.render('login', {
-                layout: 'loginLayout',
+                layout: 'login',
                 error: "Incorrect password"
             });
         }
@@ -148,7 +148,7 @@ exports.authenticateEmployeeGet = async (req, res) => {
     } catch (error) {
         console.error("Authentication error:", error);
         return res.render('login', {
-            layout: 'loginLayout',
+            layout: 'login',
             error: "Server error"
         });
     }
