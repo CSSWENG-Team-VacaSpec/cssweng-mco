@@ -38,7 +38,7 @@ const EmployeeAccount = require('../models/employeeAccounts');
 async function getForgotPasswordRequests(managerCN) {
   const notifications = await Notification.find({
     receiver: 'Manager',
-    receiverID: managerCN, // ✅ Only fetch if addressed to this manager
+    receiverID: managerCN, 
     message: { $regex: /password reset/i }
   });
 
