@@ -59,6 +59,10 @@ const teamRoute = require('./routes/r_team');
 // routes
 app.use('/', loginRoute); 
 app.use('/', searchBarRoute);
+app.use('/', eventListRoute);
+app.use('/', notificationRoute);
+app.use('/', eventDetailsRoute);
+app.use('/', loginRoute);
 app.use('/', teamRoute);
 
 // start server
