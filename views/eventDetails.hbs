@@ -1,72 +1,68 @@
-{{>sidebar}}
-<script src="/common/javascript/eventDetails.js"></script>
-<div class="main-content container">
-    <div class="top-page-bar">
-        <button class="back-button">
-            <a class="back-button-wrapper button-wrapper" href="/event-list">
-                <i class="lni lni-arrow-left"></i>
-                <p>Back</p>
-            </a>
-        </button>
-        <h2 class="header">Event Details</h2>
+<div class="top-page-bar">
+    <button class="back-button">
+        <a class="back-button-wrapper button-wrapper" href="/eventlist">
+            <i class="lni lni-arrow-left"></i>
+            <p>Back</p>
+        </a>
+    </button>
+    <h2 class="header">Event Details</h2>
+</div>
+
+<div class="event-details container">
+    <button class="bg-button button" id="details-edit-button">
+        <a class="bg-button-wrapper button-wrapper" href="#">
+            <i class="lni lni-pencil-1"></i>
+            <p>Edit</p>
+        </a>
+    </button>
+
+    <div class="event-box-top" id="details-top-box">
+        <span id="event-name"></span>
+        <span id="client-name"></span>
     </div>
 
-    <div class="event-details container">
-        <button class="bg-button button" id="details-edit-button">
+    <div class="event-box-bottom" id="details-box">
+        <span id="date-loc">
+            <span id="date"></span>
+            <span id="location"></span>
+        </span>
+        <span id="contact">
+            <span><strong>Contact Person</strong></span>
+            <span id="contact-name"></span>
+            <span id="contact-info"></span>
+        </span>
+        <span id="description-span">
+            <span><strong>Description</strong></span>
+            <span id="description"></span>
+        </span>
+    </div>
+
+    <span id="status"></span>
+
+    <div class="choice-buttons" id="details-choices">
+        <button class="bg-button button" id="cancel-button">
             <a class="bg-button-wrapper button-wrapper" href="#">
-                <i class="lni lni-pencil-1"></i>
-                <p>Edit</p>
+                <i class="lni lni-xmark"></i>
+                <p>Cancel</p>
             </a>
         </button>
-
-        <div class="event-box-top" id="details-top-box">
-            <span id="event-name"></span>
-            <span id="client-name"></span>
-        </div>
-
-        <div class="event-box-bottom" id="details-box">
-            <span id="date-loc">
-                <span id="date"></span>
-                <span id="location"></span>
-            </span>
-            <span id="contact">
-                <span><strong>Contact Person</strong></span>
-                <span id="contact-name"></span>
-                <span id="contact-info"></span>
-            </span>
-            <span id="description-span">
-                <span><strong>Description</strong></span>
-                <span id="description"></span>
-            </span>
-        </div>
-
-        <span id="status"></span>
-
-        <div class="choice-buttons" id="details-choices">
-            <button class="bg-button button" id="cancel-button">
-                <a class="bg-button-wrapper button-wrapper" href="#">
-                    <i class="lni lni-xmark"></i>
-                    <p>Cancel</p>
-                </a>
-            </button>
-            <button class="fg-button button" id="mark-done-button">
-                <a class="fg-button-wrapper button-wrapper" href="#">
-                    <i class="lni lni-check"></i>
-                    <p>Mark as done</p>
-                </a>
-            </button>
-        </div>
-
-        <div class="team-members">
-            <span>Team members</span>
-            <form role="search" class="search-bar">
-                <button type="submit"><i class="lni lni-search-1"></i></button>
-                <input type="search" name="q" placeholder="Search...">
-            </form>
-            <div class="members-box">
-                <p>Currently no members in this event.</p>
-            </div>
-        </div>
-        
+        <button class="fg-button button" id="mark-done-button">
+            <a class="fg-button-wrapper button-wrapper" href="#">
+                <i class="lni lni-check"></i>
+                <p>Mark as done</p>
+            </a>
+        </button>
     </div>
+
+    <div class="team-members">
+        <span>Team members</span>
+        <form role="search" class="search-bar">
+            <button type="submit"><i class="lni lni-search-1"></i></button>
+            <input type="search" name="q" placeholder="Search...">
+        </form>
+        <div class="members-box">
+            <p>Currently no members in this event.</p>
+        </div>
+    </div>
+    
 </div>

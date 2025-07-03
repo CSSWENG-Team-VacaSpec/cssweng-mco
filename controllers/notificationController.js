@@ -79,6 +79,7 @@ exports.getTeamMemberNotifications = async (req, res) => {
       page: 'notifications',
       user,
       notifications
+
     });
   } catch (error) {
     console.error('Team Member Notification Error:', error);

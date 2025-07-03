@@ -11,7 +11,9 @@ exports.getLoginPage = (req, res) => {
     req.session.success = null;
     req.session.error = null;
     res.render('login', { 
-        layout: 'loginLayout',
+        layout: 'login',
+        stylesheet: 'login',
+        title: 'Login',
         success, 
         error
     });
@@ -31,19 +33,19 @@ exports.authenticateEmployee = async (req, res) => {
 
         if (!number && !password) {
             return res.render('login', {
-                layout: 'loginLayout',
+                layout: 'login',
                 error: "Contact number and password are required"
             });
         }
         if (!number) {
             return res.render('login', {
-                layout: 'loginLayout',
+                layout: 'login',
                 error: "Contact number is required"
             });
         }
         if (!password) {
             return res.render('login', {
-                layout: 'loginLayout',
+                layout: 'login',
                 error: "Password is required"
             });
         }
@@ -53,7 +55,7 @@ exports.authenticateEmployee = async (req, res) => {
         
         if (!employee) {
             return res.render('login', {
-                layout: 'loginLayout',
+                layout: 'login',
                 error: "Employee not found"
             });
         }
@@ -61,7 +63,7 @@ exports.authenticateEmployee = async (req, res) => {
         const isPasswordMatch = await bcrypt.compare(password, employee.password);
         if (!isPasswordMatch) {
             return res.render('login', {
-                layout: 'loginLayout',
+                layout: 'login',
                 error: "Incorrect password"
             });
         }
@@ -83,7 +85,7 @@ exports.authenticateEmployee = async (req, res) => {
     } catch (error) {
         console.error("Authentication error:", error);
         return res.render('login', {
-            layout: 'loginLayout',
+            layout: 'login',
             error: "Server error"
         });
     }
@@ -100,19 +102,19 @@ exports.authenticateEmployeeGet = async (req, res) => {
 
         if (!number && !password) {
             return res.render('login', {
-                layout: 'loginLayout',
+                layout: 'login',
                 error: "Contact number and password are required"
             });
         }
         if (!number) {
             return res.render('login', {
-                layout: 'loginLayout',
+                layout: 'login',
                 error: "Contact number is required"
             });
         }
         if (!password) {
             return res.render('login', {
-                layout: 'loginLayout',
+                layout: 'login',
                 error: "Password is required"
             });
         }
@@ -122,7 +124,7 @@ exports.authenticateEmployeeGet = async (req, res) => {
 
         if (!employee) {
             return res.render('login', {
-                layout: 'loginLayout',
+                layout: 'login',
                 error: "Employee not found"
             });
         }
@@ -130,7 +132,7 @@ exports.authenticateEmployeeGet = async (req, res) => {
         const isPasswordMatch = await bcrypt.compare(password, employee.password);
         if (!isPasswordMatch) {
             return res.render('login', {
-                layout: 'loginLayout',
+                layout: 'login',
                 error: "Incorrect password"
             });
         }
@@ -146,7 +148,7 @@ exports.authenticateEmployeeGet = async (req, res) => {
     } catch (error) {
         console.error("Authentication error:", error);
         return res.render('login', {
-            layout: 'loginLayout',
+            layout: 'login',
             error: "Server error"
         });
     }
@@ -167,12 +169,12 @@ employee changes temp pw */
 // sends notifications to all managers when a user requests a password reset
 exports.forgotPasswordRequests = async (req, res) => {
     try {
-      const { contactNumber } = req.body;
+      const { number } = req.body;
   
       // Validate that the requesting employee exists
-      const sender = await EmployeeAccount.findById(contactNumber);
+      const sender = await EmployeeAccount.findById(number);
       if (!sender) {
-        return res.render('login', { error: 'Employee not found.' });
+        return res.render('login', { layout: 'loginLayout', error: 'Employee not found.' });
       }
   
       // Get all active managers
@@ -181,7 +183,7 @@ exports.forgotPasswordRequests = async (req, res) => {
       // Create a notification for each manager
       const notifications = managers.map(manager => ({
         _id: uuidv4(),
-        sender: contactNumber,
+        sender: number,
         receiver: 'Manager',
         receiverID: manager._id,
         message: `${sender.firstName} ${sender.lastName} has requested a password reset.`,
@@ -192,17 +194,19 @@ exports.forgotPasswordRequests = async (req, res) => {
       // Insert notifications into the database
       await Notification.insertMany(notifications);
   
-      return res.render('login', { success: 'Password reset request sent to managers.' }); // change file name (login) if necessary
+      return res.render('login', { layout: 'loginLayout', success: 'Password reset request sent to managers.' });
   
     } catch (error) {
       console.error('Forgot Password Notification Error:', error);
-      return res.render('login', { error: 'Server error while sending notifications.' }); // change file name (login) if necessary
+      return res.render('login', { layout: 'loginLayout', error: 'Server error while sending notifications.' }); // change file name (login) if necessary
     }
 };
 
 exports.getForgotPasswordPage = async (req, res) => {
     res.render('forgot', {
-        layout: 'forgotLayout'
+        layout: 'login',
+        stylesheet: 'forgot',
+        title: 'Forgot Password',
     });
 };
 
