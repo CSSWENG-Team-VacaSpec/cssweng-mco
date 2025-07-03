@@ -10,8 +10,7 @@ exports.getTeamPage = async (req, res) => {
     res.render('teamList', {
         layout: 'teamListLayout',
         page: 'team-members',
-        managers: "Manager",
-        members: "Team Member" });
+        managers, members});
     } catch (error) {
     console.error('Error loading team page:', error);
     res.status(500).send('Server Error: Unable to load team.');
