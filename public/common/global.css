@@ -539,10 +539,11 @@ a {
 }
 
 .team-member-picture {
-    width: 4rem;
-    height: 4rem;
+    width: 5rem;
+    height: 5rem;
     object-fit: cover;
     border-radius: 50%;
+    background-color: var(--border-light);
 }
 
 .team-member-details {
