@@ -25,7 +25,9 @@ exports.getEventListPage = async (req, res) => {
         if (!teams || teams.length === 0) {
             console.log('👤 User is not assigned to any teams.');
             return res.render('eventList', {
-                layout: 'eventListLayout',
+                layout: 'main',
+                stylesheet: 'eventList',
+                script: 'eventList',
                 user: req.session.user,
                 events: [],
                 showCreateButton,
@@ -43,7 +45,10 @@ exports.getEventListPage = async (req, res) => {
         console.log(" Connected DB:", mongoose.connection.name);
 
         res.render('eventList', {
-        layout: 'eventListLayout',
+        layout: 'main',
+        stylesheet: 'eventList',
+        script: 'eventList',
+        title: 'Event List',
         user: req.session.user, 
         events: events.map(event => ({
             eventName: event.eventName,

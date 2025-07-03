@@ -22,8 +22,11 @@ const {
 
 exports.getNotificationPage = (req, res) => {
     res.render('notifications', {
-        layout: 'notificationsLayout',
-        page: 'notifications'
+        layout: 'main',
+        stylesheet: 'notifications',
+        title: 'Notifications',
+        page: 'notifications',
+        user: req.session.user
     });
 };
 

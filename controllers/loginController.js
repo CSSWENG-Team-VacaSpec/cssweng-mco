@@ -11,7 +11,9 @@ exports.getLoginPage = (req, res) => {
     req.session.success = null;
     req.session.error = null;
     res.render('login', { 
-        layout: 'loginLayout',
+        layout: 'login',
+        stylesheet: 'login',
+        title: 'Login',
         success, 
         error
     });
@@ -31,19 +33,19 @@ exports.authenticateEmployee = async (req, res) => {
 
         if (!number && !password) {
             return res.render('login', {
-                layout: 'loginLayout',
+                layout: 'login',
                 error: "Contact number and password are required"
             });
         }
         if (!number) {
             return res.render('login', {
-                layout: 'loginLayout',
+                layout: 'login',
                 error: "Contact number is required"
             });
         }
         if (!password) {
             return res.render('login', {
-                layout: 'loginLayout',
+                layout: 'login',
                 error: "Password is required"
             });
         }
@@ -53,7 +55,7 @@ exports.authenticateEmployee = async (req, res) => {
         
         if (!employee) {
             return res.render('login', {
-                layout: 'loginLayout',
+                layout: 'login',
                 error: "Employee not found"
             });
         }
@@ -61,7 +63,7 @@ exports.authenticateEmployee = async (req, res) => {
         const isPasswordMatch = await bcrypt.compare(password, employee.password);
         if (!isPasswordMatch) {
             return res.render('login', {
-                layout: 'loginLayout',
+                layout: 'login',
                 error: "Incorrect password"
             });
         }
@@ -83,7 +85,7 @@ exports.authenticateEmployee = async (req, res) => {
     } catch (error) {
         console.error("Authentication error:", error);
         return res.render('login', {
-            layout: 'loginLayout',
+            layout: 'login',
             error: "Server error"
         });
     }
@@ -100,19 +102,19 @@ exports.authenticateEmployeeGet = async (req, res) => {
 
         if (!number && !password) {
             return res.render('login', {
-                layout: 'loginLayout',
+                layout: 'login',
                 error: "Contact number and password are required"
             });
         }
         if (!number) {
             return res.render('login', {
-                layout: 'loginLayout',
+                layout: 'login',
                 error: "Contact number is required"
             });
         }
         if (!password) {
             return res.render('login', {
-                layout: 'loginLayout',
+                layout: 'login',
                 error: "Password is required"
             });
         }
@@ -122,7 +124,7 @@ exports.authenticateEmployeeGet = async (req, res) => {
 
         if (!employee) {
             return res.render('login', {
-                layout: 'loginLayout',
+                layout: 'login',
                 error: "Employee not found"
             });
         }
@@ -130,7 +132,7 @@ exports.authenticateEmployeeGet = async (req, res) => {
         const isPasswordMatch = await bcrypt.compare(password, employee.password);
         if (!isPasswordMatch) {
             return res.render('login', {
-                layout: 'loginLayout',
+                layout: 'login',
                 error: "Incorrect password"
             });
         }
@@ -146,7 +148,7 @@ exports.authenticateEmployeeGet = async (req, res) => {
     } catch (error) {
         console.error("Authentication error:", error);
         return res.render('login', {
-            layout: 'loginLayout',
+            layout: 'login',
             error: "Server error"
         });
     }
@@ -202,7 +204,9 @@ exports.forgotPasswordRequests = async (req, res) => {
 
 exports.getForgotPasswordPage = async (req, res) => {
     res.render('forgot', {
-        layout: 'forgotLayout'
+        layout: 'login',
+        stylesheet: 'forgot',
+        title: 'Forgot Password',
     });
 };
 
