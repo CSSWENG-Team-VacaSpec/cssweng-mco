@@ -1,40 +1,78 @@
 <div class="event-box container">
-    <div class="event-box-top">
-        <span id="event-name">Event Name</span>
-        <span id="client-name">Client Name</span>
-    </div>
-    <div class="event-box-bottom">
-        <span id="date">Date</span>
-        <span>Description</span>
-        <span id="description">Duis sunt dolor cupidatat incididunt magna eiusmod adipisicing 
-            fugiat reprehenderit. Aute et dolore ullamco mollit ex laborum ea 
-            magna consectetur minim reprehenderit fugiat aliqua cillum do. Sunt culpa 
-            incididunt dolor Lorem velit qui officia deserunt elit incididunt duis cupidatat nisi do officia.</span>
-    </div>
+  <div class="event-box-top">
+    <span class="event-name">
+      <span class="event-name">
+        {{#if (eq type "event_invite")}}
+          <strong>{{data.eventName}}</strong>
+        {{else if (eq type "change_pw_request")}}
+          <strong>Password Reset Request</strong>
+        {{else if (eq type "general_notif")}}
+          <strong>
+            {{#if data.isUrgent}}
+              {{data.eventTitle}}
+            {{else}}
+              Notification
+            {{/if}}
+          </strong>
+        {{else if (eq type "event_invite_response")}}
+          <strong>{{data.eventName}} Invite Response</strong>
+        {{/if}}
+      </span>
+    </span>
+    <span class="client-name">
+      {{#if (eq type "event_invite")}}
+        {{data.clientName}}
+      {{else}}
+        {{data.senderName}}  
+      {{/if}}
+    </span>
+  </div>
+
+  <div class="event-box-bottom">
+    <span class="notif-date">{{data.date}}</span>
+    <span class="notif-description-label">Description</span>
+    <span class="notif-description">
+      {{#if (eq type "event_invite")}}
+        {{data.description}}
+      {{else}}
+        {{data.message}}  
+      {{/if}}
+    </span>
+  </div>
+
+  {{#if (eq type "event_invite")}}
     <div class="notif-controls">
-        <span class="notif-expiry">Invitation expires in 3 days.</span>
+      <span class="notif-response">Response: <strong>{{data.response}}</strong></span>
+      {{#if (eq @root.user.role "Team Member")}} 
+        <span class="notif-expiry">
+          Invitation expires
+          {{#if (eq data.daysLeft 0)}}
+            Today
+          {{else}}
+            in {{data.daysLeft}} day{{#unless (eq data.daysLeft 1)}}s{{/unless}}
+          {{/if}}.
+        </span>
         <div class="notif-buttons">
-            <button class="bg-button button">
-                <a class="bg-button-wrapper button-wrapper" href="#">
-                    <i class="lni lni-trash-3"></i>
-                    <p>Delete</p>
-                </a>
-            </button>
-            
+          <form action="/respondInvite/{{data.inviteID}}" method="POST" style="display:inline;">
+            <input type="hidden" name="response" value="unavailable">
             <button class="bg-button button">
                 <a class="bg-button-wrapper button-wrapper" href="#">
                     <i class="lni lni-thumbs-down-3"></i>
                     <p>Not available</p>
                 </a>
             </button>
-
+          </form>
+          <form action="/respondInvite/{{data.inviteID}}" method="POST" style="display:inline;">
+            <input type="hidden" name="response" value="available">
             <button class="fg-button button">
                 <a class="fg-button-wrapper button-wrapper" href="#">
                     <i class="lni lni-thumbs-up-3"></i>
                     <p>Available</p>
                 </a>
             </button>
-
+          </form>
         </div>
+      {{/if}}
     </div>
+  {{/if}}
 </div>

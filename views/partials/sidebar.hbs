@@ -83,7 +83,9 @@
             <a class="nav-link-wrapper" href="/profile">
                 <li class="nav-link accounts-page-link">
                     <div class="link-name">
-                        <div class="profile-picture image"></div>
+                        <div class="profile-picture image">
+                                <img src="{{user.profilePic}}" alt="Profile Picture" />
+                        </div>
                         <div class="profile-info">
                             <p class="username">{{user.firstName}} {{user.lastName}}</p>
                             <p class="user-role">{{user.role}}</p>
