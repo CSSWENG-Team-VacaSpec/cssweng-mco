@@ -108,6 +108,14 @@ a {
     box-sizing: border-box;
 }
 
+.card {
+    border-radius: var(--card-radius);
+    padding: var(--card-padding);
+    box-sizing: border-box;
+    background-color: var(--card-bg);
+    box-shadow: var(--card-shadow);
+}
+
 .header {
     font-family: var(--main-font);
     letter-spacing: 4px;
