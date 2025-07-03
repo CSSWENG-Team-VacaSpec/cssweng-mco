@@ -1,3 +1,4 @@
+
 const Team = require('../models/teams');
 const Event = require('../models/events');
 const User = require('../models/employeeAccounts');
@@ -35,10 +36,14 @@ exports.getEventDetailsPage = async (req, res) => {
 
         res.render('eventDetails', {
         user: req.session.user,
-        layout: 'eventDetailsLayout',
+        layout: 'main',
+         stylesheet: 'eventDetails',
+        script: 'eventDetails',
+        title: 'Event Details',
         page: 'event-details',
         showButtons,
         teamMembers: users
+
     });
 
     }   catch (error) {

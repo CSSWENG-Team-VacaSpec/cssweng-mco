@@ -1,15 +1,13 @@
-{{>sidebar}}
-<script src="/common/javascript/eventDetails.js"></script>
-<div class="main-content container">
-    <div class="top-page-bar">
-        <button class="back-button">
-            <a class="back-button-wrapper button-wrapper" href="/eventlist">
-                <i class="lni lni-arrow-left"></i>
-                <p>Back</p>
-            </a>
-        </button>
-        <h2 class="header">Event Details</h2>
-    </div>
+<div class="top-page-bar">
+    <button class="back-button">
+        <a class="back-button-wrapper button-wrapper" href="/eventlist">
+            <i class="lni lni-arrow-left"></i>
+            <p>Back</p>
+        </a>
+    </button>
+    <h2 class="header">Event Details</h2>
+</div>
+
 
     <div class="event-details container">
 
@@ -22,29 +20,29 @@
         </button>
         {{/if}}
 
-        <div class="event-box-top" id="details-top-box">
-            <span id="event-name"></span>
-            <span id="client-name"></span>
-        </div>
+    <div class="event-box-top" id="details-top-box">
+        <span id="event-name"></span>
+        <span id="client-name"></span>
+    </div>
 
-        <div class="event-box-bottom" id="details-box">
-            <span id="date-loc">
-                <span id="date"></span>
-                <span id="location"></span>
-            </span>
-            <span id="contact">
-                <span><strong>Contact Person</strong></span>
-                <span id="contact-name"></span>
-                <span id="contact-info"></span>
-            </span>
-            <span id="description-span">
-                <span><strong>Description</strong></span>
-                <span id="description"></span>
-            </span>
-        </div>
+    <div class="event-box-bottom" id="details-box">
+        <span id="date-loc">
+            <span id="date"></span>
+            <span id="location"></span>
+        </span>
+        <span id="contact">
+            <span><strong>Contact Person</strong></span>
+            <span id="contact-name"></span>
+            <span id="contact-info"></span>
+        </span>
+        <span id="description-span">
+            <span><strong>Description</strong></span>
+            <span id="description"></span>
+        </span>
+    </div>
 
-        <span id="status"></span>
-
+    <span id="status"></span>
+    
         <div class="choice-buttons" id="details-choices">
             {{#if showButtons}}
             <button class="bg-button button" id="cancel-button">
@@ -54,6 +52,7 @@
                 </a>
             </button>
             {{/if}}
+            
             {{#if showButtons}}
             <button class="fg-button button" id="mark-done-button">
                 <a class="fg-button-wrapper button-wrapper" href="#">
@@ -78,6 +77,6 @@
             </div>
 
         </div>
-        
     </div>
+    
 </div>

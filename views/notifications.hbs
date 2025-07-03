@@ -1,15 +1,13 @@
 {{>sidebar}}
 <section class="main-content container">
-    <h1 class="header"> Notifications </h1>
-
+  <h1 class="header"> Notifications </h1>
     </button>
     <div class="upcoming-events-container">
-        {{>notification}}
-        {{>notification}}
-        {{>notification}}
-        {{>notification}}
-        {{>notification}}
-        {{>notification}}
-        {{>notification}}
+        {{#each notifications}}
+            {{> notification this}}
+        {{else}}
+            <p>No notifications available.</p>
+        {{/each}}
     </div>
 </section>
+
