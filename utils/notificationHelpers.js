@@ -69,7 +69,7 @@ async function getManagerGeneralNotifications(managerCN) {
     receiver: 'Manager',
     receiverID: managerCN,
     hideFrom: { $ne: managerCN },
-    message: { $not: /responded/i }
+    message: { $not: /(responded|requested)/i }
   });
 
   const enriched = await Promise.all(
