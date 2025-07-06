@@ -1,0 +1,37 @@
+.create-events-wizard {
+    display: flex;
+    flex-direction: column;
+}
+
+#event-description {
+    resize: none;
+}
+
+.create-event-form {
+    display: flex;
+    flex-direction: column;
+    gap: var(--big-gap);
+}
+
+.form-page-container {
+    display: flex;
+    overflow: hidden;
+}
+
+.form-page {
+    display: flex;
+    flex-direction: column;
+    gap: var(--medium-gap);
+    flex-shrink: 0;
+    width: 100%;
+}
+
+.form-row {
+    display: flex;
+    flex-direction: row;
+    gap: var(--small-gap);
+}
+
+.form-controls {
+    align-self: flex-end;
+}
