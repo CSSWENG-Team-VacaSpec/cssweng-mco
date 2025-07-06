@@ -4,10 +4,13 @@ const MAX_PAGE = 2;
 document.addEventListener('DOMContentLoaded', () => {
     const nextButton = document.getElementById('form-next-button');
     const backButton = document.getElementById('form-back-button');
+    const formContainer = document.getElementsByClassName('form-page-container')[0];
+
 
     nextButton.addEventListener('click', () => {
         if (page < 2) {
             page++;
+            formContainer.style.transform = `translateX(-${page * 100}%)`;
         }
         updateButtons();
     });
@@ -15,6 +18,7 @@ document.addEventListener('DOMContentLoaded', () => {
     backButton.addEventListener('click', () => {
         if (page > 0) {
             page--;
+            formContainer.style.transform = `translateX(-${page * 100}%)`;
         }
         updateButtons();
     });
