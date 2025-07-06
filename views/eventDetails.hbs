@@ -63,7 +63,7 @@
             {{/if}}
         </div>
 
-        <div class="team-members">
+            {{!-- displays the team members lang  --}}
            <div class="members-box">
              {{#if teamMembers.length}}
                  <ul>
@@ -76,7 +76,72 @@
             {{/if}}
             </div>
 
+        
+
+    <div class="team-members">
+         <form role="search" class="search-bar" onsubmit="return false;">
+         <button type="submit"><i class="lni lni-search-1"></i></button>
+             <input type="search" name="q" id="searchInput" placeholder="Search..." autocomplete="off">
+         </form>
+
+         <div class="members-box">
+             <ul id="memberList"></ul>
+        <p id="emptyMessage" style="display: none;">No matching team members found.</p>
         </div>
+    </div>
+
+    <script>
+    const teamId = '{{team._id}}'; //gets the teamid in eventDetailsController
+    </script>
+
+    <script>
+        const searchInput = document.getElementById('searchInput');
+        const memberList = document.getElementById('memberList');
+        const emptyMessage = document.getElementById('emptyMessage');
+  
+       function debounce(fn, delay) {
+            let timeout;
+            return function (...args) {
+                clearTimeout(timeout);
+                timeout = setTimeout(() => fn.apply(this, args), delay);
+             };
+         }
+
+         async function fetchTeamMembers(query) {
+             if (!query.trim()) {
+                 memberList.innerHTML = '';
+                 emptyMessage.style.display = 'none';
+             return;
+            }
+
+    try {
+        const response = await fetch(`/searchTeamMembers?q=${encodeURIComponent(query)}&id=${teamId}`);
+        const data = await response.json();
+
+         // Clear the list
+        memberList.innerHTML = '';
+
+        if (data.results.length === 0) {
+            emptyMessage.style.display = 'block';
+        } else {
+             emptyMessage.style.display = 'none';
+             data.results.forEach(member => {
+                const li = document.createElement('li');
+                li.textContent = `${member.firstName} ${member.lastName}`;
+                memberList.appendChild(li);
+                });
+            }
+        } catch (err) {
+        console.error('Search failed:', err);
+    }
+  }
+
+        searchInput.addEventListener('input', debounce((e) => {
+        fetchTeamMembers(e.target.value);
+        }, 300));
+    </script>
+
+       
     </div>
     
 </div>

@@ -11,6 +11,7 @@ exports.getEventListPage = async (req, res) => {
 
         const userId = req.session.user._id || req.session.user;
         const role = req.session.user.role?.trim();
+
         const isManager = role === 'Manager'; 
         const showCreateButton = isManager
 
