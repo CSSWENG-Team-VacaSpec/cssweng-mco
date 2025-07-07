@@ -37,6 +37,9 @@ exports.getTeamPage = async (req, res) => {
 
     res.render('teamList', {
         layout: 'teamListLayout',
+        stylesheet: 'teamList',
+        script: 'teamList',
+        title: 'Team List',
         page: 'team-members',
         user: req.session.user,
         managers, 
