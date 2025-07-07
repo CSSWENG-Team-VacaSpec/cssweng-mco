@@ -1,9 +1,30 @@
+<div class="modal-container modal-container-hidden">
+    <div class="modal modal-hidden">
+        <h2 class="modal-header header">Discard changes?</h2>
+        <p class="modal-description">Changes will not be saved.</p>
+        <div class="modal-controls">
+            <button class="bg-button button" id="cancel-modal-no-button">
+                <div class="button-wrapper">
+                    <i class="lni lni-pencil-1"></i>
+                    <p>Keep editing</p>
+                </div>
+            </button>
+            <button class="destructive-button button" id="cancel-modal-yes-button">
+                <div class="button-wrapper">
+                    <i class="lni lni-trash-3"></i>
+                    <p>Discard</p>
+                </div>
+            </button>
+        </div>
+    </div>
+</div>
+
 <div class="top-page-bar">
-    <button class="back-button">
-        <a class="back-button-wrapper button-wrapper" href="/eventlist">
+    <button class="back-link" id="page-back-button">
+        <div class="button-wrapper">
             <i class="lni lni-arrow-left"></i>
             <p>Back</p>
-        </a>
+        </div>
     </button>
     <h2 class="header">Create event</h2>
 </div>
@@ -65,7 +86,7 @@
             </div>
         </div>
         <div class="form-controls">
-            <button type="submit" class="bg-button button" id="form-cancel-button">
+            <button type="button" class="bg-button button" id="form-cancel-button">
                 <div class="button-wrapper">
                     <i class="lni lni-xmark"></i>
                     <p>Cancel</p>
