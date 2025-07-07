@@ -11,7 +11,7 @@ exports.getEventDetailsPage = async (req, res) => {
         const userId = req.session.user._id || req.session.user;
         const eventId = req.query.id;
         
-        const team = await Team.findById(eventId);
+        const team = await Team.findById(eventId).lean();
 
         let isManager = false;
         let isProgramLead = false;
@@ -37,12 +37,14 @@ exports.getEventDetailsPage = async (req, res) => {
         res.render('eventDetails', {
         user: req.session.user,
         layout: 'main',
-         stylesheet: 'eventDetails',
+        stylesheet: 'eventDetails',
         script: 'eventDetails',
         title: 'Event Details',
         page: 'event-details',
         showButtons,
-        teamMembers: users
+        teamMembers: users,
+        team
+       
 
     });
 
