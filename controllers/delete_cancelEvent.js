@@ -34,17 +34,18 @@ exports.deleteEvent = async (req, res) => {
 
     try {
         const event = await Event.findById(eventId);
+        const sender = req.session.user?._id;
 
         if (!event) {
             return res.status(404).json({ message: 'Event not found.' });
         }
 
-        await DeleteNotif(event);
+        await DeleteNotif(event,sender);
 
         await Event.findByIdAndDelete(eventId);
 
         res.redirect('/notifications');
-        return res.status(200).json({ message: 'Event deleted and notification sent.' });
+        
     } catch (err) {
         console.error('Error deleting event:', err);
         return res.status(500).json({ message: 'Internal server error.' });
