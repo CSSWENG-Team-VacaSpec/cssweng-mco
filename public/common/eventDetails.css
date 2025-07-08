@@ -20,6 +20,7 @@
     z-index: 10;
     padding: var(--container-padding);
     background-color: var(--card-bg);
+    gap: var(--big-gap);
 }
 
 #details-edit-button {

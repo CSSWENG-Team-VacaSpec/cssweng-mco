@@ -40,8 +40,8 @@
             </span>
         </div>
 
-        <span id="status"></span>
-
+    <span id="status" data-status=""></span>
+    
         <div class="choice-buttons" id="details-choices">
             <button class="bg-button button" id="cancel-button">
                 <a class="bg-button-wrapper button-wrapper" href="#">
@@ -66,6 +66,19 @@
             <div class="members-box">
                 <p>Currently no members in this event.</p>
             </div>
+
+        
+
+    <div class="team-members">
+         <h3 class="header">Team Members</h3>
+         <form role="search" class="search-bar" onsubmit="return false;">
+         <button type="submit"><i class="lni lni-search-1"></i></button>
+             <input type="search" name="q" id="searchInput" placeholder="Search..." autocomplete="off">
+         </form>
+
+         <div class="members-box">
+             <ul id="memberList"></ul>
+        <p id="emptyMessage" style="display: none;">No matching team members found.</p>
         </div>
         
     </div>
