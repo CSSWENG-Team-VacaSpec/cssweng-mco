@@ -45,12 +45,15 @@
     
         <div class="choice-buttons" id="details-choices">
             {{#if showButtons}}
-            <button class="bg-button button" id="cancel-button">
-                <a class="bg-button-wrapper button-wrapper" href="#">
-                    <i class="lni lni-xmark"></i>
-                    <p>Cancel</p>
-                </a>
-            </button>
+            <form action="/cancelEvent?id={{event._id}}" method="POST" onsubmit="return confirm('Are you sure you want to cancel this event?');">
+              <button type="submit" class="bg-button button" id="cancel-button">
+                 <span class="bg-button-wrapper button-wrapper">
+                 <i class="lni lni-xmark"></i>
+                 <p>Cancel</p>
+                </span>
+             </button>
+            </form>
+
             {{/if}}
             
             {{#if showButtons}}
