@@ -76,8 +76,9 @@ exports.getTeamMemberNotifications = async (req, res) => {
     notifications.sort((a, b) => new Date(b.data.date) - new Date(a.data.date));
 
     return res.render('notifications', {
-      layout: 'notificationsLayout',
+      layout: 'main',
       page: 'notifications',
+      stylesheet: 'notifications',
       user,
       notifications
 
