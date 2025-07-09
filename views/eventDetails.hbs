@@ -86,7 +86,19 @@
                  <p>Currently no members in this event.</p>
             {{/if}}
             </div>
+        
 
+    <div class="team-members">
+         <h3 class="header">Team Members</h3>
+         <form role="search" class="search-bar" onsubmit="return false;">
+         <button type="submit"><i class="lni lni-search-1"></i></button>
+             <input type="search" name="q" id="searchInput" placeholder="Search..." autocomplete="off">
+         </form>
+
+         <div class="members-box">
+             <ul id="memberList"></ul>
+        <p id="emptyMessage" style="display: none;">No matching team members found.</p>
+        </div>
         
 
     <div class="team-members">
