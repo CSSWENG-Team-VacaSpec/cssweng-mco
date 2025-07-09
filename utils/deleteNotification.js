@@ -6,24 +6,23 @@ const Notification = require('../models/notifications');
 // sends deletion notifications to all team members of a specific event.
 async function notifyTeamOfEventDeletion(eventID, senderID) {
   try {
-    // Fetch event
+    console.log("🔔 notifyTeamOfEventDeletion triggered for event:", eventID, "by", senderID);
+
     const event = await Event.findById(eventID);
     if (!event) {
       console.error('Event not found.');
       return;
     }
 
-    // get event team 
     const team = await Team.findById(eventID);
     if (!team) {
       console.error('Team not found for this event.');
       return;
     }
 
-    // all contacts to notify (program lead + members)
     const allReceivers = [team.programLead, ...team.teamMemberList];
+    console.log("Notifying receivers:", allReceivers);
 
-    // create notifications
     const notifications = allReceivers.map(contact => ({
       _id: uuidv4(),
       sender: senderID,
@@ -34,13 +33,13 @@ async function notifyTeamOfEventDeletion(eventID, senderID) {
       hideFrom: []
     }));
 
-    // save all notifications
-    await Notification.insertMany(notifications);
-    console.log('Delete event notifications sent.');
+    const result = await Notification.insertMany(notifications);
+    console.log('Delete event notifications saved:', result);
 
   } catch (error) {
     console.error('Error notifying team of event cancellation:', error);
   }
 }
+
 
 module.exports = notifyTeamOfEventDeletion;
