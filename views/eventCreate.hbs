@@ -1,0 +1,109 @@
+<div class="modal-container modal-container-hidden">
+    <div class="modal modal-hidden">
+        <h2 class="modal-header header">Discard changes?</h2>
+        <p class="modal-description">Changes will not be saved.</p>
+        <div class="modal-controls">
+            <button class="bg-button button" id="cancel-modal-no-button">
+                <div class="button-wrapper">
+                    <i class="lni lni-pencil-1"></i>
+                    <p>Keep editing</p>
+                </div>
+            </button>
+            <button class="destructive-button button" id="cancel-modal-yes-button">
+                <div class="button-wrapper">
+                    <i class="lni lni-trash-3"></i>
+                    <p>Discard</p>
+                </div>
+            </button>
+        </div>
+    </div>
+</div>
+
+<div class="top-page-bar">
+    <button class="back-link" id="page-back-button">
+        <div class="button-wrapper">
+            <i class="lni lni-arrow-left"></i>
+            <p>Back</p>
+        </div>
+    </button>
+    <h2 class="header">Create event</h2>
+</div>
+
+<div class="create-events-wizard card">
+    <form class="create-event-form">
+        <div class="form-page-container">
+            <div class="form-page">
+                <h1 class="secondary-header">Event details</h1>
+                <div class="form-row">
+                    <div class="text-field-container">
+                        <label class="field-label" for="event-name">Event name</label>
+                        <input type="text" id="event-name" class="text-field" name="event-name" required>
+                    </div>
+                    <div class="text-field-container">
+                        <label class="field-label" for="client-name">Client name</label>
+                        <input type="text" id="client-name" class="text-field" name="client-name" required>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="text-field-container">
+                        <label class="field-label" for="event-description">Description</label>
+                        <textarea id="event-description" class="text-field" name="event-description" rows="6" required></textarea>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="text-field-container">
+                        <label class="field-label" for="location">Location</label>
+                        <input type="text" id="location" class="text-field" name="location" required>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="text-field-container">
+                        <label class="field-label" for="start-date">Start date</label>
+                        <input type="date" id="start-date" class="text-field" name="start-date" required>
+                    </div>
+                    <div class="text-field-container">
+                        <label class="field-label" for="end-date">End date</label>
+                        <input type="date" id="end-date" class="text-field" name="end-date" required>
+                    </div>
+                </div>
+                <h1 class="secondary-header">Contact person</h1>
+                <div class="form-row">
+                    <div class="text-field-container">
+                        <label class="field-label" for="contact-name">Name</label>
+                        <input type="text" id="contact-name" class="text-field" name="contact-name" required>
+                    </div>
+                    <div class="text-field-container">
+                        <label class="field-label" for="phone-number">Phone number</label>
+                        <input type="text" id="phone-number" class="text-field" name="phone-number" required>
+                    </div>
+                </div>
+            </div>
+            <div class="form-page">
+                <h1 class="secondary-header">Assign team members</h1>
+            </div>
+            <div class="form-page">
+                <h1 class="secondary-header">Review</h1>
+            </div>
+        </div>
+        <div class="form-controls">
+            <button type="button" class="bg-button button" id="form-cancel-button">
+                <div class="button-wrapper">
+                    <i class="lni lni-xmark"></i>
+                    <p>Cancel</p>
+                </div>
+            </button>
+            <button type="button" class="bg-button button" id="form-back-button">
+                <div class="button-wrapper">
+                    <i class="lni lni-arrow-left"></i>
+                    <p>Back</p>
+                </div>
+            </button>
+            <button type="button" class="fg-button button" id="form-next-button">
+                <div class="button-wrapper">
+                    <i class="lni lni-arrow-right"></i>
+                    <p>Next</p>
+                </div>
+            </button>
+        </div>
+    </form>
+</div>

@@ -2,7 +2,7 @@ document.addEventListener('DOMContentLoaded', function() {
     document.querySelector('.upcoming-events-container').addEventListener('click', function(e) {
         const eventBox = e.target.closest('.event-box');
         if (!eventBox) return;
-
+        
         const eventData = {
             _id: eventBox.dataset.id,
             eventName: eventBox.querySelector('#event-name').textContent,

@@ -52,6 +52,14 @@ a {
     color: var(--main-fg);
     border: 1px solid var(--login-border);
     font-family: var(--main-font);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--small-gap);
+}
+
+.login-button i {
+    font-size: 1.2rem;
 }
 
 .login-field, .login-button {
