@@ -7,24 +7,27 @@
     </button>
     <h2 class="header">Event Details</h2>
 </div>
-<div class="event-details container">
+    <div class="event-details container">
 
-    {{#if showButtons}}
-    <div class="event-controls">
-        <button class="bg-button button" id="details-edit-button">
-            <a class="bg-button-wrapper button-wrapper" href="#">
-                <i class="lni lni-pencil-1"></i>
-                <p>Edit</p>
-            </a>
-        </button>
-        <button class="bg-button button" id="details-delete-button">
-            <a class="bg-button-wrapper button-wrapper" href="#">
-                <i class="lni lni-xmark"></i>
-                <p>Delete</p>
-            </a>
-        </button>
-    </div>
-    {{/if}}
+        {{#if showButtons}}
+        <div class="event-controls">
+            <button class="bg-button button" id="details-edit-button">
+                <a class="bg-button-wrapper button-wrapper" href="#">
+                    <i class="lni lni-pencil-1"></i>
+                    <p>Edit</p>
+                </a>
+            </button>
+            <form action="/deleteEvent?id={{event._id}}" method="POST" onsubmit="return confirm('Are you sure you want to delete this event?');">
+                    <button type="submit" class="bg-button button" id="details-delete-button">
+                    <span class="bg-button-wrapper button-wrapper">
+                    <i class="lni lni-xmark"></i>
+                         <p>Delete</p>
+                    </span>
+                    </button>
+            </form>
+
+        </div>
+        {{/if}}
 
     <div class="event-box-top" id="details-top-box">
         <span id="event-name"></span>
@@ -51,12 +54,15 @@
     
         <div class="choice-buttons" id="details-choices">
             {{#if showButtons}}
-            <button class="bg-button button" id="cancel-button">
-                <a class="bg-button-wrapper button-wrapper" href="#">
-                    <i class="lni lni-xmark"></i>
-                    <p>Cancel</p>
-                </a>
-            </button>
+            <form action="/cancelEvent?id={{event._id}}" method="POST" onsubmit="return confirm('Are you sure you want to cancel this event?');">
+              <button type="submit" class="bg-button button" id="cancel-button">
+                 <span class="bg-button-wrapper button-wrapper">
+                 <i class="lni lni-xmark"></i>
+                 <p>Cancel</p>
+                </span>
+             </button>
+            </form>
+
             {{/if}}
             
             {{#if showButtons}}
