@@ -26,7 +26,7 @@
                     </li>
                 </a>
             {{else}}
-                <a class="nav-link-wrapper" href="/eventlist">
+                <a class="nav-link-wrapper" href="/eventList">
                     <li class="nav-link">
                         <div class="link-name">
                             <i class="lni lni-calendar-days"></i>
@@ -45,7 +45,18 @@
                     <i class="lni lni-arrow-right"></i>
                 </li>
             </a>
-            <a class="nav-link-wrapper" href="/team">
+            {{#if (eq page "team-members")}}
+            <a class="nav-link-wrapper" href="/teamList">
+                <li class="nav-link" id="active-link">
+                    <div class="link-name">
+                        <i class="lni lni-user-multiple-4"></i>
+                        <p>Team</p>
+                    </div>
+                    <i class="lni lni-arrow-right"></i>
+                </li>
+            </a>
+            {{else}}
+            <a class="nav-link-wrapper" href="/teamList">
                 <li class="nav-link">
                     <div class="link-name">
                         <i class="lni lni-user-multiple-4"></i>
@@ -54,6 +65,7 @@
                     <i class="lni lni-arrow-right"></i>
                 </li>
             </a>
+            {{/if}}
         </ul>
     </section>
 
@@ -75,7 +87,7 @@
                         <div class="link-name">
                             <i class="lni lni-bell-1"></i>
                             <p>Notifications</p>
-                         </div>
+                        </div>
                         <i class="lni lni-arrow-right"></i>
                     </li>
                 </a>
