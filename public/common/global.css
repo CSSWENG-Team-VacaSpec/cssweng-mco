@@ -507,4 +507,9 @@ a {
     .mobile-top-bar-button i {
         font-size: var(--icon-size);
     }
+    
+    .event-box-top {
+        flex-direction: column;
+        align-items: flex-start;
+    }
 }

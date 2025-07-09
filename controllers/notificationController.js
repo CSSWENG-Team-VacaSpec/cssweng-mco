@@ -51,6 +51,7 @@ exports.getManagerNotifications = async (req, res) => {
       layout: 'main',
       page: 'notifications',
       stylesheet: 'notifications',
+      title: 'Notifications',
       user,
       notifications
     });
