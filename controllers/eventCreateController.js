@@ -3,6 +3,7 @@ exports.renderPage = (req, res) => {
         res.render('eventCreate', {
             layout: 'main',
             stylesheet: 'eventCreate',
+            script: 'eventCreate',
             title: 'Create Event',
             page: 'event-create',
             user: req.session.user

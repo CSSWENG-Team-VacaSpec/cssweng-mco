@@ -1,32 +1,30 @@
 <div class="top-page-bar">
-    <button class="back-button">
-        <a class="back-button-wrapper button-wrapper" href="/eventlist">
+    <button class="back-link">
+        <a class="button-wrapper" href="/eventlist">
             <i class="lni lni-arrow-left"></i>
             <p>Back</p>
         </a>
     </button>
     <h2 class="header">Event Details</h2>
 </div>
+<div class="event-details container">
 
-
-    <div class="event-details container">
-
-        {{#if showButtons}}
-        <div class="event-controls">
-            <button class="bg-button button" id="details-edit-button">
-                <a class="bg-button-wrapper button-wrapper" href="#">
-                    <i class="lni lni-pencil-1"></i>
-                    <p>Edit</p>
-                </a>
-            </button>
-            <button class="bg-button button" id="details-delete-button">
-                <a class="bg-button-wrapper button-wrapper" href="#">
-                    <i class="lni lni-xmark"></i>
-                    <p>Delete</p>
-                </a>
-            </button>
-        </div>
-        {{/if}}
+    {{#if showButtons}}
+    <div class="event-controls">
+        <button class="bg-button button" id="details-edit-button">
+            <a class="bg-button-wrapper button-wrapper" href="#">
+                <i class="lni lni-pencil-1"></i>
+                <p>Edit</p>
+            </a>
+        </button>
+        <button class="bg-button button" id="details-delete-button">
+            <a class="bg-button-wrapper button-wrapper" href="#">
+                <i class="lni lni-xmark"></i>
+                <p>Delete</p>
+            </a>
+        </button>
+    </div>
+    {{/if}}
 
     <div class="event-box-top" id="details-top-box">
         <span id="event-name"></span>
