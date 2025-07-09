@@ -12,7 +12,7 @@ exports.getEventDetailsPage = async (req, res) => {
         const eventId = req.query.id;
         
         const team = await Team.findById(eventId).lean();
-
+        const event = await Event.findById(eventId).lean(); 
         let isManager = false;
         let isProgramLead = false;
 
@@ -43,7 +43,8 @@ exports.getEventDetailsPage = async (req, res) => {
         page: 'event-details',
         showButtons,
         teamMembers: users,
-        team
+        team,
+        event
        
 
     });

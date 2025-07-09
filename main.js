@@ -56,6 +56,8 @@ const notificationRoute = require('./routes/r_notifications.js');
 const eventDetailsRoute = require('./routes/r_event_details.js');
 const teamRoute = require('./routes/r_team');
 const eventCreateRoute = require('./routes/r_event_create.js');
+const delete_cancelEvent = require('./routes/r_delete_cancelEvent.js');
+
 
 // routes
 app.use('/', loginRoute); 
@@ -67,6 +69,7 @@ app.use('/', teamRoute);
 app.use('/create', eventCreateRoute);
 app.use('/', loginRoute); 
 app.use('/', searchBarRoute);
+app.use('/', delete_cancelEvent);
 
 // start server
 const PORT = process.env.PORT || 3000;
