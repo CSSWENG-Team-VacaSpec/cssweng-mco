@@ -19,12 +19,15 @@
                     <p>Edit</p>
                 </a>
             </button>
-            <button class="bg-button button" id="details-delete-button">
-                <a class="bg-button-wrapper button-wrapper" href="#">
+            <form action="/deleteEvent?id={{event._id}}" method="POST" onsubmit="return confirm('Are you sure you want to delete this event?');">
+                    <button type="submit" class="bg-button button" id="details-delete-button">
+                    <span class="bg-button-wrapper button-wrapper">
                     <i class="lni lni-xmark"></i>
-                    <p>Delete</p>
-                </a>
-            </button>
+                         <p>Delete</p>
+                    </span>
+                    </button>
+            </form>
+
         </div>
         {{/if}}
 

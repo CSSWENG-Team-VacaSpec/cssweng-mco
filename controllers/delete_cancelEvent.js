@@ -45,7 +45,7 @@ exports.deleteEvent = async (req, res) => {
         await Event.findByIdAndDelete(eventId);
 
         res.redirect('/notifications');
-        
+            
     } catch (err) {
         console.error('Error deleting event:', err);
         return res.status(500).json({ message: 'Internal server error.' });
