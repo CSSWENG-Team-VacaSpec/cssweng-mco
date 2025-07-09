@@ -7,16 +7,23 @@
     </button>
     <h2 class="header">Event Details</h2>
 </div>
+<div class="event-details container">
 
-
-<div class="event-details card">
     {{#if showButtons}}
-    <button class="bg-button button" id="details-edit-button">
-        <a class="bg-button-wrapper button-wrapper" href="#">
-            <i class="lni lni-pencil-1"></i>
-            <p>Edit</p>
-        </a>
-    </button>
+    <div class="event-controls">
+        <button class="bg-button button" id="details-edit-button">
+            <a class="bg-button-wrapper button-wrapper" href="#">
+                <i class="lni lni-pencil-1"></i>
+                <p>Edit</p>
+            </a>
+        </button>
+        <button class="bg-button button" id="details-delete-button">
+            <a class="bg-button-wrapper button-wrapper" href="#">
+                <i class="lni lni-xmark"></i>
+                <p>Delete</p>
+            </a>
+        </button>
+    </div>
     {{/if}}
 
     <div class="event-box-top" id="details-top-box">
