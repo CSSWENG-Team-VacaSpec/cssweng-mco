@@ -5,6 +5,11 @@
     border-radius: var(--container-radius);
 }
 
+.event-controls {
+    display: flex;
+    gap: var(--small-gap);
+}
+
 .team-members {
     box-sizing: border-box;
     display: flex;
