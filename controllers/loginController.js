@@ -174,7 +174,7 @@ exports.forgotPasswordRequests = async (req, res) => {
       // Validate that the requesting employee exists
       const sender = await EmployeeAccount.findById(number);
       if (!sender) {
-        return res.render('login', { layout: 'loginLayout', error: 'Employee not found.' });
+        return res.render('login', { layout: 'login', error: 'Employee not found.' });
       }
   
       // Get all active managers
@@ -194,11 +194,11 @@ exports.forgotPasswordRequests = async (req, res) => {
       // Insert notifications into the database
       await Notification.insertMany(notifications);
   
-      return res.render('login', { layout: 'loginLayout', success: 'Password reset request sent to managers.' });
+      return res.render('login', { layout: 'login', success: 'Password reset request sent to managers.' });
   
     } catch (error) {
       console.error('Forgot Password Notification Error:', error);
-      return res.render('login', { layout: 'loginLayout', error: 'Server error while sending notifications.' }); // change file name (login) if necessary
+      return res.render('login', { layout: 'login', error: 'Server error while sending notifications.' }); // change file name (login) if necessary
     }
 };
 
