@@ -1,72 +1,147 @@
-{{>sidebar}}
-<script src="/common/javascript/eventDetails.js"></script>
-<div class="main-content container">
-    <div class="top-page-bar">
-        <button class="back-button">
-            <a class="back-button-wrapper button-wrapper" href="/eventlist">
-                <i class="lni lni-arrow-left"></i>
-                <p>Back</p>
-            </a>
-        </button>
-        <h2 class="header">Event Details</h2>
-    </div>
+<div class="top-page-bar">
+    <button class="back-button">
+        <a class="back-button-wrapper button-wrapper" href="/eventlist">
+            <i class="lni lni-arrow-left"></i>
+            <p>Back</p>
+        </a>
+    </button>
+    <h2 class="header">Event Details</h2>
+</div>
+
 
     <div class="event-details container">
+
+        {{#if showButtons}}
         <button class="bg-button button" id="details-edit-button">
             <a class="bg-button-wrapper button-wrapper" href="#">
                 <i class="lni lni-pencil-1"></i>
                 <p>Edit</p>
             </a>
         </button>
+        {{/if}}
 
-        <div class="event-box-top" id="details-top-box">
-            <span id="event-name"></span>
-            <span id="client-name"></span>
-        </div>
+    <div class="event-box-top" id="details-top-box">
+        <span id="event-name"></span>
+        <span id="client-name"></span>
+    </div>
 
-        <div class="event-box-bottom" id="details-box">
-            <span id="date-loc">
-                <span id="date"></span>
-                <span id="location"></span>
-            </span>
-            <span id="contact">
-                <span><strong>Contact Person</strong></span>
-                <span id="contact-name"></span>
-                <span id="contact-info"></span>
-            </span>
-            <span id="description-span">
-                <span><strong>Description</strong></span>
-                <span id="description"></span>
-            </span>
-        </div>
+    <div class="event-box-bottom" id="details-box">
+        <span id="date-loc">
+            <span id="date"></span>
+            <span id="location"></span>
+        </span>
+        <span id="contact">
+            <span><strong>Contact Person</strong></span>
+            <span id="contact-name"></span>
+            <span id="contact-info"></span>
+        </span>
+        <span id="description-span">
+            <span><strong>Description</strong></span>
+            <span id="description"></span>
+        </span>
+    </div>
 
-        <span id="status"></span>
-
+    <span id="status"></span>
+    
         <div class="choice-buttons" id="details-choices">
+            {{#if showButtons}}
             <button class="bg-button button" id="cancel-button">
                 <a class="bg-button-wrapper button-wrapper" href="#">
                     <i class="lni lni-xmark"></i>
                     <p>Cancel</p>
                 </a>
             </button>
+            {{/if}}
+            
+            {{#if showButtons}}
             <button class="fg-button button" id="mark-done-button">
                 <a class="fg-button-wrapper button-wrapper" href="#">
                     <i class="lni lni-check"></i>
                     <p>Mark as done</p>
                 </a>
             </button>
+            {{/if}}
         </div>
 
-        <div class="team-members">
-            <span>Team members</span>
-            <form role="search" class="search-bar">
-                <button type="submit"><i class="lni lni-search-1"></i></button>
-                <input type="search" name="q" placeholder="Search...">
-            </form>
-            <div class="members-box">
-                <p>Currently no members in this event.</p>
+            {{!-- displays the team members lang  --}}
+           <div class="members-box">
+             {{#if teamMembers.length}}
+                 <ul>
+                 {{#each teamMembers}}
+                 <li>{{firstName}} {{lastName}}</li>
+             {{/each}}
+                </ul>
+                {{else}}
+                 <p>Currently no members in this event.</p>
+            {{/if}}
             </div>
-        </div>
+
         
+
+    <div class="team-members">
+         <form role="search" class="search-bar" onsubmit="return false;">
+         <button type="submit"><i class="lni lni-search-1"></i></button>
+             <input type="search" name="q" id="searchInput" placeholder="Search..." autocomplete="off">
+         </form>
+
+         <div class="members-box">
+             <ul id="memberList"></ul>
+        <p id="emptyMessage" style="display: none;">No matching team members found.</p>
+        </div>
     </div>
+
+    <script>
+    const teamId = '{{team._id}}'; //gets the teamid in eventDetailsController
+    </script>
+
+    <script>
+        const searchInput = document.getElementById('searchInput');
+        const memberList = document.getElementById('memberList');
+        const emptyMessage = document.getElementById('emptyMessage');
+  
+       function debounce(fn, delay) {
+            let timeout;
+            return function (...args) {
+                clearTimeout(timeout);
+                timeout = setTimeout(() => fn.apply(this, args), delay);
+             };
+         }
+
+         async function fetchTeamMembers(query) {
+             if (!query.trim()) {
+                 memberList.innerHTML = '';
+                 emptyMessage.style.display = 'none';
+             return;
+            }
+
+    try {
+        const response = await fetch(`/searchTeamMembers?q=${encodeURIComponent(query)}&id=${teamId}`);
+        const data = await response.json();
+
+         // Clear the list
+        memberList.innerHTML = '';
+
+        if (data.results.length === 0) {
+            emptyMessage.style.display = 'block';
+        } else {
+             emptyMessage.style.display = 'none';
+             data.results.forEach(member => {
+                const li = document.createElement('li');
+                li.textContent = `${member.firstName} ${member.lastName}`;
+                memberList.appendChild(li);
+                });
+            }
+        } catch (err) {
+        console.error('Search failed:', err);
+    }
+  }
+
+        searchInput.addEventListener('input', debounce((e) => {
+        fetchTeamMembers(e.target.value);
+        }, 300));
+    </script>
+
+       
+    </div>
+    
 </div>

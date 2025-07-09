@@ -1,13 +1,10 @@
-{{>sidebar}}
-<script src="/common/javascript/eventList.js"></script>
-<section class="main-content container">
-    <h2 class="header">Upcoming Events</h2>
+<h2 class="header">Upcoming Events</h2>
 
-    <div class="event-list-top">
-        <form role="search" class="search-bar">
-            <button type="submit"><i class="lni lni-search-1"></i></button>
-            <input type="search" name="q" placeholder="Search...">
-        </form>
+<div class="event-list-top">
+    <form role="search" class="search-bar" id="eventSearchForm">
+        <button type="submit"><i class="lni lni-search-1"></i></button>
+        <input type="search" name="q" id="eventSearchInput" placeholder="Search...">
+    </form>
 
     {{#if showCreateButton}}
         <div class="fg-button button">
@@ -19,11 +16,67 @@
     {{/if}}  
     </div>
 
-    <div class="upcoming-events-container">
-        {{#each events}}
-            {{>eventBox this}}
-        {{else}}
-            <p>No events found</p>
-        {{/each}}
-    </div>
-</section>
+<div class="upcoming-events-container">
+    {{#each events}}
+        {{>eventBox this}}
+    {{else}}
+        <p>No events found</p>
+    {{/each}}
+</div>
+
+<script>
+    document.getElementById('eventSearchForm').addEventListener('submit', (e) => e.preventDefault());
+
+function debounce(fn, delay) {  //for real time updates while searching
+  let timeout;
+  return function (...args) {
+    clearTimeout(timeout);
+    timeout = setTimeout(() => fn.apply(this, args), delay);
+  };
+}
+
+const input = document.getElementById('eventSearchInput');
+const container = document.querySelector('.upcoming-events-container');
+
+async function searchEvents(query) {
+  container.innerHTML = '<p>Searching...</p>';
+
+  try {
+    const res = await fetch(`/searchEvents?q=${encodeURIComponent(query)}`);
+    const data = await res.json();
+
+    container.innerHTML = ''; // Clear loading message
+
+    if (!data.results || data.results.length === 0) {
+      container.innerHTML = '<p class="no-results-message">No events found</p>';
+      return;
+    }
+
+    data.results.forEach(event => {
+      const box = document.createElement('div');
+      box.className = 'event-box';
+
+      box.innerHTML = `   
+        <h3 id="event-name">${event.eventName}</h3>
+        <p id="description">${event.description || 'No description'}</p>
+        <p><strong>Date:</strong> ${event.eventDate}</p>
+        <p><strong>Location:</strong> ${event.location}</p>
+        <p><strong>Contact:</strong> ${event.CPFirstName} ${event.CPLastName} (${event.CPContactNo})</p>
+        <p><strong>Client:</strong> ${event.clientFirstName} ${event.clientLastName}</p>
+        <p><strong>Company:</strong> ${event.companyName || 'N/A'}</p>
+        <p><strong>Status:</strong> ${event.status}</p>
+      `;
+
+      container.appendChild(box);
+    });
+  } catch (err) {
+    console.error('Error fetching events:', err);
+    container.innerHTML = '<p class="error-message">Something went wrong. Please try again.</p>';
+  }
+}
+
+input.addEventListener('input', debounce((e) => {
+  const query = e.target.value.trim();
+  searchEvents(query);
+}, 300));
+</script>

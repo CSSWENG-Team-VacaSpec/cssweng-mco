@@ -1,7 +1,8 @@
 const mongoose = require('mongoose');
 
 const eventInvitationSchema = new mongoose.Schema({
-    _id: { type: String, required: true }, // [Purchase Order Number]
+    _id: { type: String, required: true }, 
+    event: { type: String, required: true }, // [Purchase Order Number]
     employeeCN: { type: String, required: true }, // Contact Number of the employee being invited
     role: { type: String, required: true }, // Role of the employee in the event
     inviteDate: { type: Date, default: Date.now }, // Date of the invitation
