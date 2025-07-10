@@ -27,6 +27,7 @@
     --button-radius: 96px;
     --container-radius: 48px;
     --card-radius: 24px;
+    --secondary-card-radius: 18px;
     --input-field-radius: 8px;
 
     --card-shadow: 0px 0px 4px #00000011;
@@ -114,6 +115,22 @@ a {
     box-sizing: border-box;
     background-color: var(--card-bg);
     box-shadow: var(--card-shadow);
+}
+
+.team-member-card {
+    background-color: transparent;
+    border: 1px solid var(--border-dark);
+}
+
+.team-member-card[data-role="Manager"] {
+    background-color: var(--page-bg);
+    color: var(--sidebar-fg);
+}
+
+.team-member-mini-card {
+    border-radius: var(--button-radius);
+    background-color: var(--accent-light);
+    padding: var(--small-gap);
 }
 
 .header {
@@ -635,27 +652,6 @@ a {
     .mobile-top-bar-button i {
         font-size: var(--icon-size);
     }
-}
-
-.team-member {
-    box-sizing: border-box;
-    display: grid;
-    grid-template-columns: auto 1fr;
-    grid-gap: var(--medium-gap);
-    align-items: center;
-    width: 35%;
-    background-color: #FFFFFF;
-    padding: 30px;
-    border-radius: 24px;
-    box-shadow: 0px 0px 4px 0px rgba(0, 0, 0, 0.1);
-    transition: all 0.5s ease;
-    overflow: hidden;
-    cursor: pointer;
-    position: relative;
-}
-
-.team-member[data-role="Manager"]{
-    background-color: var(--page-bg);
 }
 
 .team-member-picture {
