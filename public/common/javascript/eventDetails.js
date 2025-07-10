@@ -14,6 +14,54 @@ document.addEventListener('DOMContentLoaded', function() {
 
         const statusElement = document.getElementById('status');
         statusElement.setAttribute('data-status', eventData.status.toLowerCase());
+
+        const modalContainer = document.getElementsByClassName('modal-container')[0];
+        const modal = document.getElementsByClassName('modal')[0];
+        const modalDeleteContainer = document.getElementById('modal-container-delete');
+        const modalCancelContainer = document.getElementById('modal-container-cancel');
+        const modalDelete = document.getElementById('modal-details-delete');
+        const modalCancel = document.getElementById('modal-details-cancel');
+        //const modalCloseButton = document.getElementById('cancel-modal-no-button');
+
+        const modalConfirmCancelButton = document.getElementById('cancel-modal-yes-button');
+        const modalConfirmDeleteButton = document.getElementById('delete-modal-yes-button');
+        const modalDeleteCloseButton = document.querySelector('#modal-container-delete #cancel-modal-no-button');
+        const modalCancelCloseButton = document.querySelector('#modal-container-cancel #cancel-modal-no-button');
+
+        const deleteButton = document.getElementById('details-delete-button');
+        const cancelButton = document.getElementById('cancel-button');
+
+        deleteButton.addEventListener('click', () => {
+            modalDeleteContainer.classList.remove('modal-container-hidden');
+            modalDelete.classList.remove('modal-hidden');
+        });
+
+        cancelButton.addEventListener('click', () => {
+            modalCancelContainer.classList.remove('modal-container-hidden');
+            modalCancel.classList.remove('modal-hidden');
+        });
+
+        modalDeleteCloseButton.addEventListener('click', () => {
+            modalDeleteContainer.classList.add('modal-container-hidden');
+            modalDelete.classList.add('modal-hidden');
+        });
+
+        modalCancelCloseButton.addEventListener('click', () => {
+            modalCancelContainer.classList.add('modal-container-hidden');
+            modalCancel.classList.add('modal-hidden');
+        });
+
+        modalConfirmCancelButton.addEventListener('click', () => {
+            modalCancelContainer.classList.add('modal-container-hidden');
+            modalCancel.classList.add('modal-hidden')
+        });
+
+        modalConfirmDeleteButton.addEventListener('click', () => {
+            modalDeleteContainer.classList.add('modal-container-hidden');
+            modalDelete.classList.add('modal-hidden')
+        });
+
+
     } else {
         window.location.href = '/eventList';
     }

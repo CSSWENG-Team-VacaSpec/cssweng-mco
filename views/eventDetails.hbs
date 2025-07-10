@@ -1,3 +1,45 @@
+<div class="modal-container modal-container-hidden" id="modal-container-delete">
+    <div class="modal modal-hidden" id="modal-details-delete">
+        <h2 class="modal-header header">Delete event?</h2>
+        <p class="modal-description">The event will be deleted and will<br>not show up in any records</p>
+        <div class="modal-controls">
+            <button class="bg-button button" id="cancel-modal-no-button">
+                <div class="button-wrapper">
+                    <i class="lni lni-check"></i>
+                    <p>Keep event</p>
+                </div>
+            </button>
+            <button class="destructive-button button" id="delete-modal-yes-button">
+                <div class="button-wrapper">
+                    <i class="lni lni-trash-3"></i>
+                    <p>Delete</p>
+                </div>
+            </button>
+        </div>
+    </div>
+</div>
+
+<div class="modal-container modal-container-hidden" id="modal-container-cancel">
+    <div class="modal modal-hidden" id="modal-details-cancel">
+        <h2 class="modal-header header">Cancel event?</h2>
+        <p class="modal-description">The event will be cancelled, you can <br>still view event in past events</p>
+        <div class="modal-controls">
+            <button class="bg-button button" id="cancel-modal-no-button">
+                <div class="button-wrapper">
+                    <i class="lni lni-check"></i>
+                    <p>Keep event</p>
+                </div>
+            </button>
+            <button class="destructive-button button" id="cancel-modal-yes-button">
+                <div class="button-wrapper">
+                    <i class="lni lni-xmark"></i>
+                    <p>Cancel</p>
+                </div>
+            </button>
+        </div>
+    </div>
+</div>
+
 <div class="top-page-bar">
     <button class="back-link">
         <a class="button-wrapper" href="/eventlist">
