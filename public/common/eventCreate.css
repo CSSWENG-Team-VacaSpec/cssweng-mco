@@ -36,3 +36,9 @@
 .form-controls {
     align-self: flex-end;
 }
+
+@media screen and (max-width: 800px) {
+    .form-row {
+        flex-direction: column;
+    }
+}
