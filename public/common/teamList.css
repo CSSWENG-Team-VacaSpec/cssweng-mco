@@ -8,8 +8,8 @@
 
 .members-box {
     box-sizing: border-box;
-    display: flex;
-    flex-direction: row;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
     gap: var(--medium-gap);
 }
 
