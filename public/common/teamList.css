@@ -1,0 +1,25 @@
+.team-list-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: var(--medium-gap);
+    margin-top: var(--medium-gap);
+}
+
+.members-box {
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: row;
+    gap: var(--medium-gap);
+}
+
+.members-box p {
+    color: var(--secondary-fg);
+}
+
+.team-members-container {
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    gap: var(--medium-gap);
+}
