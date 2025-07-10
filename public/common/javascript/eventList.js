@@ -64,8 +64,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
         container.innerHTML = '<div class="search-loading">Searching events...</div>';
 
-        fetch(`/api/events/search?q=${encodeURIComponent(query)}`)
-            .then(response => response.json())
+        fetch(`/searchEvents?q=${encodeURIComponent(query)}`)
+            .then(response => response.text())
             .then(data => {
                 if (data.length === 0) {
                     container.innerHTML = '<p class="no-results">No matching events found</p>';
@@ -84,6 +84,9 @@ document.addEventListener('DOMContentLoaded', function() {
             container.innerHTML = '<p class="no-events-message">No events found</p>';
             return;
         }
+
+        events = JSON.parse(events);
+        events = events.results;
 
         container.innerHTML = '';
         events.forEach(event => {
