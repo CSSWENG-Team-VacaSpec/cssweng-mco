@@ -1,4 +1,8 @@
-exports.renderPage = (req, res) => {
+const EmployeeAccount = require('../models/employeeAccounts');
+
+exports.renderPage = async (req, res) => {
+    const members = await EmployeeAccount.find({ status: 'active' }).lean();
+    
     try {
         res.render('eventCreate', {
             layout: 'main',
@@ -6,7 +10,8 @@ exports.renderPage = (req, res) => {
             script: 'eventCreate',
             title: 'Create Event',
             page: 'event-create',
-            user: req.session.user
+            user: req.session.user,
+            members
         });
     } catch (error) {
 

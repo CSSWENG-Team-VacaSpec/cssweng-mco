@@ -13,6 +13,12 @@ document.addEventListener('DOMContentLoaded', () => {
     const modalCloseButton = document.getElementById('cancel-modal-no-button');
     const modalConfirmButton = document.getElementById('cancel-modal-yes-button');
 
+    const membersContainer = document.getElementById('memberSearchResults');
+    let members = membersContainer ? membersContainer.getElementsByClassName('team-member-mini-card') : [];
+
+    const addedMembersContainer = document.getElementById('addedMembers');
+    let addedMembers = [];
+
     nextButton.addEventListener('click', () => {
         if (page < 2) {
             page++;
@@ -46,6 +52,30 @@ document.addEventListener('DOMContentLoaded', () => {
         modalContainer.classList.add('modal-container-hidden');
         modal.classList.add('modal-hidden');
         location.href = '/eventlist';
+    });
+
+    membersContainer.addEventListener('click', (event) => {
+        const member = event.target.closest('.team-member-mini-card');
+        console.log(member);
+
+        const addedMember = `<button class="team-member-mini-card selected-team-member"
+                                data-email="${member.dataset.email}"
+                                data-bio="${member.dataset.bio}"
+                                data-role="${member.dataset.role}"
+                                data-id="${member.dataset.id}"
+                                data-pfp="${member.dataset.pfp}"
+                                data-firstName="${member.dataset.firstname}"
+                                data-lastName="${member.dataset.lastname}"
+                                type="button"
+                            >
+                                <div class="team-member-mini-picture" style="background-image: url('${member.dataset.pfp}');"></div>
+                                <span id="full-name">${member.dataset.firstname} ${member.dataset.lastname}</span>
+                                <span id="role">${member.dataset.role}</span>
+                                <span id="contact-no">${member.dataset.id}</span>
+                                <i class="lni lni-xmark"></i>
+                            </button>`;
+
+        addedMembersContainer.insertAdjacentHTML('beforeend', addedMember);
     });
 
     function updateButtons() {
