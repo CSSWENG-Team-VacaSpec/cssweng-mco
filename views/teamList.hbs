@@ -4,9 +4,9 @@
     <h2 class="header">Team Members</h2>
 
     <div class="team-list-top">
-        <form role="search" class="search-bar">
+        <form role="search" class="search-bar" method="GET" action="/teamList">
             <button type="submit"><i class="lni lni-search-1"></i></button>
-            <input type="search" name="q" placeholder="Search...">
+            <input type="search" name="q" placeholder="Search..." value="{{searchQuery}}">
         </form>
     </div>
 
