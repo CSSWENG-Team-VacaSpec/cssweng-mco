@@ -56,26 +56,29 @@ document.addEventListener('DOMContentLoaded', () => {
 
     membersContainer.addEventListener('click', (event) => {
         const member = event.target.closest('.team-member-mini-card');
-        console.log(member);
+        let selected = member.classList.contains('selected-team-member');
+        member.classList.toggle('selected-team-member', !selected);
+        
+        // TODO: add user id to members list when added to pass to backend.
+        if (!selected) {
+            const clone = member.cloneNode(true);
 
-        const addedMember = `<button class="team-member-mini-card selected-team-member"
-                                data-email="${member.dataset.email}"
-                                data-bio="${member.dataset.bio}"
-                                data-role="${member.dataset.role}"
-                                data-id="${member.dataset.id}"
-                                data-pfp="${member.dataset.pfp}"
-                                data-firstName="${member.dataset.firstname}"
-                                data-lastName="${member.dataset.lastname}"
-                                type="button"
-                            >
-                                <div class="team-member-mini-picture" style="background-image: url('${member.dataset.pfp}');"></div>
-                                <span id="full-name">${member.dataset.firstname} ${member.dataset.lastname}</span>
-                                <span id="role">${member.dataset.role}</span>
-                                <span id="contact-no">${member.dataset.id}</span>
-                                <i class="lni lni-xmark"></i>
-                            </button>`;
+            // satore reference to clone on the original element
+            member._cloneRef = clone;
 
-        addedMembersContainer.insertAdjacentHTML('beforeend', addedMember);
+            clone.addEventListener('click', function() {
+                addedMembersContainer.removeChild(clone);
+                member.classList.remove('selected-team-member');
+            });
+
+            addedMembersContainer.appendChild(clone);
+        } else {
+            // remove clone if exists when deselecting
+            if (member._cloneRef && addedMembersContainer.contains(member._cloneRef)) {
+                addedMembersContainer.removeChild(member._cloneRef);
+                member._cloneRef = null;
+            }
+        }
     });
 
     function updateButtons() {

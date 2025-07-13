@@ -163,8 +163,28 @@ a {
     font-size: 0.8rem;
 }
 
+.team-member-mini-card #teamMiniRemoveButton {
+    display: none;
+}
+
+.team-member-mini-card #teamMiniAddButton {
+    display: block;
+}
+
 .selected-team-member {
     background-color: var(--accent-light);
+}
+
+.selected-team-member:hover {
+    background-color: var(--accent-light);
+}
+
+.selected-team-member #teamMiniRemoveButton {
+    display: block;
+}
+
+.selected-team-member #teamMiniAddButton {
+    display: none;
 }
 
 .header {
