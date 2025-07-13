@@ -59,9 +59,9 @@ document.addEventListener('DOMContentLoaded', () => {
         let selected = member.classList.contains('selected-team-member');
         member.classList.toggle('selected-team-member', !selected);
         
-        // TODO: add user id to members list when added to pass to backend.
         if (!selected) {
             const clone = member.cloneNode(true);
+            addedMembers.push(member.dataset.id);
 
             // satore reference to clone on the original element
             member._cloneRef = clone;
@@ -76,6 +76,7 @@ document.addEventListener('DOMContentLoaded', () => {
             // remove clone if exists when deselecting
             if (member._cloneRef && addedMembersContainer.contains(member._cloneRef)) {
                 addedMembersContainer.removeChild(member._cloneRef);
+                addedMembers.pop(member.dataset.id);
                 member._cloneRef = null;
             }
         }
