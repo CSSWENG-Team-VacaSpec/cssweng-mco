@@ -541,6 +541,7 @@ a {
 .circle-button:hover {
     background: var(--secondary-fg);
 }
+
 .focus-button {
     background-color: var(--primary-fg);
     color: var(--primary-bg);

@@ -5,6 +5,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const nextButton = document.getElementById('form-next-button');
     const backButton = document.getElementById('form-back-button');
     const cancelButton = document.getElementById('form-cancel-button');
+    const submitButton = document.getElementById('form-submit-button');
     const pageBackButton = document.getElementById('page-back-button');
     const formContainer = document.getElementsByClassName('form-page-container')[0];
     
@@ -83,8 +84,14 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     function updateButtons() {
+        submitButton.disabled = page < MAX_PAGE // TODO: frontend form validation.
+        submitButton.classList.toggle('disabled-button', submitButton.disabled);
+        submitButton.classList.toggle('form-hidden-button', submitButton.disabled);
+        submitButton.classList.toggle('submit-button', !submitButton.disabled);
+
         nextButton.disabled = page >= MAX_PAGE;
         nextButton.classList.toggle('disabled-button', nextButton.disabled);
+        nextButton.classList.toggle('form-hidden-button', nextButton.disabled);
         nextButton.classList.toggle('fg-button', !nextButton.disabled);
 
         backButton.disabled = page <= 0;

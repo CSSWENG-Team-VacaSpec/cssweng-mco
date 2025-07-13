@@ -38,6 +38,10 @@
     background: var(--card-bg);
 }
 
+.form-hidden-button {
+    display: none;
+}
+
 .grid-container {
     display: flex;
     flex-direction: column;
