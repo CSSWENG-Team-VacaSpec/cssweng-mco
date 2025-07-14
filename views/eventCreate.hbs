@@ -99,8 +99,26 @@
                     <div class="team-mini-grid" id="addedMembers"></div>
                 </div>
             </div>
-            <div class="form-page">
-                <h1 class="secondary-header">Review</h1>
+            <div class="form-page" id="suppliers-page">
+                <h1 class="secondary-header">Add suppliers</h1>
+                <div class="grid-container">
+                    <h1 class="secondary-header">Search</h1>
+                    <div role="search" class="search-bar" id="supplierSearchForm">
+                        <button type="submit"><i class="lni lni-search-1"></i></button>
+                        <input type="search" name="q" id="memberSearchInput" placeholder="Search suppliers...">
+                    </div>
+                    <div class="team-mini-grid" id="memberSearchResults">
+                        {{#each members}}
+                            {{>teamMemberMini this}}
+                        {{else}}
+                            <p>No members currently</p>
+                        {{/each}}
+                    </div>
+                </div>
+                <div class="grid-container">
+                    <h1 class="secondary-header">Added suppliers</h1>
+                    <div class="team-mini-grid" id="addedMembers"></div>
+                </div>
             </div>
         </div>
         <div class="form-controls">

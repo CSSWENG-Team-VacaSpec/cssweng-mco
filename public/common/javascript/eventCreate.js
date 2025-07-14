@@ -21,7 +21,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let addedMembers = [];
 
     nextButton.addEventListener('click', () => {
-        if (page < 2) {
+        if (page < MAX_PAGE) {
             page++;
             formContainer.style.transform = `translateX(-${page * 100}%)`;
         }
