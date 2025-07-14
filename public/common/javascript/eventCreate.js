@@ -20,6 +20,12 @@ document.addEventListener('DOMContentLoaded', () => {
     const addedMembersContainer = document.getElementById('addedMembers');
     let addedMembers = [];
 
+    const suppliersContainer = document.getElementById('supplierSearchResults');
+    let suppliers = suppliersContainer ? suppliersContainer.getElementsByClassName('team-member-mini-card') : [];
+
+    const addedSuppliersContainer = document.getElementById('addedSuppliers');
+    let addedSuppliers = [];
+
     nextButton.addEventListener('click', () => {
         if (page < MAX_PAGE) {
             page++;
@@ -79,6 +85,34 @@ document.addEventListener('DOMContentLoaded', () => {
                 addedMembersContainer.removeChild(member._cloneRef);
                 addedMembers.pop(member.dataset.id);
                 member._cloneRef = null;
+            }
+        }
+    });
+
+    suppliersContainer.addEventListener('click', (event) => {
+        const supplier = event.target.closest('.team-member-mini-card');
+        let selected = supplier.classList.contains('selected-team-member');
+        supplier.classList.toggle('selected-team-member', !selected);
+        
+        if (!selected) {
+            const clone = supplier.cloneNode(true);
+            addedSuppliers.push(supplier.dataset.id);
+
+            // satore reference to clone on the original element
+            supplier._cloneRef = clone;
+
+            clone.addEventListener('click', function() {
+                addedMembersContainer.removeChild(clone);
+                supplier.classList.remove('selected-team-member');
+            });
+
+            addedSuppliersContainer.appendChild(clone);
+        } else {
+            // remove clone if exists when deselecting
+            if (supplier._cloneRef && addedSuppliersContainer.contains(supplier._cloneRef)) {
+                addedSuppliersContainer.removeChild(supplier._cloneRef);
+                addedSuppliers.pop(supplier.dataset.id);
+                supplier._cloneRef = null;
             }
         }
     });

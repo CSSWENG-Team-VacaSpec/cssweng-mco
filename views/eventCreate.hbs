@@ -107,17 +107,17 @@
                         <button type="submit"><i class="lni lni-search-1"></i></button>
                         <input type="search" name="q" id="memberSearchInput" placeholder="Search suppliers...">
                     </div>
-                    <div class="team-mini-grid" id="memberSearchResults">
-                        {{#each members}}
+                    <div class="team-mini-grid" id="supplierSearchResults">
+                        {{#each suppliers}}
                             {{>teamMemberMini this}}
                         {{else}}
-                            <p>No members currently</p>
+                            <p>No suppliers currently</p>
                         {{/each}}
                     </div>
                 </div>
                 <div class="grid-container">
                     <h1 class="secondary-header">Added suppliers</h1>
-                    <div class="team-mini-grid" id="addedMembers"></div>
+                    <div class="team-mini-grid" id="addedSuppliers"></div>
                 </div>
             </div>
         </div>
