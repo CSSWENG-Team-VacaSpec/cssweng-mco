@@ -78,10 +78,25 @@
                     </div>
                 </div>
             </div>
-            <div class="form-page">
+            <div class="form-page" id="team-members-page">
                 <h1 class="secondary-header">Assign team members</h1>
-                <div class="team-grid">
-                    {{>teamMember}}
+                <div class="grid-container">
+                    <h1 class="secondary-header">Search</h1>
+                    <div role="search" class="search-bar" id="memberSearchForm">
+                        <button type="submit"><i class="lni lni-search-1"></i></button>
+                        <input type="search" name="q" id="memberSearchInput" placeholder="Search team members...">
+                    </div>
+                    <div class="team-mini-grid" id="memberSearchResults">
+                        {{#each members}}
+                            {{>teamMemberMini this}}
+                        {{else}}
+                            <p>No members currently</p>
+                        {{/each}}
+                    </div>
+                </div>
+                <div class="grid-container">
+                    <h1 class="secondary-header">Added team members</h1>
+                    <div class="team-mini-grid" id="addedMembers"></div>
                 </div>
             </div>
             <div class="form-page">
@@ -105,6 +120,12 @@
                 <div class="button-wrapper">
                     <i class="lni lni-arrow-right"></i>
                     <p>Next</p>
+                </div>
+            </button>
+            <button type="submit" class="fg-button button" id="form-submit-button" disabled>
+                <div class="button-wrapper">
+                    <i class="lni lni-check"></i>
+                    <p>Submit</p>
                 </div>
             </button>
         </div>

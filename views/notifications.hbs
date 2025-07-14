@@ -1,5 +1,8 @@
 <h1 class="header"> Notifications </h1>
-</button>
+<form role="search" class="search-bar" id="eventSearchForm">
+        <button type="submit"><i class="lni lni-search-1"></i></button>
+        <input type="search" name="q" id="eventSearchInput" placeholder="Search events...">
+</form>
 <div class="upcoming-events-container">
     {{#each notifications}}
         {{> notification this}}

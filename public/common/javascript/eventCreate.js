@@ -5,6 +5,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const nextButton = document.getElementById('form-next-button');
     const backButton = document.getElementById('form-back-button');
     const cancelButton = document.getElementById('form-cancel-button');
+    const submitButton = document.getElementById('form-submit-button');
     const pageBackButton = document.getElementById('page-back-button');
     const formContainer = document.getElementsByClassName('form-page-container')[0];
     
@@ -12,6 +13,12 @@ document.addEventListener('DOMContentLoaded', () => {
     const modal = document.getElementsByClassName('modal')[0];
     const modalCloseButton = document.getElementById('cancel-modal-no-button');
     const modalConfirmButton = document.getElementById('cancel-modal-yes-button');
+
+    const membersContainer = document.getElementById('memberSearchResults');
+    let members = membersContainer ? membersContainer.getElementsByClassName('team-member-mini-card') : [];
+
+    const addedMembersContainer = document.getElementById('addedMembers');
+    let addedMembers = [];
 
     nextButton.addEventListener('click', () => {
         if (page < 2) {
@@ -48,9 +55,43 @@ document.addEventListener('DOMContentLoaded', () => {
         location.href = '/eventlist';
     });
 
+    membersContainer.addEventListener('click', (event) => {
+        const member = event.target.closest('.team-member-mini-card');
+        let selected = member.classList.contains('selected-team-member');
+        member.classList.toggle('selected-team-member', !selected);
+        
+        if (!selected) {
+            const clone = member.cloneNode(true);
+            addedMembers.push(member.dataset.id);
+
+            // satore reference to clone on the original element
+            member._cloneRef = clone;
+
+            clone.addEventListener('click', function() {
+                addedMembersContainer.removeChild(clone);
+                member.classList.remove('selected-team-member');
+            });
+
+            addedMembersContainer.appendChild(clone);
+        } else {
+            // remove clone if exists when deselecting
+            if (member._cloneRef && addedMembersContainer.contains(member._cloneRef)) {
+                addedMembersContainer.removeChild(member._cloneRef);
+                addedMembers.pop(member.dataset.id);
+                member._cloneRef = null;
+            }
+        }
+    });
+
     function updateButtons() {
+        submitButton.disabled = page < MAX_PAGE // TODO: frontend form validation.
+        submitButton.classList.toggle('disabled-button', submitButton.disabled);
+        submitButton.classList.toggle('form-hidden-button', submitButton.disabled);
+        submitButton.classList.toggle('submit-button', !submitButton.disabled);
+
         nextButton.disabled = page >= MAX_PAGE;
         nextButton.classList.toggle('disabled-button', nextButton.disabled);
+        nextButton.classList.toggle('form-hidden-button', nextButton.disabled);
         nextButton.classList.toggle('fg-button', !nextButton.disabled);
 
         backButton.disabled = page <= 0;
