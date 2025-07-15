@@ -3,6 +3,7 @@ const Event = require('../models/events');
 const EventInvitation = require('../models/eventInvitations');
 const Notification = require('../models/notifications');
 const Team = require('../models/teams');
+const searchNotifications = require('../utils/searchNotification');
 const mongoose = require('mongoose');
 
 
@@ -34,18 +35,25 @@ exports.getManagerNotifications = async (req, res) => {
     const userContact = req.session.user._id;
     const user = await EmployeeAccount.findById(userContact).lean();
 
+    const searchQuery = req.query.q?.trim() || '';
+    
     const changePwRequests = await getForgotPasswordRequests(userContact);
     const generalNotifs = await getManagerGeneralNotifications(userContact);
     const inviteResponses = await getEventInviteResponses(userContact);
 
-    const notifications = [
+    const allNotifications = [
       ...changePwRequests.map(req => ({ type: 'change_pw_request', data: req })),
       ...generalNotifs.map(notif => ({ type: 'general_notif', data: notif })),
-      ...inviteResponses.map(resp => ({ type: 'event_invite_response', data: resp })) // 👈 add this
+      ...inviteResponses.map(resp => ({ type: 'event_invite_response', data: resp })) 
     ];
 
+    // Fuzzy search if a query is provided
+    const filteredNotifications = searchQuery
+      ? searchNotifications(allNotifications, searchQuery)
+      : allNotifications;
+
     // Sort by date descending if they all contain date
-    notifications.sort((a, b) => new Date(b.data.date) - new Date(a.data.date));
+    filteredNotifications.sort((a, b) => new Date(b.data.date) - new Date(a.data.date));
 
     return res.render('notifications', {
       layout: 'main',
@@ -53,7 +61,8 @@ exports.getManagerNotifications = async (req, res) => {
       stylesheet: 'notifications',
       title: 'Notifications',
       user,
-      notifications
+      notifications: filteredNotifications,
+      searchQuery
     });
   } catch (error) {
     console.error('Manager Notification Error:', error);
@@ -67,22 +76,29 @@ exports.getTeamMemberNotifications = async (req, res) => {
     const userContact = req.session.user._id;
     const user = await EmployeeAccount.findById(userContact).lean();
 
+    const searchQuery = req.query.q?.trim() || '';
+
     const { general, invites } = await getTeamMemberNotifications(userContact);
 
-    const notifications = [
+    const allNotifications = [
       ...general.map(notif => ({ type: 'general_notif', data: notif })),
       ...invites.map(inv => ({ type: 'event_invite', data: inv }))
     ];
 
-    notifications.sort((a, b) => new Date(b.data.date) - new Date(a.data.date));
+    const filteredNotifications = searchQuery
+      ? searchNotifications(allNotifications, searchQuery)
+      : allNotifications;
 
+    filteredNotifications.sort((a, b) => new Date(b.data.date) - new Date(a.data.date));
+    
     return res.render('notifications', {
       layout: 'main',
       page: 'notifications',
       stylesheet: 'notifications',
+      title: 'Notifications',
       user,
-      notifications
-
+      notifications: filteredNotifications,
+      searchQuery
     });
   } catch (error) {
     console.error('Team Member Notification Error:', error);

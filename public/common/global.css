@@ -1,5 +1,6 @@
 :root {
     --primary-bg: #f5f5f5;
+    --secondary-bg: #e0e0e0;
     --page-bg: #1f1f1f;
     --card-bg: #ffffff;
     --primary-fg: #3a3434;
@@ -27,6 +28,7 @@
     --button-radius: 96px;
     --container-radius: 48px;
     --card-radius: 24px;
+    --secondary-card-radius: 18px;
     --input-field-radius: 8px;
 
     --card-shadow: 0px 0px 4px #00000011;
@@ -37,7 +39,10 @@
     
     --container-padding: 1.5rem 2.5rem;
     --card-padding: 1.25rem 2rem;
+    --button-padding: 0.5rem 1rem;
     --sidebar-padding: 1.5rem;
+
+    --top-bar-height: 4rem;
 
     --main-font: 'Space Grotesk', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
     --icon-size: 1.2rem;
@@ -114,6 +119,72 @@ a {
     box-sizing: border-box;
     background-color: var(--card-bg);
     box-shadow: var(--card-shadow);
+}
+
+.team-member-card {
+    background-color: transparent;
+    border: 1px solid var(--border-dark);
+}
+
+.team-member-card[data-role="Manager"] {
+    background-color: var(--page-bg);
+    color: var(--sidebar-fg);
+}
+
+.team-member-mini-card {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: transparent;
+    border-radius: var(--button-radius);
+    background-color: var(--primary-bg);
+    padding: var(--button-padding);
+    display: flex;
+    flex-direction: row;
+    gap: var(--small-gap);
+    font-family: var(--main-font);
+    cursor: pointer;
+    transition: background-color 0.15s, color 0.15s;
+    text-wrap: nowrap;
+}
+
+.team-member-mini-card:hover {
+    background-color: var(--secondary-bg);
+}
+
+.team-member-mini-picture {
+    height: 100%;
+    aspect-ratio: 1;
+    background-color: var(--page-bg);
+    border-radius: var(--circle-radius);
+}
+
+.team-member-mini-card #full-name {
+    font-size: 0.8rem;
+}
+
+.team-member-mini-card #teamMiniRemoveButton {
+    display: none;
+}
+
+.team-member-mini-card #teamMiniAddButton {
+    display: block;
+}
+
+.selected-team-member {
+    background-color: var(--accent-light);
+}
+
+.selected-team-member:hover {
+    background-color: var(--accent-light);
+}
+
+.selected-team-member #teamMiniRemoveButton {
+    display: block;
+}
+
+.selected-team-member #teamMiniAddButton {
+    display: none;
 }
 
 .header {
@@ -455,6 +526,22 @@ a {
     color: var(--primary-fg);
 }
 
+.circle-button {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    border-radius: var(--circle-radius);
+    aspect-ratio: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: background-color 0.25s;
+}
+
+.circle-button:hover {
+    background: var(--secondary-fg);
+}
+
 .focus-button {
     background-color: var(--primary-fg);
     color: var(--primary-bg);
@@ -480,8 +567,11 @@ a {
 
 .top-page-bar {
     display: flex;
-    align-items: left;
+    align-items: center;
     gap: var(--medium-gap);
+    padding: 0;
+    margin: 0;
+    height: var(--top-bar-height);
 }
 
 .search-bar {
@@ -591,7 +681,6 @@ a {
 @media screen and (max-width: 800px) {
     * {
         --icon-size: 1.5rem;
-        --top-bar-height: 3rem;
     }
     
     body {
@@ -635,27 +724,6 @@ a {
     .mobile-top-bar-button i {
         font-size: var(--icon-size);
     }
-}
-
-.team-member {
-    box-sizing: border-box;
-    display: grid;
-    grid-template-columns: auto 1fr;
-    grid-gap: var(--medium-gap);
-    align-items: center;
-    width: 35%;
-    background-color: #FFFFFF;
-    padding: 30px;
-    border-radius: 24px;
-    box-shadow: 0px 0px 4px 0px rgba(0, 0, 0, 0.1);
-    transition: all 0.5s ease;
-    overflow: hidden;
-    cursor: pointer;
-    position: relative;
-}
-
-.team-member[data-role="Manager"]{
-    background-color: var(--page-bg);
 }
 
 .team-member-picture {

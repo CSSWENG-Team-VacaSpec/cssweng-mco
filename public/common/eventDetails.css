@@ -1,3 +1,12 @@
+.members-box {
+    background-color: var(--primary-bg);
+    color: var(--secondary-fg);
+    padding: var(--container-padding);
+    border-radius: var(--container-radius);
+    display: grid;
+    grid-auto-flow: row;
+}
+
 .event-controls {
     display: flex;
     gap: var(--small-gap);
