@@ -58,6 +58,7 @@ const teamRoute = require('./routes/r_team');
 const eventCreateRoute = require('./routes/r_event_create.js');
 const delete_cancelEvent = require('./routes/r_delete_cancelEvent.js');
 const eventAttendanceRoute = require('./routes/r_event_attendance.js');
+const pastEventsRoute = require('./routes/r_past_events.js');
 
 
 // routes
@@ -72,6 +73,7 @@ app.use('/', loginRoute);
 app.use('/', searchBarRoute);
 app.use('/', delete_cancelEvent);
 app.use('/', eventAttendanceRoute);
+app.use('/', pastEventsRoute);
 
 // start server
 const PORT = process.env.PORT || 3000;
