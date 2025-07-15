@@ -6,35 +6,36 @@ exports.getEventAttendancePage = async (req, res) => {
     try {
         const userId = req.session.user._id || req.session.user;
         const eventId = req.query.id;
-        
+
         const event = await Event.findById(eventId).lean();
-        if (!event) {
-            return res.status(404).send("Event not found");
-        }
+        if (!event) return res.status(404).send("Event not found");
 
         const team = await Team.findById(eventId).lean();
-        if (!team) {
-            return res.status(404).send("team not found");
-        }
+        if (!team) return res.status(404).send("Team not found");
 
-        let isManager = false;
-        let isProgramLead = false;
+        const supplierUsers = await User.find({ _id: { $in: team.supplierList } }).lean();
 
-        if (String (team.manager) === String (userId) ) {
-            isManager = true;
-        }
+        const supplierMap = Object.fromEntries(supplierUsers.map(u => [u._id, u]));
 
-        if (String (team.programLead) === String (userId) ) {
-            isProgramLead = true;
-        }
+        let isManager = String(team.manager) === String(userId);
+        let isProgramLead = String(team.programLead) === String(userId);
 
-        const userIds = [
-            team.manager,
-            team.programLead,
-            ...team.teamMemberList
-        ];
+        const allTeamIds = [team.programLead, ...team.teamMemberList];
+        const users = await User.find({ _id: { $in: allTeamIds } }).lean();
 
-        const users = await User.find({ _id: { $in: userIds } }).lean();
+        const userMap = Object.fromEntries(users.map(u => [u._id, u]));
+
+        const teamMembers = allTeamIds.map((id, idx) => ({
+            ...userMap[id],
+            attendance: team.teamMemberAttendance?.[idx],
+            index: idx // used for JS syncing later
+        }));
+
+        const suppliers = team.supplierList.map((id, idx) => ({
+            ...supplierMap[id],
+            attendance: team.supplierAttendance?.[idx],
+            index: idx // for frontend binding
+        }));
 
         res.render('eventAttendance', {
             user: req.session.user,
@@ -45,11 +46,29 @@ exports.getEventAttendancePage = async (req, res) => {
             page: 'event-attendance',
             event,
             team,
-            teamMembers: users
+            isManager,
+            isProgramLead,
+            teamMembers,
+            suppliers
         });
 
     } catch (error) {
         console.error("Error opening event:", error);
         res.status(500).send("Internal server error");
+    }
+};
+
+exports.finalizeAttendance = async (req, res) => {
+    try {
+        const { eventID, teamAttendance } = req.body;
+        const team = await Team.findById(eventID);
+        if (!team) return res.status(404).json({ ok: false, msg: 'Team not found' });
+
+        team.teamMemberAttendance = teamAttendance;
+        await team.save();
+        res.json({ ok: true });
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ ok: false });
     }
 };

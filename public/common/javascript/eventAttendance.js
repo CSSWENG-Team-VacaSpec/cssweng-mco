@@ -1,68 +1,78 @@
-document.addEventListener('DOMContentLoaded', function() {
-    const eventData = JSON.parse(sessionStorage.getItem('currentEvent'));
+document.addEventListener('DOMContentLoaded', () => {
+    const eventId = window.eventId || new URLSearchParams(window.location.search).get('id');
+    const attendanceStatus = [];
 
-    const eventName = eventData?.eventName || document.getElementById('event-name').dataset.serverValue;
-    const eventId = eventData?._id;
-    
-    if (eventName) {
-        document.getElementById('event-name').textContent = eventName;
+    console.log('Event ID from URL:', eventId);
 
-    } else {
-        window.location.href = '/eventList';
+    // Highlight buttons on click
+    const attendanceBoxes = document.querySelectorAll('.attendance-box');
+    attendanceBoxes.forEach((box, idx) => {
+        const presentBtn = box.querySelector('.present-button');
+        const absentBtn = box.querySelector('.absent-button');
+
+        presentBtn.addEventListener('click', () => {
+            presentBtn.classList.add('selected');
+            absentBtn.classList.remove('selected');
+            attendanceStatus[idx] = 'present';
+        });
+
+        absentBtn.addEventListener('click', () => {
+            absentBtn.classList.add('selected');
+            presentBtn.classList.remove('selected');
+            attendanceStatus[idx] = 'absent';
+        });
+    });
+
+    // Cancel button
+    const cancelButton = document.getElementById('form-cancel-button');
+    if (cancelButton) {
+        cancelButton.addEventListener('click', (e) => {
+            e.preventDefault();
+            window.location.href = `/event-details?id=${eventId}`;
+        });
     }
 
-    const attendanceBoxes = document.querySelectorAll('.attendance-box');
-    attendanceBoxes.forEach(box => {
-        const presentBtn = box.querySelector('#present-button');
-        const absentBtn = box.querySelector('#absent-button');
+    // Done button
+    const doneButton = document.getElementById('submit-attendance');
+    if (doneButton) {
+        doneButton.addEventListener('click', async (e) => {
+            e.preventDefault();
 
-        presentBtn.addEventListener('click', function() {
-            presentBtn.classList.remove('selected');
-            absentBtn.classList.remove('selected');
-            presentBtn.classList.add('selected');
+            const finalizedAttendance = attendanceBoxes.length === 0
+                ? []
+                : Array.from({ length: attendanceBoxes.length }).map((_, i) => attendanceStatus[i] || 'absent');
 
-            //add backend
+            try {
+                const response = await fetch('/eventAttendance/finalize', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        eventID: eventId,
+                        teamAttendance: finalizedAttendance
+                    })
+                });
+
+                const result = await response.json();
+                if (result.ok) {
+                    alert('Attendance saved!');
+                    window.location.href = `/event-details?id=${eventId}`;
+                } else {
+                    alert('Failed to save attendance');
+                }
+            } catch (err) {
+                console.error('Error submitting attendance:', err);
+                alert('Error submitting attendance');
+            }
         });
+    }
 
-        absentBtn.addEventListener('click', function() {
-            presentBtn.classList.remove('selected');
-            absentBtn.classList.remove('selected');
-            absentBtn.classList.add('selected');
-            
-            // add backend
-        });
-    });
-
-    const modalContainer = document.getElementsByClassName('modal-container')[0];
-    const modal = document.getElementsByClassName('modal')[0];
-    const modalCloseButton = document.getElementById('cancel-modal-no-button');
-    const modalConfirmButton = document.getElementById('cancel-modal-yes-button');
+    // Back button (optional)
     const pageBackButton = document.getElementById('page-back-button');
-    const cancelButton = document.getElementById('form-cancel-button');
-
-    cancelButton.addEventListener('click', () => {
-        cancelEventCreation();
-    });
-
-    pageBackButton.addEventListener('click', () => {
-        cancelEventCreation();
-    });
-
-    modalCloseButton.addEventListener('click', () => {
-        modalContainer.classList.add('modal-container-hidden');
-        modal.classList.add('modal-hidden');
-    });
-
-    modalConfirmButton.addEventListener('click', () => {
-        modalContainer.classList.add('modal-container-hidden');
-        modal.classList.add('modal-hidden');
-        //to go back to the event details of event id, i will fix
-        //location.href = `/eventdetails?id=${eventData._id}`;
-        this.location.href = '/eventlist';
-    });
-
-    function cancelEventCreation() {
-        modalContainer.classList.remove('modal-container-hidden');
-        modal.classList.remove('modal-hidden');
+    if (pageBackButton) {
+        pageBackButton.addEventListener('click', () => {
+            window.location.href = `/event-details?id=${eventId}`;
+        });
     }
 });
