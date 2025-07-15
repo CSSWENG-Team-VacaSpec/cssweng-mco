@@ -24,7 +24,7 @@ exports.viewInvite = async (req, res) => {
   const { poNumber, employeeCN } = req.params;
 
   try {
-    const invite = await EventInvitation.findOne({ _id: poNumber, employeeCN });
+    const invite = await EventInvitation.findOne({ event: poNumber, employeeCN });
     if (!invite) return res.status(404).json({ error: 'Invite not found' });
 
     res.json(invite);
@@ -39,7 +39,7 @@ exports.getAcceptedMembers = async (req, res) => {
   const { poNumber } = req.params;
 
   try {
-    const accepted = await EventInvitation.find({ _id: poNumber, response: 'available' });
+    const accepted = await EventInvitation.find({ event: poNumber, response: 'available' });
     res.json(accepted);
   } catch (err) {
     console.error('Error fetching accepted members:', err); // debugging console log
@@ -54,7 +54,7 @@ exports.getAcceptedMemberNames = async (req, res) => {
   try {
     // get the available employeeCNs
     const acceptedInvites = await EventInvitation.find(
-      { _id: poNumber, response: 'available' }
+      { event: poNumber, response: 'available' }
     ).select('employeeCN');
 
     const contactNumbers = acceptedInvites.map(invite => invite.employeeCN);
@@ -84,15 +84,12 @@ exports.respondToInvite = async (req, res) => {
   }
 
   try {
-    const updated = await EventInvitation.findOneAndUpdate(
-      { _id: poNumber, employeeCN },
-      { response },
-      { new: true }
-    );
+    const invite = await EventInvitation.findOne({ event: poNumber, employeeCN });
+    if (!invite) return res.status(404).json({ error: 'Invite not found' });
 
-    if (!updated) return res.status(404).json({ error: 'Invite not found' });
+    invite.response = response;
+    await invite.save();
 
-    // Notify manager
     const team = await Team.findById(poNumber);
     if (team) {
       const notif = new Notification({
@@ -105,9 +102,27 @@ exports.respondToInvite = async (req, res) => {
       });
 
       await notif.save();
-    }
+      const team = await Team.findById(poNumber);
+      if (!team) {
+      console.warn('No team found with ID:', poNumber);
+      return res.status(404).json({ error: 'Team not found' });
+      }
 
-    res.json({ message: 'Response recorded', updated });
+console.log('Team before update:', team);
+      if (response === 'available') {
+        await Team.findByIdAndUpdate(poNumber, {
+          $push: {
+            teamMemberList: employeeCN,
+            roleList: invite.role || 'member',
+            teamMemberAttendance: 'pending'
+          }
+        });
+      }
+    }
+    const updatedTeam = await Team.findById(poNumber);
+    console.log('Updated team:', updatedTeam);
+
+    res.json({ message: 'Response recorded', invite });
   } catch (err) {
     console.error('Error responding to invite:', err);
     res.status(500).json({ error: 'An unexpected error occurred while responding to the invite. Please try again later.' });

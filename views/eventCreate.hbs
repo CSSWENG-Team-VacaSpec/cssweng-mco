@@ -30,7 +30,7 @@
 </div>
 
 <div class="create-events-wizard card">
-    <form class="create-event-form">
+    <form class="create-event-form" action="/create/createEvent" method="post">
         <div class="form-page-container">
             <div class="form-page">
                 <h1 class="secondary-header">Event details</h1>
@@ -109,7 +109,7 @@
                     </div>
                     <div class="team-mini-grid" id="supplierSearchResults">
                         {{#each suppliers}}
-                            {{>teamMemberMini this}}
+                            {{>supplierMini this}}
                         {{else}}
                             <p>No suppliers currently</p>
                         {{/each}}
@@ -147,5 +147,8 @@
                 </div>
             </button>
         </div>
+        <input type="hidden" id="added-members-input" name="addedMembers">
+        <input type="hidden" id="added-suppliers-input" name="addedSuppliers">
+
     </form>
 </div>
