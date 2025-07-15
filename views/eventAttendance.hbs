@@ -1,0 +1,69 @@
+<div class="modal-container modal-container-hidden">
+    <div class="modal modal-hidden">
+        <h2 class="modal-header header">Discard changes?</h2>
+        <p class="modal-description">Changes will not be saved.</p>
+        <div class="modal-controls">
+            <button class="bg-button button" id="cancel-modal-no-button">
+                <div class="button-wrapper">
+                    <i class="lni lni-pencil-1"></i>
+                    <p>Keep editing</p>
+                </div>
+            </button>
+            <button class="destructive-button button" id="cancel-modal-yes-button">
+                <div class="button-wrapper">
+                    <i class="lni lni-trash-3"></i>
+                    <p>Discard</p>
+                </div>
+            </button>
+        </div>
+    </div>
+</div>
+
+<div class="top-page-bar">
+    <button class="back-link" id="page-back-button">
+        <a class="button-wrapper" href="#">
+            <i class="lni lni-arrow-left"></i>
+            <p>Back</p>
+        </a>
+    </button>
+    <h2 class="header">Attendance Check: </h2>
+    <h2 class="header" id="event-name"></h2>
+</div>
+
+<div class="event-attendance card">
+    <div class="attendance-team">
+        <h2 class="header2">Team Members</h2>
+        <div class="members-box">
+            {{#if teamMembers.length}}
+                {{#each teamMembers}}
+                    {{> attendanceBox this}}
+                {{/each}}
+            {{else}}
+                <p>Currently no members in this event.</p>
+            {{/if}}
+        </div>
+    </div>
+
+    <div class="attendance-supplier">
+        <h2 class="header2">Suppliers</h2>
+        <div class="members-box">
+            <p>Currently no suppliers in this event.</p>
+        </div>
+    </div>
+</div>
+
+<div class="attendance-page-buttons">
+        <button class="bg-button button" id="form-cancel-button">
+                <a class="bg-button-wrapper button-wrapper" href="#">
+                    <i class="lni lni-xmark"></i>
+                    <p>Cancel</p>
+                </a>
+            </button>
+
+        <button class="fg-button button" id="">
+            <a class="fg-button-wrapper button-wrapper" href="#">
+                <i class="lni lni-check"></i>
+                <p>Done</p>
+            </a>
+        </button>
+</div>

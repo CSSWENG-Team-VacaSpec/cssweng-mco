@@ -44,3 +44,7 @@
     margin-left: auto; 
     margin-right: 0;
 }
+
+#attendance-check-button {
+    width: 30%;
+}
