@@ -38,9 +38,10 @@ document.addEventListener('DOMContentLoaded', () => {
         doneButton.addEventListener('click', async (e) => {
             e.preventDefault();
 
-            const finalizedAttendance = attendanceBoxes.length === 0
-                ? []
-                : Array.from({ length: attendanceBoxes.length }).map((_, i) => attendanceStatus[i] || 'absent');
+            const finalizedAttendance = Array.from(attendanceBoxes).map((box, i) => {
+                return attendanceStatus[i] ?? box.dataset.attendance ?? 'absent';
+            });
+
 
             try {
                 const response = await fetch('/eventAttendance/finalize', {
