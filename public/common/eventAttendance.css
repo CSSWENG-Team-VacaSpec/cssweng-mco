@@ -1,0 +1,20 @@
+#event-name {
+    font-family: var(--main-font);
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    font-size: 1.2rem;
+}
+
+.event-attendance {
+    display: flex;
+    flex-direction: column;
+    gap: var(--medium-gap);
+    padding: 30px;
+}
+
+.attendance-page-buttons {
+    display: flex;
+    gap: var(--small-gap);
+    justify-content: flex-end;
+    margin-top: 30px;
+}

@@ -1,10 +1,3 @@
-.members-box {
-    background-color: var(--primary-bg);
-    color: var(--secondary-fg);
-    padding: var(--container-padding);
-    border-radius: var(--container-radius);
-}
-
 .event-controls {
     display: flex;
     gap: var(--small-gap);
@@ -41,4 +34,8 @@
 #details-choices {
     margin-left: auto; 
     margin-right: 0;
+}
+
+#attendance-check-button {
+    width: 30%;
 }

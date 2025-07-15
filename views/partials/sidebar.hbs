@@ -37,15 +37,27 @@
                         </li>
                     </a>
                 {{else}}
-                    <a class="nav-link-wrapper" href="/eventlist">
-                        <li class="nav-link">
-                            <div class="link-name">
-                                <i class="lni lni-calendar-days"></i>
-                                <p>Upcoming events</p>
-                            </div>
-                            <i class="lni lni-arrow-right"></i>
-                        </li>
-                    </a>
+                    {{#if (eq page "event-attendance")}}
+                        <a class="nav-link-wrapper" href="/eventlist">
+                            <li class="nav-link" id="active-link">
+                                <div class="link-name">
+                                    <i class="lni lni-calendar-days"></i>
+                                    <p>Upcoming events</p>
+                                </div>
+                                <i class="lni lni-arrow-right"></i>
+                            </li>
+                        </a>
+                    {{else}}
+                        <a class="nav-link-wrapper" href="/eventlist">
+                            <li class="nav-link">
+                                <div class="link-name">
+                                    <i class="lni lni-calendar-days"></i>
+                                    <p>Upcoming events</p>
+                                </div>
+                                <i class="lni lni-arrow-right"></i>
+                            </li>
+                        </a>
+                    {{/if}}
                 {{/if}}
             {{/if}}
             <a class="nav-link-wrapper" href="/past-events">
