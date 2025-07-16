@@ -12,7 +12,9 @@
         {{#if (eq status "completed")}}
             {{> eventBox this}}
         {{else}}
-            <p class="no-events-message">No previous events found</p>
+            {{#if (eq status "cancelled")}}
+                {{> eventBox this}}
+            {{/if}}
         {{/if}}
     {{else}}
         <p class="no-events-message">No previous events found</p>
