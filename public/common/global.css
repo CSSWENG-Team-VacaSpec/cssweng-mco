@@ -134,6 +134,10 @@ a {
     font-weight: 500;
 }
 
+.card-secondary {
+    color: var(--secondary-fg);
+}
+
 .card-description-item {
     display: flex;
     align-items: center;
@@ -403,10 +407,6 @@ a {
     font-weight: 400;
 }
 
-#location {
-    color: var(--secondary-fg);
-}
-
 #details-box {
     display: flex;
     flex-direction: column;
@@ -615,6 +615,21 @@ a {
     display: flex;
     align-items: center;
     cursor: pointer;
+}
+
+.no-results-container {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    gap: var(--small-gap);
+    color: var(--secondary-fg);
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+}
+
+.no-results-container {
+    font-size: var(--icon-size);
 }
 
 .modal-container {

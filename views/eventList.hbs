@@ -22,6 +22,10 @@
     {{#each events}}
         {{> eventBox this}}
     {{else}}
-        <p class="no-events-message">No events found</p>
+        <div class="no-results-container">
+            <i class="lni lni-emoji-sad"></i>
+            <p class="no-results-message">No events found</p>
+        </div>
     {{/each}}
+    
 </div>

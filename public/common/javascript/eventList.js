@@ -40,6 +40,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
     let originalEvents = getInitialEvents();
     const container = document.querySelector('.card-list');
+    const noResultsContainer = document.querySelector('#no-results-container').content.cloneNode(true);
+    const inProgressContainer = document.querySelector('#search-progress-container').content.cloneNode(true);
     
     document.getElementById('eventSearchForm').addEventListener('submit', (e) => {
         e.preventDefault();
@@ -61,7 +63,8 @@ document.addEventListener('DOMContentLoaded', function() {
             return;
         }
 
-        container.innerHTML = '<div class="search-loading">Searching events...</div>';
+        container.innerHTML = '';
+        container.appendChild(inProgressContainer);
 
         fetch(`/searchEvents?q=${encodeURIComponent(query)}`)
             .then(response => response.text())
@@ -70,7 +73,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 events = events.results;
 
                 if (events.length === 0) {
-                    container.innerHTML = '<p class="no-events-message"><i class="lni lni-emoji-sad"></i>No events found</p>';
+                    container.innerHTML = '';
+                    container.appendChild(noResultsContainer);
                 } else {
                     renderEvents(events);
                 }
@@ -83,7 +87,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
     function renderEvents(events) {
         if (events.length === 0) {
-            container.innerHTML = '<p class="no-events-message"><i class="lni lni-emoji-sad"></i>No events found</p>';
+            container.innerHTML = '';
+            container.appendChild(noResultsContainer);
             return;
         }
 
@@ -107,11 +112,11 @@ document.addEventListener('DOMContentLoaded', function() {
                         <span id="status" data-status="${event.status}">${event.status}</span>
                     </div>
                     <div class="card-group">
-                        <div class="card-description-item">
+                        <div class="card-description-item card-secondary">
                             <i class="lni lni-calendar-days"></i>
                             <span id="date"> ${event.eventDate}</span>
                         </div>
-                        <div class="card-description-item">
+                        <div class="card-description-item card-secondary">
                             <i class="lni lni-map-pin-5"></i>
                             <span id="location">${event.location}</span>
                         </div>
