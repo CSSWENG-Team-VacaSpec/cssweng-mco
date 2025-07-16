@@ -1,7 +1,10 @@
 document.addEventListener('DOMContentLoaded', function() {
     let originalNotifs = getInitialEvents();
     const container = document.querySelector('.card-list');
-    
+
+    const noResultsContainer = document.querySelector('#no-results-container').content.cloneNode(true);
+    const inProgressContainer = document.querySelector('#search-progress-container').content.cloneNode(true);
+
     function debounce(fn, delay) {
         let timeout;
         return function(...args) {
@@ -16,7 +19,8 @@ document.addEventListener('DOMContentLoaded', function() {
             return;
         }
 
-        container.innerHTML = '<div class="search-loading">Searching notifications...</div>';
+        container.innerHTML = '';
+        container.appendChild(inProgressContainer);
 
         fetch(`/searchNotifications?q=${encodeURIComponent(query)}`)
             .then(response => response.text())
@@ -25,7 +29,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 notifs = notifs.results;
 
                 if (data.length === 0) {
-                    container.innerHTML = `<p class="no-results"><i class="lni lni-emoji-sad"></i>No notifications found</p>`;
+                    container.innerHTML = '';
+                    container.appendChild(noResultsContainer);
                 } else {
                     renderNotifications(notifs);
                 }
@@ -38,7 +43,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
     function renderNotifications(notifs) {
         if (notifs.length === 0) {
-            container.innerHTML = '<p class="no-results"><i class="lni lni-emoji-sad"></i>No notifications found</p>';
+            container.innerHTML = '';
+            container.appendChild(noResultsContainer);
             return;
         }
 
