@@ -93,7 +93,7 @@ exports.createEvent = async (req, res) => {
         }
         console.log('Invites created:', invitesToCreate);
 
-        res.redirect('/events'); // redirect as needed
+        res.redirect('/eventlist'); // redirect as needed
 
     } catch (error) {
         console.error('Error creating event:', error);
