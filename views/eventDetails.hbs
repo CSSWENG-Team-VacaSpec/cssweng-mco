@@ -62,7 +62,7 @@
                     <button type="submit" class="bg-button button" id="details-delete-button">
                     <span class="bg-button-wrapper button-wrapper">
                     <i class="lni lni-xmark"></i>
-                         <p>Delete</p>
+                        <p>Delete</p>
                     </span>
                     </button>
             </form>
@@ -116,52 +116,48 @@
             {{/if}}
         </div>
 
-            {{!-- displays the team members lang  --}}
-           <div class="members-box">
-             {{#if teamMembers.length}}
-                 <ul>
-                 {{#each teamMembers}}
-                 <li>{{firstName}} {{lastName}}</li>
-             {{/each}}
+        {{!-- displays the team members lang 
+        <div class="members-box">
+            {{#if teamMembers.length}}
+                <ul>
+                {{#each teamMembers}}
+                <li>{{firstName}} {{lastName}}</li>
+            {{/each}}
                 </ul>
                 {{else}}
-                 <p>Currently no members in this event.</p>
+                <p>Currently no members in this event.</p>
             {{/if}}
-            </div>
+            </div> --}}
         
 
     <div class="team-members">
-         <h3 class="header">Team Members</h3>
-         <form role="search" class="search-bar" onsubmit="return false;">
-         <button type="submit"><i class="lni lni-search-1"></i></button>
-             <input type="search" name="q" id="searchInput" placeholder="Search..." autocomplete="off">
-         </form>
+        <h3 class="header">Team Members</h3>
+        <form role="search" class="search-bar" onsubmit="return false;">
+        <button type="submit"><i class="lni lni-search-1"></i></button>
+            <input type="search" name="q" id="searchInput" placeholder="Search..." autocomplete="off">
+        </form>
 
-         <div class="members-box">
-             <ul id="memberList"></ul>
-        <p id="emptyMessage" style="display: none;">No matching team members found.</p>
+        <div class="members-box">
+            {{!-- <ul id="memberList"></ul>
+        <p id="emptyMessage" style="display: none;">No matching team members found.</p> --}}
+        {{#if teamMembers.length}}
+            {{#each teamMembers}}
+                {{> teamMemberMini2 this}}
+            {{/each}}
+        {{else}}
+            <p>Currently no members in this event.</p>
+        {{/if}}
         </div>
-        
-
-    <div class="team-members">
-         <form role="search" class="search-bar" onsubmit="return false;">
-         <button type="submit"><i class="lni lni-search-1"></i></button>
-             <input type="search" name="q" id="searchInput" placeholder="Search..." autocomplete="off">
-         </form>
-
-         <div class="members-box">
-             <ul id="memberList"></ul>
-        <p id="emptyMessage" style="display: none;">No matching team members found.</p>
-        </div>
-    </div>
 
     {{#if showButtons}}
-        <button class="fg-button button" id="attendance-check-button">
-            <a class="fg-button-wrapper button-wrapper" href="/eventAttendance?id={{event._id}}">
-                <i class="lni lni-user-multiple-4"></i>
-                <p>Check attendance</p>
-            </a>
-        </button>
+        <div class="attendance-button-wrap">
+            <button class="fg-button button" id="attendance-check-button">
+                <a class="fg-button-wrapper button-wrapper" href="/eventAttendance?id={{event._id}}">
+                    <i class="lni lni-user-multiple-4"></i>
+                    <p>Check attendance</p>
+                </a>
+            </button>
+        </div>
     {{/if}}
 
     <script>

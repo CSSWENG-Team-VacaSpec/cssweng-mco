@@ -148,6 +148,21 @@ a {
     text-wrap: nowrap;
 }
 
+.team-member-mini-card2 {
+    display: flex;
+    width: fit-content;
+    align-items: center;
+    justify-content: center;
+    border: transparent;
+    border-radius: var(--button-radius);
+    background-color: var(--accent-light);
+    padding: var(--button-padding);
+    gap: var(--small-gap);
+    font-family: var(--main-font);
+    cursor: pointer;
+    transition: background-color 0.15s, color 0.15s;
+}
+
 .team-member-mini-card:hover {
     background-color: var(--secondary-bg);
 }
@@ -161,6 +176,16 @@ a {
 
 .team-member-mini-card #full-name {
     font-size: 0.8rem;
+}
+
+.team-member-mini-card2 #full-name {
+    font-size: 0.8rem;
+    color: var(--primary-fg);
+}
+
+.team-member-mini-card2 #role {
+    font-size: 0.8rem;
+    color: var(--primary-fg);
 }
 
 .team-member-mini-card #teamMiniRemoveButton {
@@ -794,6 +819,11 @@ a {
     color: var(--secondary-fg);
     padding: var(--container-padding);
     border-radius: var(--container-radius);
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    gap: var(--small-gap);
+    overflow-y: scroll;
 }
 
 .attendance-box {
