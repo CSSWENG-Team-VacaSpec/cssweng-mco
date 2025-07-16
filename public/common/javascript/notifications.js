@@ -12,7 +12,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     const searchNotifications = debounce(function(query) {
         if (!query) {
-            renderEvents(originalNotifs);
+            renderNotifications(originalNotifs);
             return;
         }
 
@@ -21,10 +21,13 @@ document.addEventListener('DOMContentLoaded', function() {
         fetch(`/searchNotifications?q=${encodeURIComponent(query)}`)
             .then(response => response.text())
             .then(data => {
+                let notifs = JSON.parse(data);
+                notifs = notifs.results;
+
                 if (data.length === 0) {
-                    container.innerHTML = '<p class="no-results">No matching notifications found</p>';
+                    container.innerHTML = `<p class="no-results"><i class="lni lni-emoji-sad"></i>No notifications found</p>`;
                 } else {
-                    renderNotifications(data);
+                    renderNotifications(notifs);
                 }
             })
             .catch(error => {
@@ -35,14 +38,10 @@ document.addEventListener('DOMContentLoaded', function() {
 
     function renderNotifications(notifs) {
         if (notifs.length === 0) {
-            container.innerHTML = '<p class="no-events-message">No notifications found</p>';
+            container.innerHTML = '<p class="no-results"><i class="lni lni-emoji-sad"></i>No notifications found</p>';
             return;
         }
 
-        notifs = JSON.parse(notifs);
-        notifs = notifs.results;
-
-        container.innerHTML = '';
         notifs.forEach(event => {
             const eventElement = document.createElement('div');
             container.appendChild(eventElement);
@@ -69,4 +68,8 @@ document.addEventListener('DOMContentLoaded', function() {
             `;
         });
     }
+
+    document.getElementById('eventSearchInput').addEventListener('input', (e) => {
+        searchNotifications(e.target.value.trim());
+    });
 });

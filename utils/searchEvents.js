@@ -1,7 +1,6 @@
 const Fuse = require('fuse.js');
 
 function searchEvents(events, query) {
-    
   const enrichedEvents = events.map(event => ({
     ...event,
     contactFullName: `${event.CPFirstName ?? ''} ${event.CPLastName ?? ''}`.trim(),

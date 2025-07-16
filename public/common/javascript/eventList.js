@@ -40,7 +40,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
     let originalEvents = getInitialEvents();
     const container = document.querySelector('.card-list');
-    const noEventsMsg = document.querySelector('.no-events-message');
     
     document.getElementById('eventSearchForm').addEventListener('submit', (e) => {
         e.preventDefault();
@@ -67,10 +66,13 @@ document.addEventListener('DOMContentLoaded', function() {
         fetch(`/searchEvents?q=${encodeURIComponent(query)}`)
             .then(response => response.text())
             .then(data => {
-                if (data.length === 0) {
-                    container.innerHTML = '<p class="no-results">No matching events found</p>';
+                let events = JSON.parse(data);
+                events = events.results;
+
+                if (events.length === 0) {
+                    container.innerHTML = '<p class="no-events-message"><i class="lni lni-emoji-sad"></i>No events found</p>';
                 } else {
-                    renderEvents(data);
+                    renderEvents(events);
                 }
             })
             .catch(error => {
@@ -81,12 +83,9 @@ document.addEventListener('DOMContentLoaded', function() {
 
     function renderEvents(events) {
         if (events.length === 0) {
-            container.innerHTML = '<p class="no-events-message">No events found</p>';
+            container.innerHTML = '<p class="no-events-message"><i class="lni lni-emoji-sad"></i>No events found</p>';
             return;
         }
-
-        events = JSON.parse(events);
-        events = events.results;
 
         container.innerHTML = '';
         events.forEach(event => {
