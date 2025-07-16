@@ -60,7 +60,19 @@
                     {{/if}}
                 {{/if}}
             {{/if}}
-            <a class="nav-link-wrapper" href="/past-events">
+
+            {{#if (eq page "past-events")}}
+            <a class="nav-link-wrapper" href="/pastEvents">
+                <li class="nav-link" id="active-link">
+                    <div class="link-name">
+                        <i class="lni lni-alarm-1"></i>
+                        <p>Past events</p>
+                    </div>
+                    <i class="lni lni-arrow-right"></i>
+                </li>
+            </a>
+            {{else}}
+            <a class="nav-link-wrapper" href="/pastEvents">
                 <li class="nav-link">
                     <div class="link-name">
                         <i class="lni lni-alarm-1"></i>
@@ -69,6 +81,8 @@
                     <i class="lni lni-arrow-right"></i>
                 </li>
             </a>
+            {{/if}}
+
             {{#if (eq page "team-members")}}
             <a class="nav-link-wrapper" href="/teamList">
                 <li class="nav-link" id="active-link">
