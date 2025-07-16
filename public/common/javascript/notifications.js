@@ -61,7 +61,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 >
                     <div class="event-box-top">
                         <div class="main-event-info">
-                            <span class="card-title">${event.eventName}</span>
+                            <span id="event-name" class="card-title">${event.eventName}</span>
                             <span id="client-name">${event.clientFirstName} ${event.clientLastName}</span>
                         </div>
                         <span id="status" data-status="${event.status}">${event.status}</span>

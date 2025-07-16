@@ -685,6 +685,7 @@ a {
     display: inline;
     padding: 0.1rem 0.5rem;
     text-transform: capitalize;
+    font-weight: 400;
 }
 
 #status[data-status="planning"] {
