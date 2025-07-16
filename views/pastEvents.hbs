@@ -1,0 +1,20 @@
+<h2 class="header">Past Events</h2>
+
+<div class="event-list-top">
+    <form role="search" class="search-bar" id="eventSearchForm">
+        <button type="submit"><i class="lni lni-search-1"></i></button>
+        <input type="search" name="q" id="eventSearchInput" placeholder="Search previous events...">
+    </form>
+</div>
+
+<div class="upcoming-events-container">
+    {{#each events}}
+        {{#if (eq status "completed")}}
+            {{> eventBox this}}
+        {{else}}
+            <p class="no-events-message">No previous events found</p>
+        {{/if}}
+    {{else}}
+        <p class="no-events-message">No previous events found</p>
+    {{/each}}
+</div>
