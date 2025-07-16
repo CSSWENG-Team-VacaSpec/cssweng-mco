@@ -148,6 +148,21 @@ a {
     text-wrap: nowrap;
 }
 
+.team-member-mini-card2 {
+    display: flex;
+    width: fit-content;
+    align-items: center;
+    justify-content: center;
+    border: transparent;
+    border-radius: var(--button-radius);
+    background-color: var(--accent-light);
+    padding: var(--button-padding);
+    gap: var(--small-gap);
+    font-family: var(--main-font);
+    cursor: pointer;
+    transition: background-color 0.15s, color 0.15s;
+}
+
 .team-member-mini-card:hover {
     background-color: var(--secondary-bg);
 }
@@ -161,6 +176,16 @@ a {
 
 .team-member-mini-card #full-name {
     font-size: 0.8rem;
+}
+
+.team-member-mini-card2 #full-name {
+    font-size: 0.8rem;
+    color: var(--primary-fg);
+}
+
+.team-member-mini-card2 #role {
+    font-size: 0.8rem;
+    color: var(--primary-fg);
 }
 
 .team-member-mini-card #teamMiniRemoveButton {
@@ -577,13 +602,12 @@ a {
 .search-bar {
     display: flex;
     align-items: center;
-    width: 40%;
     background-color: var(--primary-bg);
     border-radius: var(--container-radius);
     border-style: solid;
     border-width: 0.1rem;
     border-color: var(--border-light);
-    padding: 0.4rem 1rem;
+    padding: 0.5rem 1rem;
     gap: var(--small-gap);
 }
 
@@ -655,6 +679,23 @@ a {
     opacity: 0;
     transform: scale(0.95);
     pointer-events: none;
+}
+
+.grid-container {
+    display: flex;
+    flex-direction: column;
+    border: 1px solid var(--border-dark);
+    border-radius: var(--card-radius);
+    padding: var(--card-padding);
+    gap: var(--small-gap);
+}
+
+.team-mini-grid {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: var(--small-gap);
+    overflow-y: scroll;
 }
 
 #status[data-status="planning"] {
@@ -787,13 +828,6 @@ a {
         flex-direction: column;
         align-items: flex-start;
     }
-}
-
-.members-box {
-    background-color: var(--primary-bg);
-    color: var(--secondary-fg);
-    padding: var(--container-padding);
-    border-radius: var(--container-radius);
 }
 
 .attendance-box {
