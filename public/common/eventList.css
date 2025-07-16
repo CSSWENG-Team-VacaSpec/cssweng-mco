@@ -1,7 +1,0 @@
-.event-list-top {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: var(--medium-gap);
-    margin-top: var(--medium-gap);
-}

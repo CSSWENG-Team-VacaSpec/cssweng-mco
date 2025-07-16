@@ -1,6 +1,6 @@
 document.addEventListener('DOMContentLoaded', function() {
     let originalNotifs = getInitialEvents();
-    const container = document.querySelector('.upcoming-events-container');
+    const container = document.querySelector('.card-list');
     
     function debounce(fn, delay) {
         let timeout;

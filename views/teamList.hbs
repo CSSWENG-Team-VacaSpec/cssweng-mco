@@ -1,9 +1,11 @@
 {{>sidebar}}
 <script src="/common/javascript/teamList.js"></script>
 <section class="main-content container">
-    <h2 class="header">Team Members</h2>
+    <div class="page-title-bar">
+        <h2 class="header">Team Members</h2>
+    </div>
 
-    <div class="team-list-top">
+    <div class="top-page-bar">
         <form role="search" class="search-bar" method="GET" action="/teamList">
             <button type="submit"><i class="lni lni-search-1"></i></button>
             <input type="search" name="q" placeholder="Search..." value="{{searchQuery}}">
@@ -11,22 +13,26 @@
     </div>
 
     <div class="team-members-container">
-        <h2 class="header2">Managers</h2>
-        <div class="members-box">
-            {{#each managers}}
-                {{>teamMember this}}
-            {{else}}
-                <p>No managers currently</p>
-            {{/each}}
-        </div>
+        <section class="team-member-types">
+            <h2 class="secondary-header">Managers</h2>
+            <div class="members-box">
+                {{#each managers}}
+                    {{>teamMember this}}
+                {{else}}
+                    <p>No managers currently</p>
+                {{/each}}
+            </div>
+        </section>
 
-        <h2 class="header2">Members</h2>
-        <div class="members-box">
-            {{#each members}}
-                {{>teamMember this}}
-            {{else}}
-                <p>No members currently</p>
-            {{/each}}
-        </div>
+        <section class="team-member-types">
+            <h2 class="secondary-header">Members</h2>
+            <div class="members-box">
+                {{#each members}}
+                    {{>teamMember this}}
+                {{else}}
+                    <p>No members currently</p>
+                {{/each}}
+            </div>
+        </section>
     </div>
 </section>

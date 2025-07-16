@@ -1,9 +1,11 @@
 <h1 class="header"> Notifications </h1>
-<form role="search" class="search-bar" id="eventSearchForm">
-        <button type="submit"><i class="lni lni-search-1"></i></button>
-        <input type="search" name="q" id="eventSearchInput" placeholder="Search events..." value="{{searchQuery}}">
-</form>
-<div class="upcoming-events-container">
+<div class="top-page-bar">
+    <form role="search" class="search-bar" id="eventSearchForm">
+            <button type="submit"><i class="lni lni-search-1"></i></button>
+            <input type="search" name="q" id="eventSearchInput" placeholder="Search events..." value="{{searchQuery}}">
+    </form>
+</div>
+<div class="card-list ">
     {{#each notifications}}
         {{> notification this}}
     {{else}}

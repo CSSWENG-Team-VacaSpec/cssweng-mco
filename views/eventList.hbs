@@ -1,6 +1,8 @@
-<h2 class="header">Upcoming Events</h2>
+<div class="page-title-bar">
+    <h2 class="header">Upcoming Events</h2>
+</div>
 
-<div class="event-list-top">
+<div class="top-page-bar">
     <form role="search" class="search-bar" id="eventSearchForm">
         <button type="submit"><i class="lni lni-search-1"></i></button>
         <input type="search" name="q" id="eventSearchInput" placeholder="Search events...">
@@ -16,7 +18,7 @@
     {{/if}}
 </div>
 
-<div class="upcoming-events-container">
+<div class="card-list">
     {{#each events}}
         {{> eventBox this}}
     {{else}}
