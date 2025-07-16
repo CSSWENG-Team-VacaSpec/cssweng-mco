@@ -42,23 +42,6 @@
     display: none;
 }
 
-.grid-container {
-    display: flex;
-    flex-direction: column;
-    border: 1px solid var(--border-dark);
-    border-radius: var(--card-radius);
-    padding: var(--card-padding);
-    gap: var(--small-gap);
-}
-
-.team-mini-grid {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    gap: var(--small-gap);
-    overflow-y: scroll;
-}
-
 #team-members-page .grid-container {
     height: 50%;
 }
