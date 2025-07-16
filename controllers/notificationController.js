@@ -127,12 +127,28 @@ exports.respondInvite = async (req, res) => {
     const team = await Team.findById(invite.event).lean();
     console.log("Team:", team);
 
+    const addToTeam = await Team.findById(invite.event); //to append new member 
+
     const managerCN = team.manager;
 
     const userAccount = await EmployeeAccount.findById(user._id).lean();
 
     const event = await Event.findById(invite.event).lean();
     const eventName = event?.eventName || 'an event';
+
+     if (response === "available") {
+      const employeeCN = userAccount._id;
+
+      const alreadyInTeam = team.teamMemberList.includes(employeeCN);
+
+      if (!alreadyInTeam) {
+        addToTeam.teamMemberList.push(employeeCN);
+        await addToTeam.save();
+        console.log(`Added ${employeeCN} to team ${addToTeam._id}`);
+      } else {
+        console.log(`${employeeCN} is already in the team`);
+      }
+    }
 
     const newNotif = new Notification({
       _id: new mongoose.Types.ObjectId(), 
