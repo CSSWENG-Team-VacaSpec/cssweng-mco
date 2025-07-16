@@ -34,6 +34,8 @@
 }
 
 .form-controls {
+    display: flex;
+    gap: var(--small-gap);
     align-self: flex-end;
     background: var(--card-bg);
 }
@@ -45,7 +47,7 @@
 .grid-container {
     display: flex;
     flex-direction: column;
-    border: 1px solid var(--border-dark);
+    box-shadow: inset 0 0 0 1px var(--border-dark);
     border-radius: var(--card-radius);
     padding: var(--card-padding);
     gap: var(--small-gap);

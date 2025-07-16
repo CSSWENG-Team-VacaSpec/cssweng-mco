@@ -2,7 +2,7 @@
     box-sizing: border-box;
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: var(--medium-gap);
+    gap: var(--small-gap);
 }
 
 .members-box p {

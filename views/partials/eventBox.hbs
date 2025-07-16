@@ -1,19 +1,32 @@
-<div class="event-box container"
+<div class="event-box card"
     data-id="{{_id}}"
     data-cp-first-name="{{CPFirstName}}"
     data-cp-last-name="{{CPLastName}}"
     data-cp-contact-no="{{CPContactNo}}"
 >
     <div class="event-box-top">
-        <span id="event-name">{{eventName}}</span>
-        <span id="client-name">{{clientFirstName}} {{clientLastName}}</span>
+        <div class="main-event-info">
+            <span class="card-title">{{eventName}}</span>
+            <span id="client-name">{{clientFirstName}} {{clientLastName}}</span>
+        </div>
+        <span id="status" data-status="{{status}}">{{status}}</span>
+    </div>
+    <div class="card-group">
+        <div class="card-description-item">
+            <i class="lni lni-calendar-days"></i>
+            <span id="date"> {{eventDate}}</span>
+        </div>
+        <div class="card-description-item">
+            <i class="lni lni-map-pin-5"></i>
+            <span id="location">{{location}}</span>
+        </div>
     </div>
     
-    <div class="event-box-bottom">
-        <span id="date">{{eventDate}}</span>
-        <span id="location">{{location}}</span>
-        <span><strong>Description</strong></span>
-        <span id="description">{{description}}</span>
-        <span id="status" data-status="{{status}}"><strong>● Status:</strong> {{status}}</span>
+    <div class="card-group">
+        <div class="card-description-item">
+            <i class="lni lni-pen-to-square"></i>
+            <span id="description">{{description}}</span>
+        </div>
     </div>
+    
 </div>
