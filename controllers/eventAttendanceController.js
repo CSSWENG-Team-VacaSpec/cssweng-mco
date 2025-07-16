@@ -14,7 +14,6 @@ exports.getEventAttendancePage = async (req, res) => {
         if (!team) return res.status(404).send("Team not found");
 
         const supplierUsers = await User.find({ _id: { $in: team.supplierList } }).lean();
-
         const supplierMap = Object.fromEntries(supplierUsers.map(u => [u._id, u]));
 
         let isManager = String(team.manager) === String(userId);
@@ -22,20 +21,23 @@ exports.getEventAttendancePage = async (req, res) => {
 
         const allTeamIds = [team.programLead, ...team.teamMemberList];
         const users = await User.find({ _id: { $in: allTeamIds } }).lean();
-
         const userMap = Object.fromEntries(users.map(u => [u._id, u]));
 
-        const teamMembers = allTeamIds.map((id, idx) => ({
-            ...userMap[id],
-            attendance: team.teamMemberAttendance?.[idx],
-            index: idx // used for JS syncing later
-        }));
+        const teamMembers = allTeamIds
+            .map((id, idx) => ({
+                ...userMap[id],
+                attendance: team.teamMemberAttendance?.[idx] ?? null,
+                index: idx
+            }))
+            .filter(member => member.attendance !== 'present' && member.attendance !== 'absent');
 
-        const suppliers = team.supplierList.map((id, idx) => ({
-            ...supplierMap[id],
-            attendance: team.supplierAttendance?.[idx],
-            index: idx // for frontend binding
-        }));
+        const suppliers = team.supplierList
+            .map((id, idx) => ({
+                ...supplierMap[id],
+                attendance: team.supplierAttendance?.[idx] ?? null,
+                index: idx
+            }))
+            .filter(supplier => supplier.attendance !== 'present' && supplier.attendance !== 'absent');
 
         res.render('eventAttendance', {
             user: req.session.user,
@@ -58,17 +60,40 @@ exports.getEventAttendancePage = async (req, res) => {
     }
 };
 
+
 exports.finalizeAttendance = async (req, res) => {
     try {
-        const { eventID, teamAttendance } = req.body;
+        const { eventID, teamAttendance, supplierAttendance } = req.body;
         const team = await Team.findById(eventID);
         if (!team) return res.status(404).json({ ok: false, msg: 'Team not found' });
 
-        team.teamMemberAttendance = teamAttendance;
+        console.log("Received teamAttendance:", teamAttendance);
+        console.log("Received supplierAttendance:", supplierAttendance);
+
+        // Ensure arrays exist
+        if (!team.teamMemberAttendance) team.teamMemberAttendance = [];
+        if (!team.supplierAttendance) team.supplierAttendance = [];
+
+        // Merge attendance updates by index
+        Object.entries(teamAttendance || {}).forEach(([index, value]) => {
+            team.teamMemberAttendance[Number(index)] = value;
+        });
+
+        Object.entries(supplierAttendance || {}).forEach(([index, value]) => {
+            team.supplierAttendance[Number(index)] = value;
+        });
+
+        console.log("💾 Saving to DB:", {
+            teamMemberAttendance: team.teamMemberAttendance,
+            supplierAttendance: team.supplierAttendance
+        });
+
         await team.save();
         res.json({ ok: true });
     } catch (err) {
-        console.error(err);
+        console.error("Error in finalizeAttendance:", err);
         res.status(500).json({ ok: false });
     }
 };
+
+

@@ -1,79 +1,100 @@
 document.addEventListener('DOMContentLoaded', () => {
+
     const eventId = window.eventId || new URLSearchParams(window.location.search).get('id');
-    const attendanceStatus = [];
 
-    console.log('Event ID from URL:', eventId);
+    const teamAttendance = [];
+    const supplierAttendance = [];
 
-    // Highlight buttons on click
+
     const attendanceBoxes = document.querySelectorAll('.attendance-box');
-    attendanceBoxes.forEach((box, idx) => {
-        const presentBtn = box.querySelector('.present-button');
+    console.log("Found", attendanceBoxes.length, "attendance boxes");
+
+    attendanceBoxes.forEach(box => {
+       const presentBtn = box.querySelector('.present-button');
         const absentBtn = box.querySelector('.absent-button');
 
-        presentBtn.addEventListener('click', () => {
-            presentBtn.classList.add('selected');
-            absentBtn.classList.remove('selected');
-            attendanceStatus[idx] = 'present';
+        if (!presentBtn || !absentBtn) {
+            console.warn("Skipping box - missing buttons");
+            return;
+        }
+
+    console.log("Binding click events to box:", box);
+        const role = box.dataset.role;
+        const index = parseInt(box.dataset.index, 10);
+
+        presentBtn?.addEventListener('click', () => {
+            console.log(`Clicked PRESENT for ${role} at index ${index}`);
+            if (role === 'team') {
+                teamAttendance[index] = 'present';
+            } else if (role === 'supplier') {
+                supplierAttendance[index] = 'present';
+            }
+            box.remove();
         });
 
-        absentBtn.addEventListener('click', () => {
-            absentBtn.classList.add('selected');
-            presentBtn.classList.remove('selected');
-            attendanceStatus[idx] = 'absent';
+        absentBtn?.addEventListener('click', () => {
+            console.log(`Clicked ABSENT for ${role} at index ${index}`);
+            if (role === 'team') {
+                teamAttendance[index] = 'absent';
+            } else if (role === 'supplier') {
+                supplierAttendance[index] = 'absent';
+            }
+            box.remove();
         });
     });
 
     // Cancel button
     const cancelButton = document.getElementById('form-cancel-button');
-    if (cancelButton) {
-        cancelButton.addEventListener('click', (e) => {
-            e.preventDefault();
-            window.location.href = `/event-details?id=${eventId}`;
-        });
-    }
+    cancelButton?.addEventListener('click', (e) => {
+        e.preventDefault();
+        window.location.href = `/event-details?id=${eventId}`;
+    });
 
-    // Done button
+    // Submit attendance
     const doneButton = document.getElementById('submit-attendance');
-    if (doneButton) {
-        doneButton.addEventListener('click', async (e) => {
-            e.preventDefault();
+    doneButton?.addEventListener('click', async (e) => {
+        e.preventDefault();
 
-            const finalizedAttendance = Array.from(attendanceBoxes).map((box, i) => {
-                return attendanceStatus[i] ?? box.dataset.attendance ?? 'absent';
+        // Fill attendance arrays with nulls for unmarked people
+        const maxTeamIndex = Math.max(-1, ...Object.keys(teamAttendance).map(Number));
+        const maxSupplierIndex = Math.max(-1, ...Object.keys(supplierAttendance).map(Number));
+
+        const finalTeamAttendance = Array.from({ length: maxTeamIndex + 1 }, (_, i) => teamAttendance[i] ?? null);
+        const finalSupplierAttendance = Array.from({ length: maxSupplierIndex + 1 }, (_, i) => supplierAttendance[i] ?? null);
+
+        console.log("📤 Submitting:", {
+            eventID: eventId,
+            teamAttendance: finalTeamAttendance,
+            supplierAttendance: finalSupplierAttendance
+        });
+
+        try {
+            const response = await fetch('/eventAttendance/finalize', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    eventID: eventId,
+                    teamAttendance: finalTeamAttendance,
+                    supplierAttendance: finalSupplierAttendance
+                })
             });
 
-
-            try {
-                const response = await fetch('/eventAttendance/finalize', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({
-                        eventID: eventId,
-                        teamAttendance: finalizedAttendance
-                    })
-                });
-
-                const result = await response.json();
-                if (result.ok) {
-                    alert('Attendance saved!');
-                    window.location.href = `/event-details?id=${eventId}`;
-                } else {
-                    alert('Failed to save attendance');
-                }
-            } catch (err) {
-                console.error('Error submitting attendance:', err);
-                alert('Error submitting attendance');
+            const result = await response.json();
+            if (result.ok) {
+                alert('Attendance saved!');
+                window.location.href = `/event-details?id=${eventId}`;
+            } else {
+                alert('Failed to save attendance');
             }
-        });
-    }
+        } catch (err) {
+            console.error('Error submitting attendance:', err);
+            alert('Error submitting attendance');
+        }
+    });
 
-    // Back button (optional)
+    // Back button
     const pageBackButton = document.getElementById('page-back-button');
-    if (pageBackButton) {
-        pageBackButton.addEventListener('click', () => {
-            window.location.href = `/event-details?id=${eventId}`;
-        });
-    }
+    pageBackButton?.addEventListener('click', () => {
+        window.location.href = `/event-details?id=${eventId}`;
+    });
 });
