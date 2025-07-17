@@ -26,8 +26,8 @@
             <p>Back</p>
         </a>
     </button>
-    <h2 class="header">Attendance Check: </h2>
-    <h2 class="header" id="event-name"></h2>
+    <h2 class="header">Attendance Check:</h2>
+    <h2 class="header" id="event-name">{{event.eventName}}</h2>
 </div>
 
 <div class="event-attendance card">
@@ -36,7 +36,7 @@
         <div class="members-box">
             {{#if teamMembers.length}}
                 {{#each teamMembers}}
-                    {{> attendanceBox this}}
+                    {{> attendanceBox this role="team"}}
                 {{/each}}
             {{else}}
                 <p>Currently no members in this event.</p>
@@ -47,23 +47,34 @@
     <div class="attendance-supplier">
         <h2 class="secondary-header">Suppliers</h2>
         <div class="members-box">
-            <p>Currently no suppliers in this event.</p>
+            {{#if suppliers.length}}
+                {{#each suppliers}}
+                    {{> attendanceBox this role="supplier"}}
+                {{/each}}
+            {{else}}
+                <p>Currently no suppliers in this event.</p>
+            {{/if}}
         </div>
     </div>
 </div>
 
 <div class="attendance-page-buttons">
-        <button class="bg-button button" id="form-cancel-button">
-                <a class="bg-button-wrapper button-wrapper" href="#">
-                    <i class="lni lni-xmark"></i>
-                    <p>Cancel</p>
-                </a>
-            </button>
+    <button class="bg-button button" id="form-cancel-button" href="/eventDetails?id={{event._id}}">
+        <div class="bg-button-wrapper button-wrapper">
+            <i class="lni lni-xmark"></i>
+            <p>Cancel</p>
+        </div>
+    </button>
 
-        <button class="fg-button button" id="">
-            <a class="fg-button-wrapper button-wrapper" href="#">
-                <i class="lni lni-check"></i>
-                <p>Done</p>
-            </a>
-        </button>
+    <button class="fg-button button" id="submit-attendance" href="/eventDetails?id={{event._id}}">
+        <div class="fg-button-wrapper button-wrapper">
+            <i class="lni lni-check"></i>
+            <p>Done</p>
+        </div>
+    </button>
 </div>
+
+<script>
+    const teamId = '{{team._id}}';
+    const eventId = '{{event._id}}';
+</script>

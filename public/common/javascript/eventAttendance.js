@@ -1,68 +1,100 @@
-document.addEventListener('DOMContentLoaded', function() {
-    const eventData = JSON.parse(sessionStorage.getItem('currentEvent'));
+document.addEventListener('DOMContentLoaded', () => {
 
-    const eventName = eventData?.eventName || document.getElementById('event-name').dataset.serverValue;
-    const eventId = eventData?._id;
-    
-    if (eventName) {
-        document.getElementById('event-name').textContent = eventName;
+    const eventId = window.eventId || new URLSearchParams(window.location.search).get('id');
 
-    } else {
-        window.location.href = '/eventList';
-    }
+    const teamAttendance = [];
+    const supplierAttendance = [];
+
 
     const attendanceBoxes = document.querySelectorAll('.attendance-box');
+    console.log("Found", attendanceBoxes.length, "attendance boxes");
+
     attendanceBoxes.forEach(box => {
-        const presentBtn = box.querySelector('#present-button');
-        const absentBtn = box.querySelector('#absent-button');
+       const presentBtn = box.querySelector('.present-button');
+        const absentBtn = box.querySelector('.absent-button');
 
-        presentBtn.addEventListener('click', function() {
-            presentBtn.classList.remove('selected');
-            absentBtn.classList.remove('selected');
-            presentBtn.classList.add('selected');
+        if (!presentBtn || !absentBtn) {
+            console.warn("Skipping box - missing buttons");
+            return;
+        }
 
-            //add backend
+    console.log("Binding click events to box:", box);
+        const role = box.dataset.role;
+        const index = parseInt(box.dataset.index, 10);
+
+        presentBtn?.addEventListener('click', () => {
+            console.log(`Clicked PRESENT for ${role} at index ${index}`);
+            if (role === 'team') {
+                teamAttendance[index] = 'present';
+            } else if (role === 'supplier') {
+                supplierAttendance[index] = 'present';
+            }
+            box.remove();
         });
 
-        absentBtn.addEventListener('click', function() {
-            presentBtn.classList.remove('selected');
-            absentBtn.classList.remove('selected');
-            absentBtn.classList.add('selected');
-            
-            // add backend
+        absentBtn?.addEventListener('click', () => {
+            console.log(`Clicked ABSENT for ${role} at index ${index}`);
+            if (role === 'team') {
+                teamAttendance[index] = 'absent';
+            } else if (role === 'supplier') {
+                supplierAttendance[index] = 'absent';
+            }
+            box.remove();
         });
     });
 
-    const modalContainer = document.getElementsByClassName('modal-container')[0];
-    const modal = document.getElementsByClassName('modal')[0];
-    const modalCloseButton = document.getElementById('cancel-modal-no-button');
-    const modalConfirmButton = document.getElementById('cancel-modal-yes-button');
-    const pageBackButton = document.getElementById('page-back-button');
+    // Cancel button
     const cancelButton = document.getElementById('form-cancel-button');
-
-    cancelButton.addEventListener('click', () => {
-        cancelEventCreation();
+    cancelButton?.addEventListener('click', (e) => {
+        e.preventDefault();
+        window.location.href = `/event-details?id=${eventId}`;
     });
 
-    pageBackButton.addEventListener('click', () => {
-        cancelEventCreation();
+    // Submit attendance
+    const doneButton = document.getElementById('submit-attendance');
+    doneButton?.addEventListener('click', async (e) => {
+        e.preventDefault();
+
+        // Fill attendance arrays with nulls for unmarked people
+        const maxTeamIndex = Math.max(-1, ...Object.keys(teamAttendance).map(Number));
+        const maxSupplierIndex = Math.max(-1, ...Object.keys(supplierAttendance).map(Number));
+
+        const finalTeamAttendance = Array.from({ length: maxTeamIndex + 1 }, (_, i) => teamAttendance[i] ?? null);
+        const finalSupplierAttendance = Array.from({ length: maxSupplierIndex + 1 }, (_, i) => supplierAttendance[i] ?? null);
+
+        console.log("📤 Submitting:", {
+            eventID: eventId,
+            teamAttendance: finalTeamAttendance,
+            supplierAttendance: finalSupplierAttendance
+        });
+
+        try {
+            const response = await fetch('/eventAttendance/finalize', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    eventID: eventId,
+                    teamAttendance: finalTeamAttendance,
+                    supplierAttendance: finalSupplierAttendance
+                })
+            });
+
+            const result = await response.json();
+            if (result.ok) {
+                alert('Attendance saved!');
+                window.location.href = `/event-details?id=${eventId}`;
+            } else {
+                alert('Failed to save attendance');
+            }
+        } catch (err) {
+            console.error('Error submitting attendance:', err);
+            alert('Error submitting attendance');
+        }
     });
 
-    modalCloseButton.addEventListener('click', () => {
-        modalContainer.classList.add('modal-container-hidden');
-        modal.classList.add('modal-hidden');
+    // Back button
+    const pageBackButton = document.getElementById('page-back-button');
+    pageBackButton?.addEventListener('click', () => {
+        window.location.href = `/event-details?id=${eventId}`;
     });
-
-    modalConfirmButton.addEventListener('click', () => {
-        modalContainer.classList.add('modal-container-hidden');
-        modal.classList.add('modal-hidden');
-        //to go back to the event details of event id, i will fix
-        //location.href = `/eventdetails?id=${eventData._id}`;
-        this.location.href = '/eventlist';
-    });
-
-    function cancelEventCreation() {
-        modalContainer.classList.remove('modal-container-hidden');
-        modal.classList.remove('modal-hidden');
-    }
 });

@@ -138,5 +138,13 @@ document.addEventListener('DOMContentLoaded', () => {
         modal.classList.remove('modal-hidden');
     }
 
+    submitButton.addEventListener('click', () => {
+        const membersInput = document.getElementById('added-members-input');
+        const suppliersInput = document.getElementById('added-suppliers-input');
+
+        membersInput.value = JSON.stringify(addedMembers);
+        suppliersInput.value = JSON.stringify(addedSuppliers);
+    });
+    
     updateButtons();
 });

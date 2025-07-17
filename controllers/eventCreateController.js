@@ -1,9 +1,15 @@
-const EmployeeAccount = require('../models/employeeAccounts');
+const EmployeeAccount = require('../models/employeeAccounts');   
+const Event = require('../models/events');
+const Invite = require('../models/eventInvitations');
+const Suppliers = require('../models/suppliers');
+const Team = require('../models/teams');
+const { v4: uuidv4 } = require('uuid');
 
 exports.renderPage = async (req, res) => {
-    const members = await EmployeeAccount.find({ status: 'active' }).lean();
-    
     try {
+    const members = await EmployeeAccount.find({ status: 'active' }).lean();
+    const suppliers = await Suppliers.find({}).lean(); // Get all suppliers
+
         res.render('eventCreate', {
             layout: 'main',
             stylesheet: 'eventCreate',
@@ -11,9 +17,86 @@ exports.renderPage = async (req, res) => {
             title: 'Create Event',
             page: 'event-create',
             user: req.session.user,
-            members
+            members,
+            suppliers
         });
     } catch (error) {
 
     }
 }
+
+
+exports.createEvent = async (req, res) => {
+    try {
+        const { 
+            'event-name': eventName,
+            'client-name': clientName,
+            'event-description': description,
+            'start-date': eventDate,
+            location,
+            'contact-name': contactName,
+            'phone-number': CPContactNo,
+            addedMembers,
+            addedSuppliers
+        } = req.body;
+
+        const [clientFirstName, ...clientRest] = clientName.trim().split(' ');
+        const clientLastName = clientRest.join(' ') || 'N/A';
+
+        const [CPFirstName, ...cpRest] = contactName.trim().split(' ');
+        const CPLastName = cpRest.join(' ') || 'N/A';
+
+        const parsedMembers = JSON.parse(addedMembers || '[]');
+        const parsedSuppliers = JSON.parse(addedSuppliers || '[]');
+        console.log('Parsed addedMembers:', parsedMembers);
+
+        const newEvent = new Event({
+            _id: uuidv4(),
+            eventName,
+            description,
+            eventDate,
+            location,
+            CPContactNo,
+            CPLastName,
+            CPFirstName,
+            clientLastName,
+            clientFirstName,
+            companyName: '' // optional, not in form
+        });
+
+        await newEvent.save();
+         const newTeam = new Team({
+            _id: newEvent._id,
+            manager: req.session.user._id,
+            programLead: req.session.user._id,
+            teamMemberList: [],
+            roleList: [],
+            supplierList: [],
+            teamMemberAttendance: [],
+            supplierAttendance: []
+        });
+
+    await newTeam.save();
+
+        const invitesToCreate = parsedMembers.map(member => ({
+            _id: uuidv4(),
+            event: newEvent._id,
+            employeeCN: member, // make sure this key matches your frontend
+            role: member.role || 'member',    // default role if not given
+            inviteDate: new Date(),
+            inviteEndDate: new Date(Date.now() + 24 * 60 * 60 * 1000), // +1 day
+            response: 'pending'
+        }));
+
+        if (invitesToCreate.length > 0) {
+            await Invite.insertMany(invitesToCreate);
+        }
+        console.log('Invites created:', invitesToCreate);
+
+        res.redirect('/eventlist'); // redirect as needed
+
+    } catch (error) {
+        console.error('Error creating event:', error);
+        res.status(500).send('Failed to create event');
+    }
+};
