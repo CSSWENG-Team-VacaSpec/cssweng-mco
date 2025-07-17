@@ -21,6 +21,14 @@ document.addEventListener('DOMContentLoaded', function() {
         window.location.href = `/event-details?id=${eventData._id}`;
     });
 
+    function getInProgressContainer() {
+        return document.querySelector('#search-progress-container').content.cloneNode(true);
+    }
+
+    function getNoResultsContainer() {
+        return document.querySelector('#no-results-container').content.cloneNode(true);
+    }
+
     function getInitialEvents() {
         const eventElements = document.querySelectorAll('.event-box.container');
         return Array.from(eventElements).map(el => ({
@@ -40,8 +48,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
     let originalEvents = getInitialEvents();
     const container = document.querySelector('.card-list');
-    const noResultsContainer = document.querySelector('#no-results-container').content.cloneNode(true);
-    const inProgressContainer = document.querySelector('#search-progress-container').content.cloneNode(true);
     
     document.getElementById('eventSearchForm').addEventListener('submit', (e) => {
         e.preventDefault();
@@ -64,7 +70,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
 
         container.innerHTML = '';
-        container.appendChild(inProgressContainer);
+        container.appendChild(getInProgressContainer());
 
         fetch(`/searchEvents?q=${encodeURIComponent(query)}`)
             .then(response => response.text())
@@ -74,7 +80,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
                 if (events.length === 0) {
                     container.innerHTML = '';
-                    container.appendChild(noResultsContainer);
+                    container.appendChild(getNoResultsContainer());
                 } else {
                     renderEvents(events);
                 }
@@ -88,7 +94,7 @@ document.addEventListener('DOMContentLoaded', function() {
     function renderEvents(events) {
         if (events.length === 0) {
             container.innerHTML = '';
-            container.appendChild(noResultsContainer);
+            container.appendChild(getNoResultsContainer());
             return;
         }
 
