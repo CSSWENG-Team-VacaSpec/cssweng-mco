@@ -15,6 +15,7 @@ mongoose.connect(process.env.MONGODB_URI)
   .catch((err) => console.log('MongoDB connection error:', err));
 
 // middleware
+app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, 'public')));
 
@@ -59,7 +60,6 @@ const eventCreateRoute = require('./routes/r_event_create.js');
 const delete_cancelEvent = require('./routes/r_delete_cancelEvent.js');
 const eventAttendanceRoute = require('./routes/r_event_attendance.js');
 const pastEventsRoute = require('./routes/r_past_events.js');
-
 
 // routes
 app.use('/', loginRoute); 
