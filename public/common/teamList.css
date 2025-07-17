@@ -1,16 +1,8 @@
-.team-list-top {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: var(--medium-gap);
-    margin-top: var(--medium-gap);
-}
-
 .members-box {
     box-sizing: border-box;
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: var(--medium-gap);
+    gap: var(--small-gap);
 }
 
 .members-box p {
@@ -22,4 +14,10 @@
     display: flex;
     flex-direction: column;
     gap: var(--medium-gap);
+}
+
+.team-member-types {
+    display: flex;
+    flex-direction: column;
+    gap: var(--small-gap);
 }

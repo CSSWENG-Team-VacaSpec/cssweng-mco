@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', function() {
-    document.querySelector('.upcoming-events-container').addEventListener('click', function(e) {
+    document.querySelector('.card-list').addEventListener('click', function(e) {
         const eventBox = e.target.closest('.event-box');
         if (!eventBox) return;
         
@@ -21,6 +21,14 @@ document.addEventListener('DOMContentLoaded', function() {
         window.location.href = `/event-details?id=${eventData._id}`;
     });
 
+    function getInProgressContainer() {
+        return document.querySelector('#search-progress-container').content.cloneNode(true);
+    }
+
+    function getNoResultsContainer() {
+        return document.querySelector('#no-results-container').content.cloneNode(true);
+    }
+
     function getInitialEvents() {
         const eventElements = document.querySelectorAll('.event-box.container');
         return Array.from(eventElements).map(el => ({
@@ -39,8 +47,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     let originalEvents = getInitialEvents();
-    const container = document.querySelector('.upcoming-events-container');
-    const noEventsMsg = document.querySelector('.no-events-message');
+    const container = document.querySelector('.card-list');
     
     document.getElementById('eventSearchForm').addEventListener('submit', (e) => {
         e.preventDefault();
@@ -62,15 +69,20 @@ document.addEventListener('DOMContentLoaded', function() {
             return;
         }
 
-        container.innerHTML = '<div class="search-loading">Searching events...</div>';
+        container.innerHTML = '';
+        container.appendChild(getInProgressContainer());
 
         fetch(`/searchEvents?q=${encodeURIComponent(query)}`)
             .then(response => response.text())
             .then(data => {
-                if (data.length === 0) {
-                    container.innerHTML = '<p class="no-results">No matching events found</p>';
+                let events = JSON.parse(data);
+                events = events.results;
+
+                if (events.length === 0) {
+                    container.innerHTML = '';
+                    container.appendChild(getNoResultsContainer());
                 } else {
-                    renderEvents(data);
+                    renderEvents(events);
                 }
             })
             .catch(error => {
@@ -81,12 +93,10 @@ document.addEventListener('DOMContentLoaded', function() {
 
     function renderEvents(events) {
         if (events.length === 0) {
-            container.innerHTML = '<p class="no-events-message">No events found</p>';
+            container.innerHTML = '';
+            container.appendChild(getNoResultsContainer());
             return;
         }
-
-        events = JSON.parse(events);
-        events = events.results;
 
         container.innerHTML = '';
         events.forEach(event => {
@@ -94,22 +104,35 @@ document.addEventListener('DOMContentLoaded', function() {
             container.appendChild(eventElement);
             
             eventElement.outerHTML = `
-                <div class="event-box container"
+                <div class="event-box card"
                     data-id="${event._id}"
                     data-cp-first-name="${event.CPFirstName}"
                     data-cp-last-name="${event.CPLastName}"
                     data-cp-contact-no="${event.CPContactNo}"
                 >
                     <div class="event-box-top">
-                        <span id="event-name">${event.eventName}</span>
-                        <span id="client-name">${event.clientFirstName} ${event.clientLastName}</span>
+                        <div class="main-event-info">
+                            <span id="event-name" class="card-title">${event.eventName}</span>
+                            <span id="client-name">${event.clientFirstName} ${event.clientLastName}</span>
+                        </div>
+                        <span id="status" data-status="${event.status}">${event.status}</span>
                     </div>
-                    <div class="event-box-bottom">
-                        <span id="date">${event.eventDate}</span>
-                        <span id="location">${event.location}</span>
-                        <span><strong>Description</strong></span>
-                        <span id="description">${event.description || 'No description'}</span>
-                        <span id="status" data-status="${event.status}"><strong>● Status:</strong> ${event.status}</span>
+                    <div class="card-group">
+                        <div class="card-description-item card-secondary">
+                            <i class="lni lni-calendar-days"></i>
+                            <span id="date"> ${event.eventDate}</span>
+                        </div>
+                        <div class="card-description-item card-secondary">
+                            <i class="lni lni-map-pin-5"></i>
+                            <span id="location">${event.location}</span>
+                        </div>
+                    </div>
+                    
+                    <div class="card-group">
+                        <div class="card-description-item">
+                            <i class="lni lni-pen-to-square"></i>
+                            <span id="description">${event.description || 'No description'}</span>
+                        </div>
                     </div>
                 </div>
             `;

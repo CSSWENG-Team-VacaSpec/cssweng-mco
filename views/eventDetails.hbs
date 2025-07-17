@@ -40,7 +40,7 @@
     </div>
 </div>
 
-<div class="top-page-bar">
+<div class="page-title-bar">
     <button class="back-link">
         <a class="button-wrapper" href="/eventlist">
             <i class="lni lni-arrow-left"></i>
@@ -59,10 +59,10 @@
                 </a>
             </button>
             <form action="/deleteEvent?id={{event._id}}">
-                    <button type="submit" class="bg-button button" id="details-delete-button">
+                    <button type="submit" class="destructive-button button" id="details-delete-button">
                     <span class="bg-button-wrapper button-wrapper">
-                    <i class="lni lni-xmark"></i>
-                        <p>Delete</p>
+                    <i class="lni lni-trash-3"></i>
+                         <p>Delete</p>
                     </span>
                     </button>
             </form>
@@ -81,17 +81,20 @@
             <span id="location"></span>
         </span>
         <span id="contact">
-            <span><strong>Contact Person</strong></span>
+            <span>Contact Person</span>
             <span id="contact-name"></span>
             <span id="contact-info"></span>
         </span>
         <span id="description-span">
-            <span><strong>Description</strong></span>
+            <span>Description</span>
             <span id="description"></span>
         </span>
     </div>
 
-    <span id="status"></span>
+    <div class="event-box-bottom">
+        <span id="status"></span>
+
+    </div>
     
         <div class="choice-buttons" id="details-choices">
             {{#if showButtons}}
