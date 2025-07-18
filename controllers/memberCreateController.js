@@ -5,8 +5,7 @@ exports.renderPage = async (req, res) => {
     try {
         res.render('memberCreate', {
             layout: 'form',
-            stylesheet: 'memberCreate',
-            script: 'memberCreate',
+            script: 'memberSupplierCreate',
             title: 'Add team member',
             page: 'member-create',
             user: req.session.user,

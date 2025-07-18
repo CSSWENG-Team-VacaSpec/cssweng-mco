@@ -1,6 +1,4 @@
-.create-events-wizard {
-    display: flex;
-    flex-direction: column;
+.form-wizard {
     overflow-x: hidden;
 }
 

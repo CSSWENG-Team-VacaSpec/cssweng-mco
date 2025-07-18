@@ -233,6 +233,17 @@ a {
     margin: 0;
 }
 
+.form-wizard {
+    display: flex;
+    flex-direction: column;
+}
+
+.form {
+    display: flex;
+    flex-direction: column;
+    gap: var(--big-gap);
+}
+
 .form-page-container {
     display: flex;
     gap: var(--big-gap);
@@ -260,7 +271,7 @@ a {
     background: var(--card-bg);
 }
 
-.form-hidden-button {
+button.form-hidden-button {
     display: none;
 }
 
