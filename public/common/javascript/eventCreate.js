@@ -55,8 +55,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     modalConfirmButton.addEventListener('click', () => {
-        closeModal();
-        location.href = '/eventlist';
+        closeModal('/eventList');
     });
 
     membersContainer.addEventListener('click', (event) => {

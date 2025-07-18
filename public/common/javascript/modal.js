@@ -6,7 +6,15 @@ export function cancel() {
     modal.classList.remove('modal-hidden');
 }
 
-export function closeModal() {
+/**
+ * Closes the modal and redirects if given a URL.
+ * @param {string} redirect URL to redirect to after closing the modal. Nothing happens if left blank.
+ */
+export function closeModal(redirect = null) {
     modalContainer.classList.add('modal-container-hidden');
     modal.classList.add('modal-hidden');
+
+    if (redirect !== null) {
+        location.href = redirect;
+    }
 }
