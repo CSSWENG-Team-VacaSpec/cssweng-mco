@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{title}} | Team VacaSpec Event Hub</title>
+    <link rel="stylesheet" href="/common/global.css">
+    
+    {{#if stylesheet}}
+        <link rel="stylesheet" href="/common/{{stylesheet}}.css">
+    {{/if}}
+    {{#if script}}
+        <script src="/common/javascript/{{script}}.js"></script>
+    {{/if}}
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300..700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/common/lineicons/lineicons.css">
+    <script src="/common/javascript/sidebar.js"></script>
+</head>
+<body>
+    {{>sidebar}}
+    <div class="main-content container">
+        <div class="modal-container modal-container-hidden">
+            <div class="modal modal-hidden">
+                <h2 class="modal-header header">Discard changes?</h2>
+                <p class="modal-description">Changes will not be saved.</p>
+                <div class="modal-controls">
+                    <button class="bg-button button" id="cancel-modal-no-button">
+                        <div class="button-wrapper">
+                            <i class="lni lni-pencil-1"></i>
+                            <p>Keep editing</p>
+                        </div>
+                    </button>
+                    <button class="destructive-button button" id="cancel-modal-yes-button">
+                        <div class="button-wrapper">
+                            <i class="lni lni-trash-3"></i>
+                            <p>Discard</p>
+                        </div>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="page-title-bar">
+            <button class="back-link" id="page-back-button">
+                <a class="button-wrapper" href="#">
+                    <i class="lni lni-arrow-left"></i>
+                    <p>Back</p>
+                </a>
+            </button>
+            <h2 class="header">Attendance Check:</h2>
+            <h2 class="header" id="event-name">{{event.eventName}}</h2>
+        </div>
+        {{{body}}}
+    </div>
+</body>
+
+<template id="search-progress-container">
+    <div class="no-results-container">
+        <i class="lni lni-search-1"></i>
+        <p class="no-results-message">Searching...</p>
+    </div>
+</template>
+
+<template id="no-results-container">
+    <div class="no-results-container">
+        <i class="lni lni-emoji-sad"></i>
+        <p class="no-results-message">No results found</p>
+    </div>
+</template>
+</html>

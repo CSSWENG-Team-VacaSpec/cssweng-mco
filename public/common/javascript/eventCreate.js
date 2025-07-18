@@ -1,3 +1,5 @@
+import { cancel, closeModal } from './modal.js';
+
 let page = 0;
 const MAX_PAGE = 2;
 
@@ -9,8 +11,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const pageBackButton = document.getElementById('page-back-button');
     const formContainer = document.getElementsByClassName('form-page-container')[0];
     
-    const modalContainer = document.getElementsByClassName('modal-container')[0];
-    const modal = document.getElementsByClassName('modal')[0];
     const modalCloseButton = document.getElementById('cancel-modal-no-button');
     const modalConfirmButton = document.getElementById('cancel-modal-yes-button');
 
@@ -43,21 +43,19 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     cancelButton.addEventListener('click', () => {
-        cancelEventCreation();
+        cancel();
     });
 
     pageBackButton.addEventListener('click', () => {
-        cancelEventCreation();
+        cancel();
     });
 
     modalCloseButton.addEventListener('click', () => {
-        modalContainer.classList.add('modal-container-hidden');
-        modal.classList.add('modal-hidden');
+        closeModal();
     });
 
     modalConfirmButton.addEventListener('click', () => {
-        modalContainer.classList.add('modal-container-hidden');
-        modal.classList.add('modal-hidden');
+        closeModal();
         location.href = '/eventlist';
     });
 
@@ -131,11 +129,6 @@ document.addEventListener('DOMContentLoaded', () => {
         backButton.disabled = page <= 0;
         backButton.classList.toggle('disabled-button', backButton.disabled);
         backButton.classList.toggle('bg-button', !backButton.disabled);
-    }
-
-    function cancelEventCreation() {
-        modalContainer.classList.remove('modal-container-hidden');
-        modal.classList.remove('modal-hidden');
     }
 
     submitButton.addEventListener('click', () => {
