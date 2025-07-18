@@ -36,7 +36,7 @@
         <div class="members-box">
             {{#if teamMembers.length}}
                 {{#each teamMembers}}
-                    {{> attendanceBox this role="team"}}
+                    {{> attendanceBox this role="team" attendance=attendance index=index}}
                 {{/each}}
             {{else}}
                 <p>Currently no members in this event.</p>
@@ -49,7 +49,7 @@
         <div class="members-box">
             {{#if suppliers.length}}
                 {{#each suppliers}}
-                    {{> attendanceBox this role="supplier"}}
+                    {{> attendanceBox this role="supplier" attendance=attendance index=index}}
                 {{/each}}
             {{else}}
                 <p>Currently no suppliers in this event.</p>

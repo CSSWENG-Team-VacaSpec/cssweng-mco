@@ -18,3 +18,11 @@
     justify-content: flex-end;
     margin-top: 30px;
 }
+
+.present-button.selected {
+    background-color: var(--accent-light); 
+}
+
+.absent-button.selected {
+    background-color: var(--accent-light);
+}
