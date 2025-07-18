@@ -10,7 +10,7 @@
         <link rel="stylesheet" href="/common/{{stylesheet}}.css">
     {{/if}}
     {{#if script}}
-        <script src="/common/javascript/{{script}}.js"></script>
+        <script src="/common/javascript/{{script}}.js" type="module"></script>
     {{/if}}
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -50,8 +50,7 @@
                     <p>Back</p>
                 </a>
             </button>
-            <h2 class="header">Attendance Check:</h2>
-            <h2 class="header" id="event-name">{{event.eventName}}</h2>
+            <h2 class="header">{{title}}</h2>
         </div>
         {{{body}}}
     </div>
