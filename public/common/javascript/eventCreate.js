@@ -1,4 +1,4 @@
-import { openModalButton, closeModalButton } from './modal.js';
+import { openModalButton, closeModalButton, modalConfirmButton } from './modal.js';
 
 let page = 0;
 const MAX_PAGE = 2;
@@ -8,11 +8,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const backButton = document.getElementById('form-back-button');
     const cancelButton = document.getElementById('form-cancel-button');
     const submitButton = document.getElementById('form-submit-button');
-    const pageBackButton = document.getElementById('page-back-button');
     const formContainer = document.getElementsByClassName('form-page-container')[0];
-    
-    const modalCloseButton = document.getElementById('cancel-modal-no-button');
-    const modalConfirmButton = document.getElementById('cancel-modal-yes-button');
 
     const membersContainer = document.getElementById('memberSearchResults');
     let members = membersContainer ? membersContainer.getElementsByClassName('team-member-mini-card') : [];
@@ -52,9 +48,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
     openModalButton(cancelButton);
-    openModalButton(pageBackButton);
-
-    closeModalButton(modalCloseButton);
     closeModalButton(modalConfirmButton, '/eventList');
 
     membersContainer.addEventListener('click', (event) => {

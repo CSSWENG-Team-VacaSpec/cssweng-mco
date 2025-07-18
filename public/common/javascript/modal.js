@@ -1,5 +1,8 @@
 const modalContainer = document.getElementsByClassName('modal-container')[0];
 const modal = document.getElementsByClassName('modal')[0];
+const pageBackButton = document.getElementById('page-back-button');
+const modalCloseButton = document.getElementById('cancel-modal-no-button');
+export const modalConfirmButton = document.getElementById('cancel-modal-yes-button');
 
 /**
  * Opens the modal.
@@ -42,3 +45,6 @@ export function closeModalButton(button, redirect) {
         closeModal(redirect);
     });
 }
+
+openModalButton(pageBackButton);
+closeModalButton(modalCloseButton);

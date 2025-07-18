@@ -17,9 +17,3 @@
 #team-members-page .grid-container {
     height: 50%;
 }
-
-@media screen and (max-width: 800px) {
-    .form-row {
-        flex-direction: column;
-    }
-}
