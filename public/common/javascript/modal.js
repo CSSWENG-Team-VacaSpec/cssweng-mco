@@ -1,7 +1,10 @@
 const modalContainer = document.getElementsByClassName('modal-container')[0];
 const modal = document.getElementsByClassName('modal')[0];
 
-export function cancel() {
+/**
+ * Opens the modal.
+ */
+function openModal() {
     modalContainer.classList.remove('modal-container-hidden');
     modal.classList.remove('modal-hidden');
 }
@@ -10,11 +13,32 @@ export function cancel() {
  * Closes the modal and redirects if given a URL.
  * @param {string} redirect URL to redirect to after closing the modal. Nothing happens if left blank.
  */
-export function closeModal(redirect = null) {
+function closeModal(redirect = null) {
     modalContainer.classList.add('modal-container-hidden');
     modal.classList.add('modal-hidden');
 
     if (redirect !== null) {
         location.href = redirect;
     }
+}
+
+/**
+ * Maps a button to open the modal.
+ * @param {HTMLElement} button Button to map to open the modal.
+ */
+export function openModalButton(button) {
+    button.addEventListener('click', () => {
+        openModal();
+    });
+}
+
+/**
+ * 
+ * @param {HTMLElement} button Button to map to close the modal.
+ * @param {*} redirect URL to redirect to.
+ */
+export function closeModalButton(button, redirect) {
+    button.addEventListener('click', () => {
+        closeModal(redirect);
+    });
 }

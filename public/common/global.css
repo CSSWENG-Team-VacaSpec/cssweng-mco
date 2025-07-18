@@ -235,6 +235,7 @@ a {
 
 .form-page-container {
     display: flex;
+    gap: var(--big-gap);
     transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
 }
 

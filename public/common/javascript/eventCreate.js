@@ -1,4 +1,4 @@
-import { cancel, closeModal } from './modal.js';
+import { openModalButton, closeModalButton } from './modal.js';
 
 let page = 0;
 const MAX_PAGE = 2;
@@ -29,7 +29,11 @@ document.addEventListener('DOMContentLoaded', () => {
     nextButton.addEventListener('click', () => {
         if (page < MAX_PAGE) {
             page++;
-            formContainer.style.transform = `translateX(-${page * 100}%)`;
+            if (page === 0) {
+                formContainer.style.transform = `translateX(0%)`;
+            } else {
+                formContainer.style.transform = `translateX(calc(-${page * 100}% - ${page} * var(--big-gap)))`;
+            }
         }
         updateButtons();
     });
@@ -37,26 +41,21 @@ document.addEventListener('DOMContentLoaded', () => {
     backButton.addEventListener('click', () => {
         if (page > 0) {
             page--;
-            formContainer.style.transform = `translateX(-${page * 100}%)`;
+            if (page === 0) {
+                formContainer.style.transform = `translateX(0%)`;
+            } else {
+                formContainer.style.transform = `translateX(calc(-${page * 100}% - ${page} * var(--big-gap)))`;
+            }
         }
         updateButtons();
     });
 
-    cancelButton.addEventListener('click', () => {
-        cancel();
-    });
 
-    pageBackButton.addEventListener('click', () => {
-        cancel();
-    });
+    openModalButton(cancelButton);
+    openModalButton(pageBackButton);
 
-    modalCloseButton.addEventListener('click', () => {
-        closeModal();
-    });
-
-    modalConfirmButton.addEventListener('click', () => {
-        closeModal('/eventList');
-    });
+    closeModalButton(modalCloseButton);
+    closeModalButton(modalConfirmButton, '/eventList');
 
     membersContainer.addEventListener('click', (event) => {
         const member = event.target.closest('.team-member-mini-card');

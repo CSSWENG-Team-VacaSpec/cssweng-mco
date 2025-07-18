@@ -1,17 +1,17 @@
 .create-events-wizard {
     display: flex;
     flex-direction: column;
+    overflow-x: hidden;
 }
 
 #event-description {
     resize: none;
 }
 
-.create-event-form {
+.create-events-form {
     display: flex;
     flex-direction: column;
-    gap: var(--big-gap);
-    overflow-x: hidden;
+    gap: 1.5rem;
 }
 
 #team-members-page .grid-container {
