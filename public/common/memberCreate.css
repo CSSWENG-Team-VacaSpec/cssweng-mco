@@ -1,0 +1,10 @@
+.create-members-wizard {
+    display: flex;
+    flex-direction: column;
+}
+
+.create-members-form {
+    display: flex;
+    flex-direction: column;
+    gap: var(--big-gap);
+}

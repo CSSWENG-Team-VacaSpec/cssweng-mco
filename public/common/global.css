@@ -233,6 +233,36 @@ a {
     margin: 0;
 }
 
+.form-page-container {
+    display: flex;
+    transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.form-page {
+    display: flex;
+    flex-direction: column;
+    gap: var(--medium-gap);
+    flex-shrink: 0;
+    width: 100%;
+}
+
+.form-row {
+    display: flex;
+    flex-direction: row;
+    gap: var(--small-gap);
+}
+
+.form-controls {
+    display: flex;
+    gap: var(--small-gap);
+    align-self: flex-end;
+    background: var(--card-bg);
+}
+
+.form-hidden-button {
+    display: none;
+}
+
 .text-field-container {
     display: flex;
     flex-direction: column;
@@ -242,6 +272,13 @@ a {
 
 .text-field:focus {
     outline: 1px var(--border-dark) solid;
+}
+
+.text-field-description {
+    color: var(--secondary-fg);
+    font-size: 0.8rem;
+    margin: 0;
+    padding: 0;
 }
 
 .field-label {
