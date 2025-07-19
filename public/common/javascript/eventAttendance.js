@@ -1,16 +1,14 @@
 document.addEventListener('DOMContentLoaded', () => {
-
     const eventId = window.eventId || new URLSearchParams(window.location.search).get('id');
 
-    const teamAttendance = [];
-    const supplierAttendance = [];
-
+    const teamAttendance = {};
+    const supplierAttendance = {};
 
     const attendanceBoxes = document.querySelectorAll('.attendance-box');
     console.log("Found", attendanceBoxes.length, "attendance boxes");
 
     attendanceBoxes.forEach(box => {
-       const presentBtn = box.querySelector('.present-button');
+        const presentBtn = box.querySelector('.present-button');
         const absentBtn = box.querySelector('.absent-button');
 
         if (!presentBtn || !absentBtn) {
@@ -18,28 +16,35 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
-    console.log("Binding click events to box:", box);
         const role = box.dataset.role;
         const index = parseInt(box.dataset.index, 10);
 
-        presentBtn?.addEventListener('click', () => {
+        // Restore previous selection (via pre-rendered "selected" class from HBS)
+
+        presentBtn.addEventListener('click', () => {
             console.log(`Clicked PRESENT for ${role} at index ${index}`);
+            
+            presentBtn.classList.add('selected');
+            absentBtn.classList.remove('selected');
+
             if (role === 'team') {
                 teamAttendance[index] = 'present';
             } else if (role === 'supplier') {
                 supplierAttendance[index] = 'present';
             }
-            box.remove();
         });
 
-        absentBtn?.addEventListener('click', () => {
+        absentBtn.addEventListener('click', () => {
             console.log(`Clicked ABSENT for ${role} at index ${index}`);
+            
+            absentBtn.classList.add('selected');
+            presentBtn.classList.remove('selected');
+
             if (role === 'team') {
                 teamAttendance[index] = 'absent';
             } else if (role === 'supplier') {
                 supplierAttendance[index] = 'absent';
             }
-            box.remove();
         });
     });
 
@@ -50,22 +55,15 @@ document.addEventListener('DOMContentLoaded', () => {
         window.location.href = `/event-details?id=${eventId}`;
     });
 
-    // Submit attendance
+    // Done / Submit button
     const doneButton = document.getElementById('submit-attendance');
     doneButton?.addEventListener('click', async (e) => {
         e.preventDefault();
 
-        // Fill attendance arrays with nulls for unmarked people
-        const maxTeamIndex = Math.max(-1, ...Object.keys(teamAttendance).map(Number));
-        const maxSupplierIndex = Math.max(-1, ...Object.keys(supplierAttendance).map(Number));
-
-        const finalTeamAttendance = Array.from({ length: maxTeamIndex + 1 }, (_, i) => teamAttendance[i] ?? null);
-        const finalSupplierAttendance = Array.from({ length: maxSupplierIndex + 1 }, (_, i) => supplierAttendance[i] ?? null);
-
-        console.log("📤 Submitting:", {
+        console.log("📤 Submitting attendance:", {
             eventID: eventId,
-            teamAttendance: finalTeamAttendance,
-            supplierAttendance: finalSupplierAttendance
+            teamAttendance,
+            supplierAttendance
         });
 
         try {
@@ -74,8 +72,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
                     eventID: eventId,
-                    teamAttendance: finalTeamAttendance,
-                    supplierAttendance: finalSupplierAttendance
+                    teamAttendance,
+                    supplierAttendance
                 })
             });
 
