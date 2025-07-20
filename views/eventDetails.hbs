@@ -30,14 +30,16 @@
                 <div class="button-wrapper">
                     <i class="lni lni-check"></i>
                     <p>Keep event</p>
-                </div>
+                </div> 
             </button>
-            <button class="destructive-button button" id="cancel-modal-yes-button">
-                <div class="button-wrapper">
-                    <i class="lni lni-xmark"></i>
-                    <p>Cancel</p>
-                </div>
-            </button>
+            <form action="/cancelEvent?id={{event._id}}" method="POST">
+                <button class="destructive-button button" id="cancel-modal-yes-button">
+                    <div class="button-wrapper">
+                        <i class="lni lni-xmark"></i>
+                        <p>Cancel</p>
+                    </div>
+                </button>
+            </form>
         </div>
     </div>
 </div>
@@ -97,18 +99,12 @@
     
         <div class="choice-buttons" id="details-choices">
             {{#if showButtons}}
-            <form action="/cancelEvent?id={{event._id}}" method="POST" onsubmit="return confirm('Are you sure you want to cancel this event?');">
-              <button type="submit" class="bg-button button" id="cancel-button">
-                 <span class="bg-button-wrapper button-wrapper">
-                 <i class="lni lni-xmark"></i>
-                 <p>Cancel</p>
-                </span>
-             </button>
-            </form>
-
-            {{/if}}
-            
-            {{#if showButtons}}
+            <button type="submit" class="bg-button button" id="cancel-button">
+                <span class="bg-button-wrapper button-wrapper">
+                <i class="lni lni-xmark"></i>
+                <p>Cancel</p>
+            </span>
+            </button>
             <button class="fg-button button" id="mark-done-button">
                 <a class="fg-button-wrapper button-wrapper" href="#">
                     <i class="lni lni-check"></i>
