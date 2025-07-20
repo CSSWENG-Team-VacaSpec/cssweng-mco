@@ -11,7 +11,7 @@ exports.renderPage = async (req, res) => {
     const suppliers = await Suppliers.find({}).lean(); // Get all suppliers
 
         res.render('eventCreate', {
-            layout: 'main',
+            layout: 'form',
             stylesheet: 'eventCreate',
             script: 'eventCreate',
             title: 'Create Event',

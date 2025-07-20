@@ -1,36 +1,5 @@
-<div class="modal-container modal-container-hidden">
-    <div class="modal modal-hidden">
-        <h2 class="modal-header header">Discard changes?</h2>
-        <p class="modal-description">Changes will not be saved.</p>
-        <div class="modal-controls">
-            <button class="bg-button button" id="cancel-modal-no-button">
-                <div class="button-wrapper">
-                    <i class="lni lni-pencil-1"></i>
-                    <p>Keep editing</p>
-                </div>
-            </button>
-            <button class="destructive-button button" id="cancel-modal-yes-button">
-                <div class="button-wrapper">
-                    <i class="lni lni-trash-3"></i>
-                    <p>Discard</p>
-                </div>
-            </button>
-        </div>
-    </div>
-</div>
-
-<div class="page-title-bar">
-    <button class="back-link" id="page-back-button">
-        <div class="button-wrapper">
-            <i class="lni lni-arrow-left"></i>
-            <p>Back</p>
-        </div>
-    </button>
-    <h2 class="header">Create event</h2>
-</div>
-
-<div class="create-events-wizard card">
-    <form class="create-event-form" action="/create/createEvent" method="post">
+<DIV class="form-wizard card">
+    <form class="form" action="/create/createEvent" method="post">
         <div class="form-page-container">
             <div class="form-page">
                 <h1 class="secondary-header">Event details</h1>
@@ -151,4 +120,4 @@
         <input type="hidden" id="added-suppliers-input" name="addedSuppliers">
 
     </form>
-</div>
+</DIV>

@@ -22,6 +22,36 @@
 <body>
     {{>sidebar}}
     <div class="main-content container">
+        <div class="modal-container modal-container-hidden">
+            <div class="modal modal-hidden">
+                <h2 class="modal-header header">Discard changes?</h2>
+                <p class="modal-description">Changes will not be saved.</p>
+                <div class="modal-controls">
+                    <button class="bg-button button" id="cancel-modal-no-button">
+                        <div class="button-wrapper">
+                            <i class="lni lni-pencil-1"></i>
+                            <p>Keep editing</p>
+                        </div>
+                    </button>
+                    <button class="destructive-button button" id="cancel-modal-yes-button">
+                        <div class="button-wrapper">
+                            <i class="lni lni-trash-3"></i>
+                            <p>Discard</p>
+                        </div>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="page-title-bar">
+            <button class="back-link" id="page-back-button">
+                <a class="button-wrapper" href="#">
+                    <i class="lni lni-arrow-left"></i>
+                    <p>Back</p>
+                </a>
+            </button>
+            <h2 class="header">{{title}}</h2>
+        </div>
         {{{body}}}
     </div>
 </body>

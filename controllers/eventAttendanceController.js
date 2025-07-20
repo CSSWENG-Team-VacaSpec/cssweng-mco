@@ -37,10 +37,10 @@ exports.getEventAttendancePage = async (req, res) => {
 
         res.render('eventAttendance', {
             user: req.session.user,
-            layout: 'main',
+            layout: 'form',
             stylesheet: 'eventAttendance',
             script: 'eventAttendance',
-            title: 'Event Attendance',
+            title: 'Attendance for ' + event.eventName,
             page: 'event-attendance',
             event,
             team,

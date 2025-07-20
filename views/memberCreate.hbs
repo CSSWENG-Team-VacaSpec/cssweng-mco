@@ -1,0 +1,46 @@
+<div class="create-members-wizard card">
+    <form class="create-members-form" action="/create/createMembers" method="post">
+        <div class="form-page-container">
+            <div class="form-page">
+                <div class="form-row">
+                    <div class="text-field-container">
+                        <label class="field-label" for="first-name">First name</label>
+                        <input type="text" id="first-name" class="text-field" name="first-name" required>
+                    </div>
+                    <div class="text-field-container">
+                        <label class="field-label" for="last-name">Last name</label>
+                        <input type="text" id="last-name" class="text-field" name="last-name" required>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="text-field-container">
+                        <label class="field-label" for="mobile-number">Mobile number</label>
+                        <input type="text" id="mobile-number" class="text-field" name="mobile-number" required>
+                        <label class="text-field-description" for="mobile-number">The team member will use their phone number and password to sign in.</p>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="text-field-container">
+                        <label class="field-label" for="password">Password</label>
+                        <input type="password" id="password" class="text-field" name="password" required>
+                        <label class="text-field-description" for="password">Send the team member their login credentials and ask them to change their password as soon as possible.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="form-controls">
+            <button type="button" class="bg-button button" id="form-cancel-button">
+                <div class="button-wrapper">
+                    <i class="lni lni-xmark"></i>
+                    <p>Cancel</p>
+                </div>
+            </button>
+            <button type="submit" class="fg-button button" id="form-submit-button">
+                <div class="button-wrapper">
+                    <i class="lni lni-plus"></i>
+                    <p>Add</p>
+                </div>
+            </button>
+        </div>
+    </form>
+</div>
