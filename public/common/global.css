@@ -32,6 +32,7 @@
     --input-field-radius: 8px;
 
     --card-shadow: 0px 0px 4px #00000011;
+    --card-shadow-hover: 0px 0px 6px #00000022;
 
     --small-gap: 0.5rem;
     --medium-gap: 1rem;
@@ -165,8 +166,11 @@ a {
 }
 
 .team-member-card {
-    background-color: transparent;
-    box-shadow: inset 0 0 0 1px var(--border-dark);
+    display: flex;
+    flex-direction: row;
+    gap: var(--small-gap);
+    background-color: var(--card-bg);
+    color: var(--primary-fg);
 }
 
 .team-member-card[data-role="Manager"] {
@@ -957,10 +961,10 @@ button.form-hidden-button {
 }
 
 .team-member-picture {
-    width: 5rem;
     height: 5rem;
+    aspect-ratio: 1;
     object-fit: cover;
-    border-radius: 50%;
+    border-radius: var(--circle-radius);
     background-color: var(--border-light);
 }
 
