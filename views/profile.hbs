@@ -17,3 +17,32 @@
         </div>
     </div>
 {{/if}}
+<div class="profile-content">
+    <div class="card" id="personalInfo">
+        <div id="profile-picture"></div>
+        <div class="personal-info-content">
+            <h2>{{profile.firstName}} {{profile.lastName}}</h2>
+            <p>{{profile.role}}</p>
+        </div>
+    </div>
+    <div class="card" id="dateJoined">
+        <p class="card-header">Date joined</p>
+        <p>{{profile.createdAt}}</p>
+    </div>
+    <div class="card" id="bio">
+        <p class="card-header">Bio</p>
+        <p>{{profile.bio}}</p>
+    </div>
+    <div class="card" id="contactInfo">
+        <div class="card-description-item">
+            <i class="lni lni-phone"></i>
+            <a href="tel:{{profile._id}}">{{profile._id}}</a>
+        </div>
+        {{#if profile.email}}
+            <div class="card-description-item">
+                <i class="lni lni-envelope-1"></i>
+                <a href="mailto:{{profile.email}}">{{profile.email}}</a>
+            </div>
+        {{/if}}
+    </div>
+</div>

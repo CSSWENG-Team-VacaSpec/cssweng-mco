@@ -125,6 +125,11 @@ a {
     box-shadow: var(--card-shadow);
 }
 
+.card * {
+    margin: 0;
+    padding: 0;
+}
+
 .card-title {
     font-size: 1.1rem;
     font-weight: 600;
@@ -143,6 +148,15 @@ a {
     align-items: center;
     gap: var(--small-gap);
     flex-direction: row;
+}
+
+.card-description-item #description {
+    display: -webkit-box;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    -webkit-line-clamp: 2;
+            line-clamp: 2;
+    -webkit-box-orient: vertical;
 }
 
 .card-description-item i {
