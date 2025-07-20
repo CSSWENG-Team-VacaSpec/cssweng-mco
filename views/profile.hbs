@@ -1,0 +1,19 @@
+<div class="page-title-bar">
+    <h1 class="header">{{profile.firstName}} {{profile.lastName}}</h1>
+</div>
+{{#if (eq page 'my-profile')}}
+    <div class="top-page-bar">
+        <div class="bg-button button">
+            <a class="button-wrapper" href="/edit/profile/{{profile._id}}">
+                <i class="lni lni-pencil-1"></i>
+                <p>Edit profile</p>
+            </a>
+        </div>
+        <div class="fg-button button">
+            <a class="button-wrapper" href="/logout">
+                <i class="lni lni-exit"></i>
+                <p>Log out</p>
+            </a>
+        </div>
+    </div>
+{{/if}}
