@@ -9,12 +9,14 @@
                     <p>Keep event</p>
                 </div>
             </button>
-            <button class="destructive-button button" id="delete-modal-yes-button">
-                <div class="button-wrapper">
-                    <i class="lni lni-trash-3"></i>
-                    <p>Delete</p>
-                </div>
-            </button>
+            <form action="/deleteEvent?id={{event._id}}" method="post">
+                <button class="destructive-button button" id="delete-modal-yes-button">
+                    <div class="button-wrapper">
+                        <i class="lni lni-trash-3"></i>
+                        <p>Delete</p>
+                    </div>
+                </button>
+            </form>
         </div>
     </div>
 </div>
@@ -58,15 +60,12 @@
                     <p>Edit</p>
                 </a>
             </button>
-            <form action="/deleteEvent?id={{event._id}}">
-                    <button type="submit" class="destructive-button button" id="details-delete-button">
-                    <span class="bg-button-wrapper button-wrapper">
-                    <i class="lni lni-trash-3"></i>
-                         <p>Delete</p>
-                    </span>
-                    </button>
-            </form>
-
+            <button type="button" class="destructive-button button" id="details-delete-button">
+            <span class="bg-button-wrapper button-wrapper">
+            <i class="lni lni-trash-3"></i>
+                    <p>Delete</p>
+            </span>
+            </button>
         </div>
         {{/if}}
 

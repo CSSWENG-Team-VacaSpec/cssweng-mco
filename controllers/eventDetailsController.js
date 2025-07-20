@@ -35,20 +35,17 @@ exports.getEventDetailsPage = async (req, res) => {
         const users = await User.find({ _id: { $in: userIds } }).lean();
 
         res.render('eventDetails', {
-        user: req.session.user,
-        layout: 'main',
-        stylesheet: 'eventDetails',
-        script: 'eventDetails',
-        title: 'Event Details',
-        page: 'event-details',
-        showButtons,
-        teamMembers: users,
-        team,
-        event
-       
-
-    });
-
+            user: req.session.user,
+            layout: 'main',
+            stylesheet: 'eventDetails',
+            script: 'eventDetails',
+            title: 'Event Details',
+            page: 'event-details',
+            showButtons,
+            teamMembers: users,
+            team,
+            event
+        });
     }   catch (error) {
         console.error("Error opening event:", error);
         res.status(500).send("Internal server error");
