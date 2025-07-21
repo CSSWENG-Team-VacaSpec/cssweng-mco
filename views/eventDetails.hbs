@@ -9,12 +9,14 @@
                     <p>Keep event</p>
                 </div>
             </button>
-            <button class="destructive-button button" id="delete-modal-yes-button">
-                <div class="button-wrapper">
-                    <i class="lni lni-trash-3"></i>
-                    <p>Delete</p>
-                </div>
-            </button>
+            <form action="/deleteEvent?id={{event._id}}" method="post">
+                <button class="destructive-button button" id="delete-modal-yes-button">
+                    <div class="button-wrapper">
+                        <i class="lni lni-trash-3"></i>
+                        <p>Delete</p>
+                    </div>
+                </button>
+            </form>
         </div>
     </div>
 </div>
@@ -28,14 +30,16 @@
                 <div class="button-wrapper">
                     <i class="lni lni-check"></i>
                     <p>Keep event</p>
-                </div>
+                </div> 
             </button>
-            <button class="destructive-button button" id="cancel-modal-yes-button">
-                <div class="button-wrapper">
-                    <i class="lni lni-xmark"></i>
-                    <p>Cancel</p>
-                </div>
-            </button>
+            <form action="/cancelEvent?id={{event._id}}" method="POST">
+                <button class="destructive-button button" id="cancel-modal-yes-button">
+                    <div class="button-wrapper">
+                        <i class="lni lni-xmark"></i>
+                        <p>Cancel</p>
+                    </div>
+                </button>
+            </form>
         </div>
     </div>
 </div>
@@ -58,15 +62,12 @@
                     <p>Edit</p>
                 </a>
             </button>
-            <form action="/deleteEvent?id={{event._id}}">
-                    <button type="submit" class="destructive-button button" id="details-delete-button">
-                    <span class="bg-button-wrapper button-wrapper">
-                    <i class="lni lni-trash-3"></i>
-                         <p>Delete</p>
-                    </span>
-                    </button>
-            </form>
-
+            <button type="button" class="destructive-button button" id="details-delete-button">
+            <span class="bg-button-wrapper button-wrapper">
+            <i class="lni lni-trash-3"></i>
+                    <p>Delete</p>
+            </span>
+            </button>
         </div>
         {{/if}}
 
@@ -98,18 +99,12 @@
     
         <div class="choice-buttons" id="details-choices">
             {{#if showButtons}}
-            <form action="/cancelEvent?id={{event._id}}" method="POST" onsubmit="return confirm('Are you sure you want to cancel this event?');">
-              <button type="submit" class="bg-button button" id="cancel-button">
-                 <span class="bg-button-wrapper button-wrapper">
-                 <i class="lni lni-xmark"></i>
-                 <p>Cancel</p>
-                </span>
-             </button>
-            </form>
-
-            {{/if}}
-            
-            {{#if showButtons}}
+            <button type="submit" class="bg-button button" id="cancel-button">
+                <span class="bg-button-wrapper button-wrapper">
+                <i class="lni lni-xmark"></i>
+                <p>Cancel</p>
+            </span>
+            </button>
             <button class="fg-button button" id="mark-done-button">
                 <a class="fg-button-wrapper button-wrapper" href="#">
                     <i class="lni lni-check"></i>
