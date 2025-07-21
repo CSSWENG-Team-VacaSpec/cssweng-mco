@@ -50,12 +50,13 @@ app.engine('hbs', exphbs.engine({
 app.set('views', path.join(__dirname, 'views'));
 
 // route declaration
-const loginRoute = require('./routes/r_login');
-const searchBarRoute = require('./routes/r_searchBar');
+const loginRoute = require('./routes/r_login.js');
+const searchBarRoute = require('./routes/r_searchBar.js');
 const eventListRoute = require('./routes/r_event_list.js');
 const notificationRoute = require('./routes/r_notifications.js');
 const eventDetailsRoute = require('./routes/r_event_details.js');
-const teamRoute = require('./routes/r_team');
+const teamRoute = require('./routes/r_team.js');
+const profileRoute = require('./routes/r_profile.js');
 const eventCreateRoute = require('./routes/r_event_create.js');
 const memberCreateRoute = require('./routes/r_member_create.js');
 const supplierCreateRoute = require('./routes/r_supplier_create.js');
@@ -71,6 +72,7 @@ app.use('/', eventListRoute);
 app.use('/', notificationRoute);
 app.use('/', eventDetailsRoute);
 app.use('/', teamRoute);
+app.use('/', profileRoute);
 app.use('/create', eventCreateRoute);
 app.use('/create', memberCreateRoute);
 app.use('/create', supplierCreateRoute);
