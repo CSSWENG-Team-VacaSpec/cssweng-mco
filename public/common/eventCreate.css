@@ -1,70 +1,17 @@
-.create-events-wizard {
-    display: flex;
-    flex-direction: column;
+.form-wizard {
+    overflow-x: hidden;
 }
 
 #event-description {
     resize: none;
 }
 
-.create-event-form {
+.create-events-form {
     display: flex;
     flex-direction: column;
-    gap: var(--big-gap);
-    overflow-x: hidden;
-}
-
-.form-page-container {
-    display: flex;
-    transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-.form-page {
-    display: flex;
-    flex-direction: column;
-    gap: var(--medium-gap);
-    flex-shrink: 0;
-    width: 100%;
-}
-
-.form-row {
-    display: flex;
-    flex-direction: row;
-    gap: var(--small-gap);
-}
-
-.form-controls {
-    align-self: flex-end;
-    background: var(--card-bg);
-}
-
-.form-hidden-button {
-    display: none;
-}
-
-.grid-container {
-    display: flex;
-    flex-direction: column;
-    border: 1px solid var(--border-dark);
-    border-radius: var(--card-radius);
-    padding: var(--card-padding);
-    gap: var(--small-gap);
-}
-
-.team-mini-grid {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    gap: var(--small-gap);
-    overflow-y: scroll;
+    gap: 1.5rem;
 }
 
 #team-members-page .grid-container {
     height: 50%;
-}
-
-@media screen and (max-width: 800px) {
-    .form-row {
-        flex-direction: column;
-    }
 }

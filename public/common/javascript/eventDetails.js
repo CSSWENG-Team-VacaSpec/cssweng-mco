@@ -2,6 +2,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const eventData = JSON.parse(sessionStorage.getItem('currentEvent'));
     
     if (eventData) {
+        const eventId = eventData?._id
         document.getElementById('event-name').textContent = eventData.eventName;
         document.getElementById('client-name').textContent = eventData.clientName;
         document.getElementById('date').textContent = eventData.eventDate;
@@ -30,6 +31,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
         const deleteButton = document.getElementById('details-delete-button');
         const cancelButton = document.getElementById('cancel-button');
+        const attendanceButton = document.getElementById('attendance-check-button');
 
         deleteButton.addEventListener('click', () => {
             modalDeleteContainer.classList.remove('modal-container-hidden');
@@ -39,6 +41,11 @@ document.addEventListener('DOMContentLoaded', function() {
         cancelButton.addEventListener('click', () => {
             modalCancelContainer.classList.remove('modal-container-hidden');
             modalCancel.classList.remove('modal-hidden');
+        });
+
+        attendanceButton.addEventListener('click', () => {
+            sessionStorage.setItem('currentEvent', JSON.stringify(eventData));
+            window.location.href = `/eventAttendance?id=${eventData._id}`;
         });
 
         modalDeleteCloseButton.addEventListener('click', () => {

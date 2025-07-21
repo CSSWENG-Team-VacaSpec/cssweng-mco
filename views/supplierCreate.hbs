@@ -1,0 +1,40 @@
+<div class="form-wizard card">
+    <form class="form" action="/create/createSupplier" method="post">
+        <div class="form-page-container">
+            <div class="form-page">
+                <div class="form-row">
+                    <div class="text-field-container">
+                        <label class="field-label" for="name">Name</label>
+                        <input type="text" id="name" class="text-field" name="name" required>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="text-field-container">
+                        <label class="field-label" for="contact-info">Contact information</label>
+                        <input type="text" id="contact-info" class="text-field" name="contact-info" required>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="text-field-container">
+                        <label class="field-label" for="description">Description</label>
+                        <textarea id="description" class="text-field" name="description" rows="6" required></textarea>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="form-controls">
+            <button type="button" class="bg-button button" id="form-cancel-button">
+                <div class="button-wrapper">
+                    <i class="lni lni-xmark"></i>
+                    <p>Cancel</p>
+                </div>
+            </button>
+            <button type="submit" class="fg-button button" id="form-submit-button">
+                <div class="button-wrapper">
+                    <i class="lni lni-plus"></i>
+                    <p>Add</p>
+                </div>
+            </button>
+        </div>
+    </form>
+</div>

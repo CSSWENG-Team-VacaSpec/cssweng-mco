@@ -1,0 +1,48 @@
+<div class="event-attendance card">
+    <div class="attendance-team">
+        <h2 class="secondary-header">Team Members</h2>
+        <div class="members-box">
+            {{#if teamMembers.length}}
+                {{#each teamMembers}}
+                    {{> attendanceBox this role="team" attendance=attendance index=index}}
+                {{/each}}
+            {{else}}
+                <p>Currently no members in this event.</p>
+            {{/if}}
+        </div>
+    </div>
+
+    <div class="attendance-supplier">
+        <h2 class="secondary-header">Suppliers</h2>
+        <div class="members-box">
+            {{#if suppliers.length}}
+                {{#each suppliers}}
+                    {{> attendanceBox this role="supplier" attendance=attendance index=index}}
+                {{/each}}
+            {{else}}
+                <p>Currently no suppliers in this event.</p>
+            {{/if}}
+        </div>
+    </div>
+</div>
+
+<div class="attendance-page-buttons">
+    <button class="bg-button button" id="form-cancel-button" href="/eventDetails?id={{event._id}}">
+        <div class="bg-button-wrapper button-wrapper">
+            <i class="lni lni-xmark"></i>
+            <p>Cancel</p>
+        </div>
+    </button>
+
+    <button class="fg-button button" id="submit-attendance" href="/eventDetails?id={{event._id}}">
+        <div class="fg-button-wrapper button-wrapper">
+            <i class="lni lni-check"></i>
+            <p>Done</p>
+        </div>
+    </button>
+</div>
+
+<script>
+    const teamId = '{{team._id}}';
+    const eventId = '{{event._id}}';
+</script>

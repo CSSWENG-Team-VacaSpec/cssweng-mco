@@ -1,0 +1,27 @@
+<div class="attendance-box container" 
+     data-id="{{_id}}" 
+     data-role="{{role}}" 
+     data-index="{{index}}" 
+     data-attendance="{{attendance}}">
+
+    <div class="team-member-medium-details">
+        <span id="full-name-medium">{{firstName}} {{lastName}}</span>
+        <span id="contact-no-medium">{{formatPhone _id}}</span>
+    </div>
+
+    <div class="attendance-button-container">
+        <button class="fg-button button present-button {{#if (eq attendance 'present')}}selected{{/if}}">
+            <div class="fg-button-wrapper button-wrapper">
+                <i class="lni lni-check"></i>
+                <p>Present</p>
+            </div>
+        </button>
+
+        <button class="fg-button button absent-button {{#if (eq attendance 'absent')}}selected{{/if}}">
+            <div class="fg-button-wrapper button-wrapper">
+                <i class="lni lni-xmark"></i>
+                <p>Absent</p>
+            </div>
+        </button>
+    </div>
+</div>

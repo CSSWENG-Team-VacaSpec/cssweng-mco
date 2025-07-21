@@ -1,3 +1,5 @@
+import { openModalButton, closeModalButton, modalConfirmButton } from './modal.js';
+
 let page = 0;
 const MAX_PAGE = 2;
 
@@ -6,13 +8,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const backButton = document.getElementById('form-back-button');
     const cancelButton = document.getElementById('form-cancel-button');
     const submitButton = document.getElementById('form-submit-button');
-    const pageBackButton = document.getElementById('page-back-button');
     const formContainer = document.getElementsByClassName('form-page-container')[0];
-    
-    const modalContainer = document.getElementsByClassName('modal-container')[0];
-    const modal = document.getElementsByClassName('modal')[0];
-    const modalCloseButton = document.getElementById('cancel-modal-no-button');
-    const modalConfirmButton = document.getElementById('cancel-modal-yes-button');
 
     const membersContainer = document.getElementById('memberSearchResults');
     let members = membersContainer ? membersContainer.getElementsByClassName('team-member-mini-card') : [];
@@ -29,7 +25,11 @@ document.addEventListener('DOMContentLoaded', () => {
     nextButton.addEventListener('click', () => {
         if (page < MAX_PAGE) {
             page++;
-            formContainer.style.transform = `translateX(-${page * 100}%)`;
+            if (page === 0) {
+                formContainer.style.transform = `translateX(0%)`;
+            } else {
+                formContainer.style.transform = `translateX(calc(-${page * 100}% - ${page} * var(--big-gap)))`;
+            }
         }
         updateButtons();
     });
@@ -37,29 +37,18 @@ document.addEventListener('DOMContentLoaded', () => {
     backButton.addEventListener('click', () => {
         if (page > 0) {
             page--;
-            formContainer.style.transform = `translateX(-${page * 100}%)`;
+            if (page === 0) {
+                formContainer.style.transform = `translateX(0%)`;
+            } else {
+                formContainer.style.transform = `translateX(calc(-${page * 100}% - ${page} * var(--big-gap)))`;
+            }
         }
         updateButtons();
     });
 
-    cancelButton.addEventListener('click', () => {
-        cancelEventCreation();
-    });
 
-    pageBackButton.addEventListener('click', () => {
-        cancelEventCreation();
-    });
-
-    modalCloseButton.addEventListener('click', () => {
-        modalContainer.classList.add('modal-container-hidden');
-        modal.classList.add('modal-hidden');
-    });
-
-    modalConfirmButton.addEventListener('click', () => {
-        modalContainer.classList.add('modal-container-hidden');
-        modal.classList.add('modal-hidden');
-        location.href = '/eventlist';
-    });
+    openModalButton(cancelButton);
+    closeModalButton(modalConfirmButton, '/eventList');
 
     membersContainer.addEventListener('click', (event) => {
         const member = event.target.closest('.team-member-mini-card');
@@ -131,11 +120,6 @@ document.addEventListener('DOMContentLoaded', () => {
         backButton.disabled = page <= 0;
         backButton.classList.toggle('disabled-button', backButton.disabled);
         backButton.classList.toggle('bg-button', !backButton.disabled);
-    }
-
-    function cancelEventCreation() {
-        modalContainer.classList.remove('modal-container-hidden');
-        modal.classList.remove('modal-hidden');
     }
 
     submitButton.addEventListener('click', () => {

@@ -1,7 +1,10 @@
 document.addEventListener('DOMContentLoaded', function() {
     let originalNotifs = getInitialEvents();
-    const container = document.querySelector('.upcoming-events-container');
-    
+    const container = document.querySelector('.card-list');
+
+    const noResultsContainer = document.querySelector('#no-results-container').content.cloneNode(true);
+    const inProgressContainer = document.querySelector('#search-progress-container').content.cloneNode(true);
+
     function debounce(fn, delay) {
         let timeout;
         return function(...args) {
@@ -12,19 +15,24 @@ document.addEventListener('DOMContentLoaded', function() {
 
     const searchNotifications = debounce(function(query) {
         if (!query) {
-            renderEvents(originalNotifs);
+            renderNotifications(originalNotifs);
             return;
         }
 
-        container.innerHTML = '<div class="search-loading">Searching notifications...</div>';
+        container.innerHTML = '';
+        container.appendChild(inProgressContainer);
 
         fetch(`/searchNotifications?q=${encodeURIComponent(query)}`)
             .then(response => response.text())
             .then(data => {
+                let notifs = JSON.parse(data);
+                notifs = notifs.results;
+
                 if (data.length === 0) {
-                    container.innerHTML = '<p class="no-results">No matching notifications found</p>';
+                    container.innerHTML = '';
+                    container.appendChild(noResultsContainer);
                 } else {
-                    renderNotifications(data);
+                    renderNotifications(notifs);
                 }
             })
             .catch(error => {
@@ -35,38 +43,52 @@ document.addEventListener('DOMContentLoaded', function() {
 
     function renderNotifications(notifs) {
         if (notifs.length === 0) {
-            container.innerHTML = '<p class="no-events-message">No notifications found</p>';
+            container.innerHTML = '';
+            container.appendChild(noResultsContainer);
             return;
         }
 
-        notifs = JSON.parse(notifs);
-        notifs = notifs.results;
-
-        container.innerHTML = '';
         notifs.forEach(event => {
             const eventElement = document.createElement('div');
             container.appendChild(eventElement);
             
             eventElement.outerHTML = `
-                <div class="event-box container"
+                <div class="event-box card"
                     data-id="${event._id}"
                     data-cp-first-name="${event.CPFirstName}"
                     data-cp-last-name="${event.CPLastName}"
                     data-cp-contact-no="${event.CPContactNo}"
                 >
                     <div class="event-box-top">
-                        <span id="event-name">${event.eventName}</span>
-                        <span id="client-name">${event.clientFirstName} ${event.clientLastName}</span>
+                        <div class="main-event-info">
+                            <span id="event-name" class="card-title">${event.eventName}</span>
+                            <span id="client-name">${event.clientFirstName} ${event.clientLastName}</span>
+                        </div>
+                        <span id="status" data-status="${event.status}">${event.status}</span>
                     </div>
-                    <div class="event-box-bottom">
-                        <span id="date">${event.eventDate}</span>
-                        <span id="location">${event.location}</span>
-                        <span><strong>Description</strong></span>
-                        <span id="description">${event.description || 'No description'}</span>
-                        <span id="status" data-status="${event.status}"><strong>● Status:</strong> ${event.status}</span>
+                    <div class="card-group">
+                        <div class="card-description-item">
+                            <i class="lni lni-calendar-days"></i>
+                            <span id="date"> ${event.eventDate}</span>
+                        </div>
+                        <div class="card-description-item">
+                            <i class="lni lni-map-pin-5"></i>
+                            <span id="location">${event.location}</span>
+                        </div>
+                    </div>
+                    
+                    <div class="card-group">
+                        <div class="card-description-item">
+                            <i class="lni lni-pen-to-square"></i>
+                            <span id="description">${event.description || 'No description'}</span>
+                        </div>
                     </div>
                 </div>
             `;
         });
     }
+
+    document.getElementById('eventSearchInput').addEventListener('input', (e) => {
+        searchNotifications(e.target.value.trim());
+    });
 });

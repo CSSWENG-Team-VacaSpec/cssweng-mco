@@ -1,16 +1,8 @@
-.team-list-top {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: var(--medium-gap);
-    margin-top: var(--medium-gap);
-}
-
 .members-box {
     box-sizing: border-box;
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: var(--medium-gap);
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: var(--small-gap);
 }
 
 .members-box p {
@@ -22,4 +14,15 @@
     display: flex;
     flex-direction: column;
     gap: var(--medium-gap);
+}
+
+.team-member-types {
+    display: flex;
+    flex-direction: column;
+    gap: var(--small-gap);
+}
+
+.card:hover {
+    box-shadow: var(--card-shadow-hover);
+    transition: box-shadow 0.25s ease;
 }
