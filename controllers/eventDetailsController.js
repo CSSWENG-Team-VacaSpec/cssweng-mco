@@ -2,7 +2,7 @@
 const Team = require('../models/teams');
 const Event = require('../models/events');
 const User = require('../models/employeeAccounts');
-
+const Suppliers = require('../models/suppliers');
 
 
 exports.getEventDetailsPage = async (req, res) => {
@@ -33,7 +33,9 @@ exports.getEventDetailsPage = async (req, res) => {
         ];
 
         const users = await User.find({ _id: { $in: userIds } }).lean();
-
+        const supplierList = await Suppliers.find({_id: { $in: team.supplierList }}).lean();
+        
+        console.log(supplierList)
         res.render('eventDetails', {
             user: req.session.user,
             layout: 'main',
@@ -44,7 +46,9 @@ exports.getEventDetailsPage = async (req, res) => {
             showButtons,
             teamMembers: users,
             team,
-            event
+            event,
+            supplierList
+    
         });
     }   catch (error) {
         console.error("Error opening event:", error);
