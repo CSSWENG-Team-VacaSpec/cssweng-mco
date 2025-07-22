@@ -108,16 +108,7 @@ exports.respondToInvite = async (req, res) => {
       return res.status(404).json({ error: 'Team not found' });
       }
 
-console.log('Team before update:', team);
-      if (response === 'available') {
-        await Team.findByIdAndUpdate(poNumber, {
-          $push: {
-            teamMemberList: employeeCN,
-            roleList: invite.role || 'member',
-            teamMemberAttendance: 'pending'
-          }
-        });
-      }
+     
     }
     const updatedTeam = await Team.findById(poNumber);
     console.log('Updated team:', updatedTeam);
