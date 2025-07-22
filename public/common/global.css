@@ -806,6 +806,22 @@ a {
     .mobile-top-bar-button i {
         font-size: var(--icon-size);
     }
+
+    .team-member-mini-picture {
+        height: 100%;
+        aspect-ratio: 1;
+        background-color: var(--page-bg);
+        border-radius: var(--circle-radius);
+        padding: 0.2rem;
+    }
+
+    .team-member-mini-card #full-name {
+        font-size: 0.6rem;
+    }
+
+    .team-member-mini-card #role {
+        font-size: 0.5rem;
+    }
 }
 
 @media (pointer: coarse) {

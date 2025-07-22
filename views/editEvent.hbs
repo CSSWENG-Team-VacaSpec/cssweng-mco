@@ -26,7 +26,8 @@
             <p>Back</p>
         </div>
     </button>
-    <h2 class="header">Create event</h2>
+    <h2 class="header">Edit event: </h2>
+    <h2 class="header" id="event-name">{{event.eventName}}</h2>
 </div>
 
 <div class="create-events-wizard card">
@@ -37,23 +38,23 @@
                 <div class="form-row">
                     <div class="text-field-container">
                         <label class="field-label" for="event-name">Event name</label>
-                        <input type="text" id="event-name" class="text-field" name="event-name" required>
+                        <input type="text" id="event-name" class="text-field" name="event-name" value="{{event.eventName}}" required>
                     </div>
                     <div class="text-field-container">
                         <label class="field-label" for="client-name">Client name</label>
-                        <input type="text" id="client-name" class="text-field" name="client-name" required>
+                        <input type="text" id="client-name" class="text-field" name="client-name" value="{{event.clientName}}" required>
                     </div>
                 </div>
                 <div class="form-row">
                     <div class="text-field-container">
                         <label class="field-label" for="event-description">Description</label>
-                        <textarea id="event-description" class="text-field" name="event-description" rows="6" required></textarea>
+                        <textarea id="event-description" class="text-field" name="event-description" rows="6" required>{{event.description}}</textarea>
                     </div>
                 </div>
                 <div class="form-row">
                     <div class="text-field-container">
                         <label class="field-label" for="location">Location</label>
-                        <input type="text" id="location" class="text-field" name="location" required>
+                        <input type="text" id="location" class="text-field" name="location" value="{{event.location}}" required>
                     </div>
                 </div>
                 <div class="form-row">
@@ -70,11 +71,11 @@
                 <div class="form-row">
                     <div class="text-field-container">
                         <label class="field-label" for="contact-name">Name</label>
-                        <input type="text" id="contact-name" class="text-field" name="contact-name" required>
+                        <input type="text" id="contact-name" class="text-field" name="contact-name" value="{{event.CPFirstName}} {{event.CPLastName}}" required>
                     </div>
                     <div class="text-field-container">
                         <label class="field-label" for="phone-number">Phone number</label>
-                        <input type="text" id="phone-number" class="text-field" name="phone-number" required>
+                        <input type="text" id="phone-number" class="text-field" name="phone-number" value="{{event.CPContactNo}}" required>
                     </div>
                 </div>
             </div>
@@ -83,7 +84,7 @@
                 <div class="grid-container">
                     <h1 class="secondary-header">Search</h1>
                     <div role="search" class="search-bar" id="memberSearchForm">
-                        <button type="submit" id="search-icon"><i class="lni lni-search-1"></i></button>
+                        <button type="submit"><i class="lni lni-search-1"></i></button>
                         <input type="search" name="q" id="memberSearchInput" placeholder="Search team members...">
                     </div>
                     <div class="team-mini-grid" id="memberSearchResults">
@@ -104,7 +105,7 @@
                 <div class="grid-container">
                     <h1 class="secondary-header">Search</h1>
                     <div role="search" class="search-bar" id="supplierSearchForm">
-                        <button type="submit" id="search-icon"><i class="lni lni-search-1"></i></button>
+                        <button type="submit"><i class="lni lni-search-1"></i></button>
                         <input type="search" name="q" id="memberSearchInput" placeholder="Search suppliers...">
                     </div>
                     <div class="team-mini-grid" id="supplierSearchResults">
@@ -142,8 +143,8 @@
             </button>
             <button type="submit" class="fg-button button" id="form-submit-button" disabled>
                 <div class="button-wrapper">
-                    <i class="lni lni-check"></i>
-                    <p>Create event</p>
+                    <i class="lni lni-pencil-1"></i>
+                    <p>Edit event</p>
                 </div>
             </button>
         </div>
