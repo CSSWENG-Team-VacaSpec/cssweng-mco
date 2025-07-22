@@ -2,6 +2,7 @@ const Team = require('../models/teams');
 const Event = require('../models/events');
 const User = require('../models/employeeAccounts');
 const searchEventParticipants = require('../utils/searchEventParticipants');
+const Suppliers = require('../models/suppliers');
 
 
 exports.getEventDetailsPage = async (req, res) => {
@@ -33,22 +34,23 @@ exports.getEventDetailsPage = async (req, res) => {
         ];
 
         const users = await User.find({ _id: { $in: userIds } }).lean();
-
+        const supplierList = await Suppliers.find({_id: { $in: team.supplierList }}).lean();
+        
+        console.log(supplierList)
         res.render('eventDetails', {
-        user: req.session.user,
-        layout: 'main',
-        stylesheet: 'eventDetails',
-        script: 'eventDetails',
-        title: 'Event Details',
-        page: 'event-details',
-        showButtons,
-        teamMembers: users,
-        team,
-        event
-       
-
-    });
-
+            user: req.session.user,
+            layout: 'main',
+            stylesheet: 'eventDetails',
+            script: 'eventDetails',
+            title: 'Event Details',
+            page: 'event-details',
+            showButtons,
+            teamMembers: users,
+            team,
+            event,
+            supplierList
+    
+        });
     }   catch (error) {
         console.error("Error opening event:", error);
         res.status(500).send("Internal server error");

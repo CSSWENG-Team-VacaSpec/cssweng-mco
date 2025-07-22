@@ -65,13 +65,14 @@ exports.createEvent = async (req, res) => {
         });
 
         await newEvent.save();
+
          const newTeam = new Team({
             _id: newEvent._id,
             manager: req.session.user._id,
             programLead: req.session.user._id,
             teamMemberList: [],
             roleList: [],
-            supplierList: [],
+            supplierList: parsedSuppliers,
             teamMemberAttendance: [],
             supplierAttendance: []
         });
