@@ -30,21 +30,17 @@ exports.createEvent = async (req, res) => {
     try {
         const { 
             'event-name': eventName,
-            'client-name': clientName,
+            'client-first-name': clientFirstName,
+            'client-last-name': clientLastName,
             'event-description': description,
             'start-date': eventDate,
             location,
-            'contact-name': contactName,
+            'contact-first-name': CPFirstName,
+            'contact-last-name': CPLastName,
             'phone-number': CPContactNo,
             addedMembers,
             addedSuppliers
         } = req.body;
-
-        const [clientFirstName, ...clientRest] = clientName.trim().split(' ');
-        const clientLastName = clientRest.join(' ') || 'N/A';
-
-        const [CPFirstName, ...cpRest] = contactName.trim().split(' ');
-        const CPLastName = cpRest.join(' ') || 'N/A';
 
         const parsedMembers = JSON.parse(addedMembers || '[]');
         const parsedSuppliers = JSON.parse(addedSuppliers || '[]');
