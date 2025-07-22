@@ -6,18 +6,34 @@ const MAX_PAGE = 2;
 document.addEventListener('DOMContentLoaded', () => {
     const nextButton = document.getElementById('form-next-button');
     const backButton = document.getElementById('form-back-button');
-    const cancelButton = document.getElementById('form-cancel-button');
     const submitButton = document.getElementById('form-submit-button');
     const formContainer = document.getElementsByClassName('form-page-container')[0];
 
+    const eventName = document.getElementById('event-name');
+    const clientFirstName = document.getElementById('client-first-name');
+    const clientLastName = document.getElementById('client-last-name');
+    const description = document.getElementById('event-description');
+    const locationInput = document.getElementById('location');
+    const contactFirstName = document.getElementById('contact-first-name');
+    const contactLastName = document.getElementById('contact-last-name');
+    const contactPhoneNumber = document.getElementById('phone-number');
+
+    const startDateInput = document.getElementById('start-date');
+    const endDateInput = document.getElementById('end-date');
+
+    let startDate = new Date();
+    let formattedStartDate = startDate.toISOString().split('T')[0];
+
+    // set minimum date to today for both on page load.
+    startDateInput.setAttribute('min', formattedStartDate);
+    endDateInput.setAttribute('min', formattedStartDate);
+
     const membersContainer = document.getElementById('memberSearchResults');
-    let members = membersContainer ? membersContainer.getElementsByClassName('team-member-mini-card') : [];
 
     const addedMembersContainer = document.getElementById('addedMembers');
     let addedMembers = [];
 
     const suppliersContainer = document.getElementById('supplierSearchResults');
-    let suppliers = suppliersContainer ? suppliersContainer.getElementsByClassName('team-member-mini-card') : [];
 
     const addedSuppliersContainer = document.getElementById('addedSuppliers');
     let addedSuppliers = [];
@@ -25,29 +41,21 @@ document.addEventListener('DOMContentLoaded', () => {
     nextButton.addEventListener('click', () => {
         if (page < MAX_PAGE) {
             page++;
-            if (page === 0) {
-                formContainer.style.transform = `translateX(0%)`;
-            } else {
-                formContainer.style.transform = `translateX(calc(-${page * 100}% - ${page} * var(--big-gap)))`;
-            }
+            updatePage();
+            updateNavigationButtons();
+            updateSubmitButton();
         }
-        updateButtons();
     });
 
     backButton.addEventListener('click', () => {
         if (page > 0) {
             page--;
-            if (page === 0) {
-                formContainer.style.transform = `translateX(0%)`;
-            } else {
-                formContainer.style.transform = `translateX(calc(-${page * 100}% - ${page} * var(--big-gap)))`;
-            }
+            updatePage();
+            updateNavigationButtons();
+            updateSubmitButton();
         }
-        updateButtons();
     });
 
-
-    openModalButton(cancelButton);
     closeModalButton(modalConfirmButton, '/eventList');
 
     membersContainer.addEventListener('click', (event) => {
@@ -106,21 +114,65 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    function updateButtons() {
-        submitButton.disabled = page < MAX_PAGE // TODO: frontend form validation.
-        submitButton.classList.toggle('disabled-button', submitButton.disabled);
-        submitButton.classList.toggle('form-hidden-button', submitButton.disabled);
-        submitButton.classList.toggle('submit-button', !submitButton.disabled);
+    function updatePage() {
+        if (page === 0) {
+            formContainer.style.transform = `translateX(0%)`;
+        } else {
+            formContainer.style.transform = `translateX(calc(-${page * 100}% - ${page} * var(--big-gap)))`;
+        }
+    }
 
-        nextButton.disabled = page >= MAX_PAGE;
+    function updateNavigationButtons() {
+        const valid = validatePage(page);
+        nextButton.disabled = !valid;
+        backButton.disabled = page <= 0;
+
         nextButton.classList.toggle('disabled-button', nextButton.disabled);
-        nextButton.classList.toggle('form-hidden-button', nextButton.disabled);
+        nextButton.classList.toggle('form-hidden-button', page >= MAX_PAGE);
         nextButton.classList.toggle('fg-button', !nextButton.disabled);
 
-        backButton.disabled = page <= 0;
         backButton.classList.toggle('disabled-button', backButton.disabled);
         backButton.classList.toggle('bg-button', !backButton.disabled);
     }
+
+    function updateSubmitButton() {
+        const showSubmit = page === MAX_PAGE;
+
+        submitButton.disabled = !showSubmit;
+        submitButton.classList.toggle('disabled-button', !showSubmit);
+        submitButton.classList.toggle('form-hidden-button', !showSubmit);
+        submitButton.classList.toggle('submit-button', showSubmit);
+    }
+
+    const validators = {
+        0: () => pageInputs[0].every(input => input.value.trim() !== ''),
+        1: () => true,
+        2: () => true
+    };
+
+    const pageInputs = {
+        0: [
+            eventName, clientFirstName, clientLastName, description,
+            locationInput, contactFirstName, contactLastName,
+            contactPhoneNumber, startDateInput, endDateInput
+        ]
+    };
+
+    function validatePage(page) {
+        return validators[page]?.() ?? false;
+    }
+
+    Object.values(pageInputs).flat().forEach(input => {
+        input.addEventListener('input', () => {
+            updateNavigationButtons();
+            updateSubmitButton();
+        });
+    });
+
+    startDateInput.addEventListener('change', () => {
+        startDate = startDateInput.value;
+        endDateInput.setAttribute('min', startDate);
+    });
 
     submitButton.addEventListener('click', () => {
         const membersInput = document.getElementById('added-members-input');
@@ -129,6 +181,4 @@ document.addEventListener('DOMContentLoaded', () => {
         membersInput.value = JSON.stringify(addedMembers);
         suppliersInput.value = JSON.stringify(addedSuppliers);
     });
-    
-    updateButtons();
 });

@@ -616,11 +616,24 @@ button.form-hidden-button {
     color: var(--primary-bg);
 }
 
-.disabled-button {
+button.disabled-button {
     color: var(--border-light);
     box-shadow: inset 0 0 0 1px var(--border-light);
     background: transparent;
     cursor: not-allowed;
+}
+
+button.disabled-button .button-wrapper {
+    color: var(--border-light);
+}
+
+button.disabled-button:hover {
+    box-shadow: inset 0 0 0 1px var(--border-light);
+    background: transparent;
+}
+
+button.disabled-button:hover .button-wrapper {
+    color: var(--border-light);
 }
 
 .destructive-button {
