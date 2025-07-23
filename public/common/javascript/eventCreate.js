@@ -163,7 +163,8 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     Object.values(pageInputs).flat().forEach(input => {
-        input.addEventListener('input', () => {
+        input.addEventListener('input', (e) => {
+            e.preventDefault();
             updateNavigationButtons();
             updateSubmitButton();
         });

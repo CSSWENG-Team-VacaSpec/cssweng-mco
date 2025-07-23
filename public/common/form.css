@@ -1,0 +1,9 @@
+@media screen and (max-width: 800px) {
+    .container {
+        padding: 2rem 0;
+    }
+
+    .page-title-bar {
+        padding: 0 1.5rem;
+    }
+}

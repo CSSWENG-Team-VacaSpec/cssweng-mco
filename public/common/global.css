@@ -53,7 +53,6 @@ body {
     background-color: var(--page-bg);
     color: var(--primary-fg);
     font-family: var(--main-font);
-    margin: var(--small-gap);
     display: flex;
     gap: var(--small-gap);
 }
@@ -907,7 +906,7 @@ button.disabled-button:hover .button-wrapper {
 
 @media screen and (max-width: 800px) {
     * {
-        --icon-size: 1.5rem;
+        --icon-size: 1.75rem;
         --container-padding: 2rem;
     }
     
@@ -958,6 +957,10 @@ button.disabled-button:hover .button-wrapper {
 
     .mobile-top-bar-button i {
         font-size: var(--icon-size);
+    }
+
+    .team-member-picture {
+        display: none;
     }
 }
 
