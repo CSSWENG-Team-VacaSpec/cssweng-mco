@@ -65,7 +65,6 @@ const eventAttendanceRoute = require('./routes/r_event_attendance.js');
 const pastEventsRoute = require('./routes/r_past_events.js');
 const editEventRoute = require('./routes/r_edit_event.js');
 const deleteCancelEventsRoute = require('./routes/r_delete_cancelEvent.js');
-const editEventRoute = require('./routes/r_edit_event.js');
 
 // routes
 app.use('/', loginRoute); 
