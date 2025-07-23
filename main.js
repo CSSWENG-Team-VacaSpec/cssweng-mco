@@ -84,6 +84,7 @@ app.use('/', eventAttendanceRoute);
 app.use('/', pastEventsRoute);
 app.use('/', editEventRoute);
 app.use('/', deleteCancelEventsRoute);
+app.use('/', editEventRoute);
 
 // start server
 const PORT = process.env.PORT || 3000;

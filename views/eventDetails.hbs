@@ -177,12 +177,12 @@
             <div class="team-mini-grid">
                 {{!-- <ul id="memberList"></ul>
             <p id="emptyMessage" style="display: none;">No matching team members found.</p> --}}
-            {{#if supplierList.length}}
-                {{#each supplierList}}
-                    {{> supplierMini this}}
+            {{#if teamMembers.length}}
+                {{#each teamMembers}}
+                    {{> teamMemberMini this}}
                 {{/each}}
             {{else}}
-                <p>Currently no suppliers in this event.</p>
+                <p>Currently no members in this event.</p>
             {{/if}}
             </div>
             {{#if showButtons}}
