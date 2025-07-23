@@ -62,7 +62,7 @@
                     <button type="submit" class="destructive-button button" id="details-delete-button">
                     <span class="bg-button-wrapper button-wrapper">
                     <i class="lni lni-trash-3"></i>
-                         <p>Delete</p>
+                        <p>Delete</p>
                     </span>
                     </button>
             </form>
@@ -142,7 +142,7 @@
                     <input type="search" name="q" id="searchInput" placeholder="Search..." autocomplete="off">
                 </form>
                 {{#if showButtons}}
-                    <button class="fg-button button" id="attendance-check-button">
+                    <button class="fg-button button" id="attendance-check-button-desktop">
                         <a class="fg-button-wrapper button-wrapper" href="/eventAttendance?id={{event._id}}">
                             <i class="lni lni-user-multiple-4"></i>
                             <p>Check attendance</p>
@@ -161,6 +161,14 @@
                 <p>Currently no members in this event.</p>
             {{/if}}
             </div>
+            {{#if showButtons}}
+                    <button class="fg-button button" id="attendance-check-button-mobile">
+                        <a class="fg-button-wrapper button-wrapper" href="/eventAttendance?id={{event._id}}">
+                            <i class="lni lni-user-multiple-4"></i>
+                            <p>Check attendance</p>
+                        </a>
+                    </button>
+                {{/if}}
         </div>
 
 

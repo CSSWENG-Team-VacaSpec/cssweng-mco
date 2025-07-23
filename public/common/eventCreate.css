@@ -73,23 +73,19 @@
     }
 
     .button {
-        padding: 10px 16px;
-        font-size: 14px;
-        border-radius: 6px;
+        padding: var(--card-padding);
+        font-size: 0.8rem;
+        border-radius: var(--card-radius);
     }
 
     .button-wrapper {
         display: flex;
         align-items: center;
-        gap: 8px;
+        gap: var(--small-gap);
     }
 
     .button i {
-        font-size: 16px;
-    }
-
-    .secondary-header {
-        font-size: 0.8rem;
+        font-size: 1rem;
     }
 
     .team-mini-grid {
