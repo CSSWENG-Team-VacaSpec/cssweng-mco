@@ -62,12 +62,15 @@
                     <p>Edit</p>
                 </a>
             </button>
-            <button type="button" class="destructive-button button" id="details-delete-button">
-            <span class="bg-button-wrapper button-wrapper">
-            <i class="lni lni-trash-3"></i>
-                    <p>Delete</p>
-            </span>
-            </button>
+            
+            <form action="/deleteEvent?id={{event._id}}">
+                    <button type="submit" class="destructive-button button" id="details-delete-button">
+                    <span class="bg-button-wrapper button-wrapper">
+                    <i class="lni lni-trash-3"></i>
+                        <p>Delete</p>
+                    </span>
+                    </button>
+            </form>
         </div>
         {{/if}}
 
