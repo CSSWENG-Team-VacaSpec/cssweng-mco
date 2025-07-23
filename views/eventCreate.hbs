@@ -1,16 +1,22 @@
 <DIV class="form-wizard card">
     <form class="form" action="/create/createEvent" method="post">
         <div class="form-page-container">
-            <div class="form-page">
+            <div class="form-page" id="detailsPage">
                 <h1 class="secondary-header">Event details</h1>
                 <div class="form-row">
                     <div class="text-field-container">
                         <label class="field-label" for="event-name">Event name</label>
                         <input type="text" id="event-name" class="text-field" name="event-name" required>
                     </div>
+                </div>
+                <div class="form-row">
                     <div class="text-field-container">
-                        <label class="field-label" for="client-name">Client name</label>
-                        <input type="text" id="client-name" class="text-field" name="client-name" required>
+                        <label class="field-label" for="client-first-name">Client first name</label>
+                        <input type="text" id="client-first-name" class="text-field" name="client-first-name" required>
+                    </div>
+                    <div class="text-field-container">
+                        <label class="field-label" for="client-last-name">Client last name</label>
+                        <input type="text" id="client-last-name" class="text-field" name="client-last-name" required>
                     </div>
                 </div>
                 <div class="form-row">
@@ -38,9 +44,15 @@
                 <h1 class="secondary-header">Contact person</h1>
                 <div class="form-row">
                     <div class="text-field-container">
-                        <label class="field-label" for="contact-name">Name</label>
-                        <input type="text" id="contact-name" class="text-field" name="contact-name" required>
+                        <label class="field-label" for="contact-first-name">First name</label>
+                        <input type="text" id="contact-first-name" class="text-field" name="contact-first-name" required>
                     </div>
+                    <div class="text-field-container">
+                        <label class="field-label" for="contact-last-name">Last name</label>
+                        <input type="text" id="contact-last-name" class="text-field" name="contact-last-name" required>
+                    </div>
+                </div>
+                <div class="form-row">
                     <div class="text-field-container">
                         <label class="field-label" for="phone-number">Phone number</label>
                         <input type="text" id="phone-number" class="text-field" name="phone-number" required>
@@ -91,25 +103,19 @@
             </div>
         </div>
         <div class="form-controls">
-            <button type="button" class="bg-button button" id="form-cancel-button">
-                <div class="button-wrapper">
-                    <i class="lni lni-xmark"></i>
-                    <p>Cancel</p>
-                </div>
-            </button>
-            <button type="button" class="bg-button button" id="form-back-button">
+            <button type="button" class="disabled-button bg-button button" id="form-back-button" disabled>
                 <div class="button-wrapper">
                     <i class="lni lni-arrow-left"></i>
                     <p>Back</p>
                 </div>
             </button>
-            <button type="button" class="fg-button button" id="form-next-button">
+            <button type="button" class="disabled-button fg-button button" id="form-next-button" disabled>
                 <div class="button-wrapper">
                     <i class="lni lni-arrow-right"></i>
                     <p>Next</p>
                 </div>
             </button>
-            <button type="submit" class="fg-button button" id="form-submit-button" disabled>
+            <button type="submit" class="form-hidden-button fg-button button" id="form-submit-button" disabled>
                 <div class="button-wrapper">
                     <i class="lni lni-check"></i>
                     <p>Create event</p>
