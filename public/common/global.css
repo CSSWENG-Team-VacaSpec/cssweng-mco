@@ -904,6 +904,103 @@ button.disabled-button:hover .button-wrapper {
     background-color: var(--success-light);
 }
 
+.team-member-picture {
+    width: 5rem;
+    height: 5rem;
+    object-fit: cover;
+    border-radius: 50%;
+    background-color: var(--border-light);
+}
+
+.team-member-details {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    flex-grow: 1;
+}
+
+.team-member-medium-details {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    flex-grow: 1;
+    width: 70%;
+    color: var(--primary-fg);
+}
+
+.team-member-details #full-name {
+    font-weight: bold;
+    font-size: 1.2rem;
+}
+
+#full-name-medium {
+    font-weight: bold;
+    font-size: 1rem;
+}
+
+.team-member[data-role="Manager"] #full-name {
+    color:#FFFFFF;
+}
+
+.team-member-details #role {
+    font-size: 0.8rem;
+}
+
+.team-member[data-role="Manager"] #role {
+    color:#FFFFFF;
+}
+
+.team-member-details #contact-no {
+    font-size: 0.8rem;
+}
+
+#contact-no-medium {
+    font-size: 0.8rem;
+}
+
+.team-member[data-role="Manager"] #contact-no {
+    color: #FFFFFF;
+ 
+    .event-box-top {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+}
+
+.attendance-box {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    background-color: #FFFFFF;
+    padding: 30px;
+    border-radius: 24px;
+    box-shadow: 0px 0px 4px 0px rgba(0, 0, 0, 0.1);
+    transition: all 0.5s ease;
+    overflow: hidden;
+    cursor: pointer;
+    position: relative;
+    margin-bottom: var(--medium-gap);
+}
+
+.attendance-button-container {
+    display: flex;
+    gap: var(--small-gap);
+    justify-content: flex-end;
+}
+
+#present-button.selected {
+    background: none;
+    border-color: var(--accent-light);
+    background-color: var(--accent-light);
+}
+
+#absent-button.selected {
+    background: none;
+    border-color: var(--accent-light);
+    background-color: var(--accent-light);
+}
+
 
 @media screen and (max-width: 800px) {
     * {
@@ -987,7 +1084,10 @@ button.disabled-button:hover .button-wrapper {
     * {
         --button-padding: 0.75rem 1.25rem;
     }
-}
+
+    .team-member-details #contact-no {
+        font-size: 0.8rem;
+    }
 
 .team-member-picture {
     height: 5rem;
@@ -997,91 +1097,24 @@ button.disabled-button:hover .button-wrapper {
     background-color: var(--border-light);
 }
 
-.team-member-details {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    flex-grow: 1;
-}
-
-.team-member-medium-details {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    flex-grow: 1;
-    width: 70%;
-    color: var(--primary-fg);
-}
-
-#full-name {
-    font-weight: bold;
-    font-size: 1.2rem;
-}
-
-#full-name-medium {
-    font-weight: bold;
-    font-size: 1rem;
-}
-
-.team-member[data-role="Manager"] #full-name {
-    color:#FFFFFF;
-}
-
-#role {
-    font-size: 0.8rem;
-}
-
-.team-member[data-role="Manager"] #role {
-    color:#FFFFFF;
-}
-
-#contact-no {
-    font-size: 0.8rem;
-}
-
-#contact-no-medium {
-    font-size: 0.8rem;
-}
-
-.team-member[data-role="Manager"] #contact-no {
-    color: #FFFFFF;
- 
-    .event-box-top {
+    .team-member-details {
+        display: flex;
         flex-direction: column;
-        align-items: flex-start;
+        justify-content: space-between;
+        flex-grow: 1;
+    }
+
+    .team-member-card {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        flex-grow: 1;
+        gap: var(--medium-gap);
     }
 }
 
-.attendance-box {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    width: 100%;
-    background-color: #FFFFFF;
-    padding: 30px;
-    border-radius: 24px;
-    box-shadow: 0px 0px 4px 0px rgba(0, 0, 0, 0.1);
-    transition: all 0.5s ease;
-    overflow: hidden;
-    cursor: pointer;
-    position: relative;
-    margin-bottom: var(--medium-gap);
-}
-
-.attendance-button-container {
-    display: flex;
-    gap: var(--small-gap);
-    justify-content: flex-end;
-}
-
-#present-button.selected {
-    background: none;
-    border-color: var(--accent-light);
-    background-color: var(--accent-light);
-}
-
-#absent-button.selected {
-    background: none;
-    border-color: var(--accent-light);
-    background-color: var(--accent-light);
+@media (pointer: coarse) {
+    * {
+        --button-padding: 1rem 1.5rem;
+    }
 }

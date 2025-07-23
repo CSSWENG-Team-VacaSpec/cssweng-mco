@@ -116,7 +116,7 @@
     }
 
     .form-page-container {
-        height: 45rem;
+        height: 55rem;
     }
 
     .form-controls {
@@ -126,7 +126,7 @@
     }
 
     .button {
-        border-radius: 1rem;
+        border-radius: 1.2rem;
         padding: 0.6rem;
         font-size: 0.5rem;
         flex-grow: 1;
