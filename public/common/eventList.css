@@ -1,0 +1,41 @@
+#desktop-create-button {
+    display: flex;
+}
+
+#mobile-create-button {
+    display: none;
+}
+
+@media screen and (max-width: 800px) {
+    #eventSearchForm {
+        width: 100%;
+    }
+
+    #desktop-create-button {
+        display: none;
+    }
+
+    #mobile-create-button {
+        display: flex;
+        width: fit-content;
+        position: fixed;
+        bottom: var(--big-gap);
+        right: var(--big-gap);
+        z-index: 1;
+        box-shadow: var(--card-shadow);
+    }
+
+    #mobile-create-button .button-wrapper {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 0;
+    }
+
+    #desktop-create-button {
+        display: none;
+    }
+
+}

@@ -61,3 +61,105 @@
     display: flex;
     justify-content: flex-end;
 }
+
+#attendance-check-button-desktop {
+    display: flex;
+}
+
+#attendance-check-button-mobile {
+    display: none;
+}
+
+@media screen and (max-width: 800px) {
+    .event-controls {
+        gap: var(--small-gap);
+        flex-wrap: wrap;
+        justify-content: space-between;
+    }
+
+    .button {
+        border-radius: 1rem;
+        padding: 0.6rem;
+        font-size: 0.5rem;
+        flex-grow: 1;
+        min-width: 0;
+    }
+
+    .button-wrapper {
+        gap: var(--small-gap);
+        justify-content: center;
+    }
+
+    .button i {
+        font-size: 0.8rem;
+    }
+
+    .event-details {
+        display: flex;
+        flex-direction: column;
+        box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        z-index: 10;
+        padding: var(--container-padding);
+        background-color: var(--card-bg);
+        gap: var(--big-gap);
+    }
+
+    .event-box-top span {
+        font-size: 1.2rem;
+    }
+
+    .event-box-bottom span {
+        font-size: 0.8rem;
+    }
+
+    .search-bar {
+        padding: 0.3rem;
+        width: 100%;
+        height: fit-content;
+    }
+
+    #search-icon i.lni {
+        font-size: 1rem;
+    }
+
+    #searchInput::placeholder {
+        font-size: 0.7rem;
+    }
+
+    #attendance-check-button-desktop {
+        display: none;
+    }
+
+    #attendance-check-button-mobile {
+        display: flex;
+        width: 100%;
+    }
+
+    .grid-container {
+        gap: var(--medium-gap);
+    }
+
+    .choice-buttons {
+        justify-content: center;
+        width: 100%;
+    }
+    
+    #details-choices {
+        margin-left: 0;
+        margin-right: 0;
+        justify-content: center;
+    }
+
+    .event-controls {
+        gap: var(--small-gap);
+        flex-wrap: nowrap;
+        justify-content: flex-end;
+    }
+    
+    .event-controls .button {
+        flex-grow: 0;
+        width: auto;
+        padding: 0.6rem 1rem;
+    }
+
+}
