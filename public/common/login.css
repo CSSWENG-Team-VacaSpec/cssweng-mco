@@ -1,6 +1,8 @@
 body {
     margin: 0;
+    padding: 0;
     user-select: none;
+    height: 100vh;
 }
 
 a {
@@ -93,5 +95,10 @@ a {
     .login-form {
         width: 100vw;
         padding: var(--medium-gap);
+    }
+
+    .login-field {
+        padding: 1.5rem;
+        font-size: 1rem;
     }
 }

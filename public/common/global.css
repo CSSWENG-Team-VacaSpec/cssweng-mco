@@ -179,14 +179,14 @@ a {
 
 .team-member-mini-card {
     display: flex;
+    flex-direction: row;
     align-items: center;
     justify-content: center;
     border: none;
     border-radius: var(--button-radius);
     background-color: var(--primary-bg);
+    color: var(--primary-fg);
     padding: var(--button-padding);
-    display: flex;
-    flex-direction: row;
     gap: var(--small-gap);
     font-family: var(--main-font);
     cursor: pointer;
@@ -955,6 +955,18 @@ button.disabled-button:hover .button-wrapper {
         z-index: 10000;
     }
 
+    .button {
+        font-size: 1rem;
+    }
+
+    .button i.lni {
+        font-size: var(--icon-size);
+    }
+
+    .text-field {
+        padding: 1rem;
+    }
+
     .mobile-top-bar-button i {
         font-size: var(--icon-size);
     }
@@ -962,9 +974,7 @@ button.disabled-button:hover .button-wrapper {
     .team-member-picture {
         display: none;
     }
-}
 
-@media screen and (max-width: 800px) {
     .form-row {
         flex-direction: column;
     }
