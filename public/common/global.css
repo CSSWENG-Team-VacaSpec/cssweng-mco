@@ -43,7 +43,7 @@
     --button-padding: 0.5rem 1rem;
     --sidebar-padding: 1.5rem;
 
-    --top-bar-height: 4rem;
+    --top-bar-height: 3rem;
 
     --main-font: 'Space Grotesk', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
     --icon-size: 1.2rem;
@@ -518,37 +518,37 @@ button.form-hidden-button {
 }
 
 .back-link .button-wrapper {
+    padding: 0 0 0 var(--medium-gap);
+    margin: 0;
     color: var(--primary-fg);
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    gap: var(--small-gap);
-    list-style-type: none;
-    font-size: 2rem;
     font-family: var(--main-font);
     transition: color 0.15s;
+}
+
+.back-link .button-wrapper i {
+    font-size: 1.5rem;
 }
 
 .button {
     box-sizing: border-box;
     border-radius: var(--button-radius);
     border: none;
-    padding: var(--button-padding);
     cursor: pointer;
     transition: color 0.15s, background-color 0.15s, box-shadow 0.15s;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 1rem;
+    font-size: 0.9rem;
+    padding: 0;
 }
 
 .button-wrapper {
     display: flex;
+    padding: var(--button-padding);
     flex-direction: row;
     align-items: center;
     gap: var(--small-gap);
     list-style-type: none;
-    font-size: 1rem;
     font-family: var(--main-font);
 }
 
@@ -1005,7 +1005,7 @@ button.disabled-button:hover .button-wrapper {
 @media screen and (max-width: 800px) {
     * {
         --icon-size: 1.75rem;
-        --container-padding: 2rem;
+        --container-padding: 2rem 1rem;
     }
     
     body {
@@ -1014,6 +1014,10 @@ button.disabled-button:hover .button-wrapper {
     
     .main-content {
         height: calc(100vh - (1.5 * var(--medium-gap)) - var(--top-bar-height));
+    }
+
+    .page-title-bar {
+        padding: 0 1.25rem;
     }
 
     .global-sidebar {
@@ -1051,6 +1055,7 @@ button.disabled-button:hover .button-wrapper {
         font-family: var(--main-font);
         cursor: pointer;
         z-index: 10000;
+        padding-left: var(--medium-gap);
     }
 
     .button {
@@ -1069,12 +1074,20 @@ button.disabled-button:hover .button-wrapper {
         font-size: var(--icon-size);
     }
 
-    .team-member-picture {
+    .team-member-mini-picture {
         display: none;
     }
 
     .form-row {
         flex-direction: column;
+    }
+
+    .modal {
+        width: 75vw;
+    }
+
+    .modal-controls {
+        flex-direction: column-reverse;
     }
 }
 

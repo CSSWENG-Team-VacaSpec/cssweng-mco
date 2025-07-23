@@ -54,6 +54,9 @@
 </div>
     <div class="event-details card">
         {{#if showButtons}}
+        <button class="">
+            
+        </button>
         <div class="event-controls">
             <button class="bg-button button" id="details-edit-button">
                 <a class="bg-button-wrapper button-wrapper" href="/editEvent?id={{event._id}}">
@@ -63,12 +66,12 @@
             </button>
             
             <form action="/deleteEvent?id={{event._id}}">
-                    <button type="submit" class="destructive-button button" id="details-delete-button">
+                <button type="submit" class="destructive-button button" id="details-delete-button">
                     <span class="bg-button-wrapper button-wrapper">
                     <i class="lni lni-trash-3"></i>
                         <p>Delete</p>
                     </span>
-                    </button>
+                </button>
             </form>
         </div>
         {{/if}}
