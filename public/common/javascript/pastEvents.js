@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', function() {
-    document.querySelector('.upcoming-events-container').addEventListener('click', function(e) {
+    document.querySelector('.card-list').addEventListener('click', function(e) {
         const eventBox = e.target.closest('.event-box');
         if (!eventBox) return;
         
@@ -39,7 +39,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     let originalEvents = getInitialEvents();
-    const container = document.querySelector('.upcoming-events-container');
+    const container = document.querySelector('.card-list');
     const noEventsMsg = document.querySelector('.no-events-message');
     
     document.getElementById('eventSearchForm').addEventListener('submit', (e) => {

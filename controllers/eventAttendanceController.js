@@ -23,28 +23,24 @@ exports.getEventAttendancePage = async (req, res) => {
         const users = await User.find({ _id: { $in: allTeamIds } }).lean();
         const userMap = Object.fromEntries(users.map(u => [u._id, u]));
 
-        const teamMembers = allTeamIds
-            .map((id, idx) => ({
-                ...userMap[id],
-                attendance: team.teamMemberAttendance?.[idx] ?? null,
-                index: idx
-            }))
-            .filter(member => member.attendance !== 'present' && member.attendance !== 'absent');
+        const teamMembers = allTeamIds.map((id, idx) => ({
+            ...userMap[id],
+            attendance: team.teamMemberAttendance?.[idx] ?? null,
+            index: idx
+        }));
 
-        const suppliers = team.supplierList
-            .map((id, idx) => ({
-                ...supplierMap[id],
-                attendance: team.supplierAttendance?.[idx] ?? null,
-                index: idx
-            }))
-            .filter(supplier => supplier.attendance !== 'present' && supplier.attendance !== 'absent');
+        const suppliers = team.supplierList.map((id, idx) => ({
+            ...supplierMap[id],
+            attendance: team.supplierAttendance?.[idx] ?? null,
+            index: idx
+        }));
 
         res.render('eventAttendance', {
             user: req.session.user,
-            layout: 'main',
+            layout: 'form',
             stylesheet: 'eventAttendance',
             script: 'eventAttendance',
-            title: 'Event Attendance',
+            title: 'Attendance for ' + event.eventName,
             page: 'event-attendance',
             event,
             team,

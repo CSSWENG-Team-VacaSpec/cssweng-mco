@@ -1,6 +1,5 @@
-.create-events-wizard {
-    display: flex;
-    flex-direction: column;
+.form-wizard {
+    overflow-x: hidden;
 }
 
 #event-description {
@@ -55,12 +54,10 @@
     gap: var(--small-gap);
 }
 
-.team-mini-grid {
+.create-events-form {
     display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    gap: var(--small-gap);
-    overflow-y: scroll;
+    flex-direction: column;
+    gap: 1.5rem;
 }
 
 #team-members-page .grid-container {
@@ -139,3 +136,4 @@
         font-size: 0.8rem;
     }
 }
+

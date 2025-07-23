@@ -43,10 +43,13 @@ document.addEventListener('DOMContentLoaded', function() {
             modalCancel.classList.remove('modal-hidden');
         });
 
-        attendanceButton.addEventListener('click', () => {
-            sessionStorage.setItem('currentEvent', JSON.stringify(eventData));
-            window.location.href = `/eventAttendance?id=${eventData._id}`;
-        });
+        if (attendanceButton) {
+            attendanceButton.addEventListener('click', () => {
+                sessionStorage.setItem('currentEvent', JSON.stringify(eventData));
+                window.location.href = `/eventAttendance?id=${eventData._id}`;
+            });
+        }
+
 
         modalDeleteCloseButton.addEventListener('click', () => {
             modalDeleteContainer.classList.add('modal-container-hidden');
@@ -68,6 +71,61 @@ document.addEventListener('DOMContentLoaded', function() {
             modalDelete.classList.add('modal-hidden')
         });
 
+        const searchInput = document.getElementById('searchInput');
+        const memberListContainer = document.querySelector('.team-mini-grid'); // or appropriate container
+
+        function debounce(fn, delay) {
+            let timeout;
+            return function (...args) {
+                clearTimeout(timeout);
+                timeout = setTimeout(() => fn.apply(this, args), delay);
+            };
+        }
+
+        async function fetchFilteredMembers(query) {
+            const eventId = sessionStorage.getItem('currentEvent')
+                ? JSON.parse(sessionStorage.getItem('currentEvent'))._id
+                : null;
+
+            if (!eventId || !query.trim()) return;
+
+            try {
+                const res = await fetch(`/searchEventParticipants?q=${encodeURIComponent(query)}&id=${eventId}`);
+                const data = await res.json();
+
+                memberListContainer.innerHTML = '';
+
+                if (data.members.length === 0) {
+                    memberListContainer.innerHTML = '<p>No matching team members found.</p>';
+                } else {
+                    data.members.forEach(member => {
+                        const el = document.createElement('div');
+                        el.className = 'team-member-mini-card';
+                        el.setAttribute('data-id', member._id);
+                        el.setAttribute('data-firstName', member.firstName);
+                        el.setAttribute('data-lastName', member.lastName);
+                        el.setAttribute('data-email', member.email);
+                        el.setAttribute('data-role', member.role);
+                        el.setAttribute('data-pfp', member.pfp || '');
+
+                        el.innerHTML = `
+                            <div class="team-member-mini-picture" style="background-image: url('${member.pfp || ''}');"></div>
+                            <span id="full-name">${member.firstName} ${member.lastName}</span>
+                            <span id="role">${member.role}</span>
+                            <i id="teamMiniAddButton" class="lni lni-plus"></i>
+                            <i id="teamMiniRemoveButton" class="lni lni-xmark"></i>
+                        `;
+                        memberListContainer.appendChild(el);
+                    });
+                }
+            } catch (err) {
+                console.error('Search failed:', err);
+            }
+        }
+
+        searchInput.addEventListener('input', debounce((e) => {
+            fetchFilteredMembers(e.target.value);
+        }, 300));
 
     } else {
         window.location.href = '/eventList';

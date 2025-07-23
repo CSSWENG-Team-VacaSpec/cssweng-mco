@@ -9,12 +9,14 @@
                     <p>Keep event</p>
                 </div>
             </button>
-            <button class="destructive-button button" id="delete-modal-yes-button">
-                <div class="button-wrapper">
-                    <i class="lni lni-trash-3"></i>
-                    <p>Delete</p>
-                </div>
-            </button>
+            <form action="/deleteEvent?id={{event._id}}" method="post">
+                <button class="destructive-button button" id="delete-modal-yes-button">
+                    <div class="button-wrapper">
+                        <i class="lni lni-trash-3"></i>
+                        <p>Delete</p>
+                    </div>
+                </button>
+            </form>
         </div>
     </div>
 </div>
@@ -28,14 +30,16 @@
                 <div class="button-wrapper">
                     <i class="lni lni-check"></i>
                     <p>Keep event</p>
-                </div>
+                </div> 
             </button>
-            <button class="destructive-button button" id="cancel-modal-yes-button">
-                <div class="button-wrapper">
-                    <i class="lni lni-xmark"></i>
-                    <p>Cancel</p>
-                </div>
-            </button>
+            <form action="/cancelEvent?id={{event._id}}" method="POST">
+                <button class="destructive-button button" id="cancel-modal-yes-button">
+                    <div class="button-wrapper">
+                        <i class="lni lni-xmark"></i>
+                        <p>Cancel</p>
+                    </div>
+                </button>
+            </form>
         </div>
     </div>
 </div>
@@ -58,6 +62,7 @@
                     <p>Edit</p>
                 </a>
             </button>
+            
             <form action="/deleteEvent?id={{event._id}}">
                     <button type="submit" class="destructive-button button" id="details-delete-button">
                     <span class="bg-button-wrapper button-wrapper">
@@ -66,7 +71,6 @@
                     </span>
                     </button>
             </form>
-
         </div>
         {{/if}}
 
@@ -98,18 +102,12 @@
     
         <div class="choice-buttons" id="details-choices">
             {{#if showButtons}}
-            <form action="/cancelEvent?id={{event._id}}" method="POST" onsubmit="return confirm('Are you sure you want to cancel this event?');">
-              <button type="submit" class="bg-button button" id="cancel-button">
-                 <span class="bg-button-wrapper button-wrapper">
-                 <i class="lni lni-xmark"></i>
-                 <p>Cancel</p>
-                </span>
-             </button>
-            </form>
-
-            {{/if}}
-            
-            {{#if showButtons}}
+            <button type="submit" class="bg-button button" id="cancel-button">
+                <span class="bg-button-wrapper button-wrapper">
+                <i class="lni lni-xmark"></i>
+                <p>Cancel</p>
+            </span>
+            </button>
             <button class="fg-button button" id="mark-done-button">
                 <a class="fg-button-wrapper button-wrapper" href="#">
                     <i class="lni lni-check"></i>
@@ -150,15 +148,42 @@
                     </button>
                 {{/if}}
             </div>
+            <div class="team-mini-grid" id="participantGrid">
+                {{#if teamMembers.length}}
+                    {{#each teamMembers}}
+                    {{> teamMemberMini this}}
+                    {{/each}}
+                {{else}}
+                    <p>Currently no members in this event.</p>
+                {{/if}}
+            </div>
+        </div>
+
+         <div class="grid-container">
+            <h3 class="secondary-header">Suppliers</h3>
+            <div class="grid-controls">
+                <form role="search" class="search-bar" onsubmit="return false;">
+                <button type="submit"><i class="lni lni-search-1"></i></button>
+                    <input type="search" name="q" id="searchInput" placeholder="Search..." autocomplete="off">
+                </form>
+                {{#if showButtons}}
+                    <button class="fg-button button" id="attendance-check-button">
+                        <a class="fg-button-wrapper button-wrapper" href="/eventAttendance?id={{event._id}}">
+                            <i class="lni lni-user-multiple-4"></i>
+                            <p>Check attendance</p>
+                        </a>
+                    </button>
+                {{/if}}
+            </div>
             <div class="team-mini-grid">
                 {{!-- <ul id="memberList"></ul>
             <p id="emptyMessage" style="display: none;">No matching team members found.</p> --}}
-            {{#if teamMembers.length}}
-                {{#each teamMembers}}
-                    {{> teamMemberMini this}}
+            {{#if supplierList.length}}
+                {{#each supplierList}}
+                    {{> supplierMini this}}
                 {{/each}}
             {{else}}
-                <p>Currently no members in this event.</p>
+                <p>Currently no suppliers in this event.</p>
             {{/if}}
             </div>
             {{#if showButtons}}
@@ -178,50 +203,76 @@
 
     <script>
         const searchInput = document.getElementById('searchInput');
-        const memberList = document.getElementById('memberList');
-        const emptyMessage = document.getElementById('emptyMessage');
-  
-       function debounce(fn, delay) {
+        const participantGrid = document.getElementById('participantGrid');
+
+        function debounce(fn, delay) {
             let timeout;
             return function (...args) {
                 clearTimeout(timeout);
                 timeout = setTimeout(() => fn.apply(this, args), delay);
-             };
-         }
+            };
+        }
 
-         async function fetchTeamMembers(query) {
-             if (!query.trim()) {
-                 memberList.innerHTML = '';
-                 emptyMessage.style.display = 'none';
-             return;
-            }
+        async function fetchEventParticipants(query) {
+            try {
+                const response = await fetch(`/searchEventParticipants?q=${encodeURIComponent(query)}&id=${teamId}`);
+                const data = await response.json();
+                const { members, suppliers } = data;
 
-    try {
-        const response = await fetch(`/searchTeamMembers?q=${encodeURIComponent(query)}&id=${teamId}`);
-        const data = await response.json();
+                // Clear previous contents
+                participantGrid.innerHTML = '';
 
-         // Clear the list
-        memberList.innerHTML = '';
+                if (members.length === 0 && suppliers.length === 0) {
+                    participantGrid.innerHTML = '<p>No matching participants found.</p>';
+                    return;
+                }
 
-        if (data.results.length === 0) {
-            emptyMessage.style.display = 'block';
-        } else {
-             emptyMessage.style.display = 'none';
-             data.results.forEach(member => {
-                const li = document.createElement('li');
-                li.textContent = `${member.firstName} ${member.lastName}`;
-                memberList.appendChild(li);
+                // Combine members and suppliers, assign role tags
+                const combined = [
+                    ...members.map(m => ({ ...m, role: m.role || 'Team Member' })),
+                    ...suppliers.map(s => ({ ...s, role: s.role || 'Supplier' }))
+                ];
+
+                combined.forEach(participant => {
+                    const button = document.createElement('button');
+                    button.className = 'team-member-mini-card';
+                    button.setAttribute('type', 'button');
+                    button.setAttribute('data-id', participant._id);
+                    button.setAttribute('data-firstName', participant.firstName || '');
+                    button.setAttribute('data-lastName', participant.lastName || '');
+                    button.setAttribute('data-email', participant.email || '');
+                    button.setAttribute('data-role', participant.role || '');
+                    button.setAttribute('data-bio', participant.bio || '');
+                    button.setAttribute('data-pfp', participant.pfp || '');
+
+                    button.innerHTML = `
+                        <div class="team-member-mini-picture" style="background-image: url('${participant.pfp || ''}');"></div>
+                        <span id="full-name">${participant.firstName ?? ''} ${participant.lastName ?? ''}</span>
+                        <span id="role">${participant.role || ''}</span>
+                        <i id="teamMiniAddButton" class="lni lni-plus"></i>
+                        <i id="teamMiniRemoveButton" class="lni lni-xmark"></i>
+                    `;
+
+                    participantGrid.appendChild(button);
                 });
+
+            } catch (err) {
+                console.error('Search failed:', err);
+                participantGrid.innerHTML = '<p>Error loading search results.</p>';
             }
-        } catch (err) {
-        console.error('Search failed:', err);
-    }
-  }
+        }
 
         searchInput.addEventListener('input', debounce((e) => {
-        fetchTeamMembers(e.target.value);
+            const query = e.target.value;
+            if (query.trim() === '') {
+                // reload original team members if input is cleared
+                window.location.reload(); // OR cache original HTML on load and reinsert
+            } else {
+                fetchEventParticipants(query);
+            }
         }, 300));
     </script>
+
 
        
     </div>

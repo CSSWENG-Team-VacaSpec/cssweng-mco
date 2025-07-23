@@ -1,8 +1,8 @@
-
 const Team = require('../models/teams');
 const Event = require('../models/events');
 const User = require('../models/employeeAccounts');
-
+const searchEventParticipants = require('../utils/searchEventParticipants');
+const Suppliers = require('../models/suppliers');
 
 
 exports.getEventDetailsPage = async (req, res) => {
@@ -24,7 +24,8 @@ exports.getEventDetailsPage = async (req, res) => {
             isProgramLead = true;
         }
 
-        const showButtons = isManager || isProgramLead
+        const isPastEvent = ['completed', 'cancelled'].includes(event.status?.toLowerCase());
+        const showButtons = (isManager || isProgramLead) && !isPastEvent;
 
         const userIds = [
             team.manager,
@@ -33,25 +34,39 @@ exports.getEventDetailsPage = async (req, res) => {
         ];
 
         const users = await User.find({ _id: { $in: userIds } }).lean();
-
+        const supplierList = await Suppliers.find({_id: { $in: team.supplierList }}).lean();
+        
+        console.log(supplierList)
         res.render('eventDetails', {
-        user: req.session.user,
-        layout: 'main',
-        stylesheet: 'eventDetails',
-        script: 'eventDetails',
-        title: 'Event Details',
-        page: 'event-details',
-        showButtons,
-        teamMembers: users,
-        team,
-        event
-       
-
-    });
-
+            user: req.session.user,
+            layout: 'main',
+            stylesheet: 'eventDetails',
+            script: 'eventDetails',
+            title: 'Event Details',
+            page: 'event-details',
+            showButtons,
+            teamMembers: users,
+            team,
+            event,
+            supplierList
+    
+        });
     }   catch (error) {
         console.error("Error opening event:", error);
         res.status(500).send("Internal server error");
     }
     
+};
+
+exports.searchEventParticipants = async (req, res) => {
+    try {
+        const { q, id } = req.query;
+        if (!q || !id) return res.status(400).json({ members: [], suppliers: [] });
+
+        const results = await searchEventParticipants(id, q);
+        res.json(results);
+    } catch (err) {
+        console.error('Search error:', err);
+        res.status(500).json({ members: [], suppliers: [] });
+    }
 };

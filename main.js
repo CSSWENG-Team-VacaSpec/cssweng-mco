@@ -50,17 +50,21 @@ app.engine('hbs', exphbs.engine({
 app.set('views', path.join(__dirname, 'views'));
 
 // route declaration
-const loginRoute = require('./routes/r_login');
-const searchBarRoute = require('./routes/r_searchBar');
+const loginRoute = require('./routes/r_login.js');
+const searchBarRoute = require('./routes/r_searchBar.js');
 const eventListRoute = require('./routes/r_event_list.js');
 const notificationRoute = require('./routes/r_notifications.js');
 const eventDetailsRoute = require('./routes/r_event_details.js');
-const teamRoute = require('./routes/r_team');
+const teamRoute = require('./routes/r_team.js');
+const profileRoute = require('./routes/r_profile.js');
 const eventCreateRoute = require('./routes/r_event_create.js');
+const memberCreateRoute = require('./routes/r_member_create.js');
+const supplierCreateRoute = require('./routes/r_supplier_create.js');
 const delete_cancelEvent = require('./routes/r_delete_cancelEvent.js');
 const eventAttendanceRoute = require('./routes/r_event_attendance.js');
 const pastEventsRoute = require('./routes/r_past_events.js');
 const editEventRoute = require('./routes/r_edit_event.js');
+const deleteCancelEventsRoute = require('./routes/r_delete_cancelEvent.js');
 
 // routes
 app.use('/', loginRoute); 
@@ -69,13 +73,17 @@ app.use('/', eventListRoute);
 app.use('/', notificationRoute);
 app.use('/', eventDetailsRoute);
 app.use('/', teamRoute);
+app.use('/', profileRoute);
 app.use('/create', eventCreateRoute);
+app.use('/create', memberCreateRoute);
+app.use('/create', supplierCreateRoute);
 app.use('/', loginRoute); 
 app.use('/', searchBarRoute);
 app.use('/', delete_cancelEvent);
 app.use('/', eventAttendanceRoute);
 app.use('/', pastEventsRoute);
 app.use('/', editEventRoute);
+app.use('/', deleteCancelEventsRoute);
 
 // start server
 const PORT = process.env.PORT || 3000;

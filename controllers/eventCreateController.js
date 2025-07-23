@@ -11,7 +11,7 @@ exports.renderPage = async (req, res) => {
     const suppliers = await Suppliers.find({}).lean(); // Get all suppliers
 
         res.render('eventCreate', {
-            layout: 'main',
+            layout: 'form',
             stylesheet: 'eventCreate',
             script: 'eventCreate',
             title: 'Create Event',
@@ -30,21 +30,17 @@ exports.createEvent = async (req, res) => {
     try {
         const { 
             'event-name': eventName,
-            'client-name': clientName,
+            'client-first-name': clientFirstName,
+            'client-last-name': clientLastName,
             'event-description': description,
             'start-date': eventDate,
             location,
-            'contact-name': contactName,
+            'contact-first-name': CPFirstName,
+            'contact-last-name': CPLastName,
             'phone-number': CPContactNo,
             addedMembers,
             addedSuppliers
         } = req.body;
-
-        const [clientFirstName, ...clientRest] = clientName.trim().split(' ');
-        const clientLastName = clientRest.join(' ') || 'N/A';
-
-        const [CPFirstName, ...cpRest] = contactName.trim().split(' ');
-        const CPLastName = cpRest.join(' ') || 'N/A';
 
         const parsedMembers = JSON.parse(addedMembers || '[]');
         const parsedSuppliers = JSON.parse(addedSuppliers || '[]');
@@ -65,13 +61,14 @@ exports.createEvent = async (req, res) => {
         });
 
         await newEvent.save();
+
          const newTeam = new Team({
             _id: newEvent._id,
             manager: req.session.user._id,
             programLead: req.session.user._id,
             teamMemberList: [],
             roleList: [],
-            supplierList: [],
+            supplierList: parsedSuppliers,
             teamMemberAttendance: [],
             supplierAttendance: []
         });

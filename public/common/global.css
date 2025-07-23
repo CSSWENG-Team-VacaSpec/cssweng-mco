@@ -32,6 +32,7 @@
     --input-field-radius: 8px;
 
     --card-shadow: 0px 0px 4px #00000011;
+    --card-shadow-hover: 0px 0px 6px #00000022;
 
     --small-gap: 0.5rem;
     --medium-gap: 1rem;
@@ -125,6 +126,11 @@ a {
     box-shadow: var(--card-shadow);
 }
 
+.card * {
+    margin: 0;
+    padding: 0;
+}
+
 .card-title {
     font-size: 1.1rem;
     font-weight: 600;
@@ -145,14 +151,26 @@ a {
     flex-direction: row;
 }
 
+.card-description-item #description {
+    display: -webkit-box;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    -webkit-line-clamp: 2;
+            line-clamp: 2;
+    -webkit-box-orient: vertical;
+}
+
 .card-description-item i {
     font-size: var(--icon-size);
     color: var(--secondary-fg);
 }
 
 .team-member-card {
-    background-color: transparent;
-    box-shadow: inset 0 0 0 1px var(--border-dark);
+    display: flex;
+    flex-direction: row;
+    gap: var(--small-gap);
+    background-color: var(--card-bg);
+    color: var(--primary-fg);
 }
 
 .team-member-card[data-role="Manager"] {
@@ -177,21 +195,6 @@ a {
     text-wrap: nowrap;
 }
 
-.team-member-mini-card2 {
-    display: flex;
-    width: fit-content;
-    align-items: center;
-    justify-content: center;
-    border: transparent;
-    border-radius: var(--button-radius);
-    background-color: var(--accent-light);
-    padding: var(--button-padding);
-    gap: var(--small-gap);
-    font-family: var(--main-font);
-    cursor: pointer;
-    transition: background-color 0.15s, color 0.15s;
-}
-
 .team-member-mini-card:hover {
     background-color: var(--secondary-bg);
 }
@@ -205,16 +208,6 @@ a {
 
 .team-member-mini-card #full-name {
     font-size: 0.8rem;
-}
-
-.team-member-mini-card2 #full-name {
-    font-size: 0.8rem;
-    color: var(--primary-fg);
-}
-
-.team-member-mini-card2 #role {
-    font-size: 0.8rem;
-    color: var(--primary-fg);
 }
 
 .team-member-mini-card #teamMiniRemoveButton {
@@ -258,6 +251,48 @@ a {
     margin: 0;
 }
 
+.form-wizard {
+    display: flex;
+    flex-direction: column;
+}
+
+.form {
+    display: flex;
+    flex-direction: column;
+    gap: var(--big-gap);
+}
+
+.form-page-container {
+    display: flex;
+    gap: var(--big-gap);
+    transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.form-page {
+    display: flex;
+    flex-direction: column;
+    gap: var(--medium-gap);
+    flex-shrink: 0;
+    width: 100%;
+}
+
+.form-row {
+    display: flex;
+    flex-direction: row;
+    gap: var(--small-gap);
+}
+
+.form-controls {
+    display: flex;
+    gap: var(--small-gap);
+    align-self: flex-end;
+    background: var(--card-bg);
+}
+
+button.form-hidden-button {
+    display: none;
+}
+
 .text-field-container {
     display: flex;
     flex-direction: column;
@@ -267,6 +302,13 @@ a {
 
 .text-field:focus {
     outline: 1px var(--border-dark) solid;
+}
+
+.text-field-description {
+    color: var(--secondary-fg);
+    font-size: 0.8rem;
+    margin: 0;
+    padding: 0;
 }
 
 .field-label {
@@ -574,11 +616,24 @@ a {
     color: var(--primary-bg);
 }
 
-.disabled-button {
+button.disabled-button {
     color: var(--border-light);
     box-shadow: inset 0 0 0 1px var(--border-light);
     background: transparent;
     cursor: not-allowed;
+}
+
+button.disabled-button .button-wrapper {
+    color: var(--border-light);
+}
+
+button.disabled-button:hover {
+    box-shadow: inset 0 0 0 1px var(--border-light);
+    background: transparent;
+}
+
+button.disabled-button:hover .button-wrapper {
+    color: var(--border-light);
 }
 
 .destructive-button {
@@ -590,8 +645,106 @@ a {
     background-color: var(--error-dark);
 }
 
+.dropdown {
+    position: relative;
+    background-color: var(--secondary-bg);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-sizing: border-box;
+    padding: var(--button-padding);
+    border: none;
+    border-radius: var(--input-field-radius);
+    font-family: var(--main-font);
+    font-size: 0.8rem;
+    gap: var(--small-gap);
+    user-select: none;
+    cursor: pointer;
+    transition: background-color 0.15s;
+}
+
+.dropdown-open {
+    background-color: var(--card-bg);
+}
+
+.dropdown:hover {
+    background-color: var(--card-bg);
+}
+
+.dropdown p {
+    margin: 0;
+}
+
+.dropdown i {
+    font-size: 1.2rem;
+}
+
+.dropdown-chevron {
+    transition: transform 0.15s ease-out;
+}
+
+.dropdown-open .dropdown-chevron {
+    transform: scaleY(-100%);
+}
+
+.dropdown-content {
+    top: 100%;
+    left: 0%;
+    width: fit-content;
+    justify-self: flex-start;
+    align-self: flex-start;
+    position: absolute;
+    background-color: var(--card-bg);
+    box-shadow: var(--card-shadow);
+    border-radius: var(--input-field-radius);
+    padding: var(--input-field-radius);
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.15s, top 0.15s;
+}
+
+.dropdown-open .dropdown-content {
+    opacity: 1;
+    pointer-events: all;
+    user-select: all;
+    top: calc(100% + var(--small-gap));
+}
+
+.dropdown-open .dropdown-item {
+    top: 0;
+}
+
+.dropdown-item {
+    text-wrap: nowrap;
+    border: none;
+    background-color: transparent;
+    font-family: var(--main-font);
+    color: var(--primary-fg);
+    padding: var(--button-padding);
+    position: relative;
+    top: -1rem;
+    display: flex;
+    align-items: center;
+    gap: var(--small-gap);
+    border-radius: var(--input-field-radius);
+    transition: background-color 0.15s, top 0.25s;
+}
+
+.dropdown-content:nth-child(1) {
+    transition-delay: 0s;
+}
+
+.dropdown-content:nth-child(2) {
+    transition-delay: 0.5s;
+}
+
+.dropdown-item:hover {
+    background-color: var(--secondary-bg);
+}
+
 .top-page-bar {
     display: flex;
+    position: sticky;
     align-items: stretch;
     gap: var(--small-gap);
 }
@@ -751,104 +904,6 @@ a {
     background-color: var(--success-light);
 }
 
-.team-member-picture {
-    width: 5rem;
-    height: 5rem;
-    object-fit: cover;
-    border-radius: 50%;
-    background-color: var(--border-light);
-}
-
-.team-member-details {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    flex-grow: 1;
-}
-
-.team-member-medium-details {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    flex-grow: 1;
-    width: 70%;
-    color: var(--primary-fg);
-}
-
-.team-member-details #full-name {
-    font-weight: bold;
-    font-size: 1.2rem;
-}
-
-#full-name-medium {
-    font-weight: bold;
-    font-size: 1rem;
-}
-
-.team-member[data-role="Manager"] #full-name {
-    color:#FFFFFF;
-}
-
-.team-member-details #role {
-    font-size: 0.8rem;
-}
-
-.team-member[data-role="Manager"] #role {
-    color:#FFFFFF;
-}
-
-.team-member-details #contact-no {
-    font-size: 0.8rem;
-}
-
-#contact-no-medium {
-    font-size: 0.8rem;
-}
-
-.team-member[data-role="Manager"] #contact-no {
-    color: #FFFFFF;
- 
-    .event-box-top {
-        flex-direction: column;
-        align-items: flex-start;
-    }
-}
-
-.attendance-box {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    width: 100%;
-    background-color: #FFFFFF;
-    padding: 30px;
-    border-radius: 24px;
-    box-shadow: 0px 0px 4px 0px rgba(0, 0, 0, 0.1);
-    transition: all 0.5s ease;
-    overflow: hidden;
-    cursor: pointer;
-    position: relative;
-    margin-bottom: var(--medium-gap);
-}
-
-.attendance-button-container {
-    display: flex;
-    gap: var(--small-gap);
-    justify-content: flex-end;
-}
-
-#present-button.selected {
-    background: none;
-    border-color: var(--accent-light);
-    background-color: var(--accent-light);
-}
-
-#absent-button.selected {
-    background: none;
-    border-color: var(--accent-light);
-    background-color: var(--accent-light);
-}
-
-
 @media screen and (max-width: 800px) {
     * {
         --icon-size: 1.5rem;
@@ -903,61 +958,11 @@ a {
     .mobile-top-bar-button i {
         font-size: var(--icon-size);
     }
+}
 
-    .team-member-mini-picture {
-        height: 100%;
-        aspect-ratio: 1;
-        background-color: var(--page-bg);
-        border-radius: var(--circle-radius);
-        padding: 0.2rem;
-    }
-
-    .team-member-mini-card #full-name {
-        font-size: 0.6rem;
-    }
-
-    .team-member-mini-card #role {
-        font-size: 0.5rem;
-    }
-
-    .secondary-header {
-        font-size: 0.8rem;
-    }
-
-    .team-member-details #full-name {
-        font-weight: bold;
-        font-size: 1rem;
-    }
-
-    .team-member-details #role {
-        font-size: 0.8rem;
-    }
-
-    .team-member-details #contact-no {
-        font-size: 0.8rem;
-    }
-
-    .team-member-picture {
-        width: 3rem;
-        height: 3rem;
-        object-fit: cover;
-        border-radius: 50%;
-        background-color: var(--border-light);
-    }
-
-    .team-member-details {
-        display: flex;
+@media screen and (max-width: 800px) {
+    .form-row {
         flex-direction: column;
-        justify-content: space-between;
-        flex-grow: 1;
-    }
-
-    .team-member-card {
-        display: flex;
-        flex-direction: row;
-        justify-content: space-between;
-        flex-grow: 1;
-        gap: var(--medium-gap);
     }
 }
 

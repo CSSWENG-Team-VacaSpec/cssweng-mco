@@ -26,39 +26,15 @@
                     </li>
                 </a>
             {{else}}
-                {{#if (eq page "event-details")}}
-                    <a class="nav-link-wrapper" href="/eventlist">
-                        <li class="nav-link" id="active-link">
-                            <div class="link-name">
-                                <i class="lni lni-calendar-days"></i>
-                                <p>Upcoming events</p>
-                            </div>
-                            <i class="lni lni-arrow-right"></i>
-                        </li>
-                    </a>
-                {{else}}
-                    {{#if (eq page "event-attendance")}}
-                        <a class="nav-link-wrapper" href="/eventlist">
-                            <li class="nav-link" id="active-link">
-                                <div class="link-name">
-                                    <i class="lni lni-calendar-days"></i>
-                                    <p>Upcoming events</p>
-                                </div>
-                                <i class="lni lni-arrow-right"></i>
-                            </li>
-                        </a>
-                    {{else}}
-                        <a class="nav-link-wrapper" href="/eventlist">
-                            <li class="nav-link">
-                                <div class="link-name">
-                                    <i class="lni lni-calendar-days"></i>
-                                    <p>Upcoming events</p>
-                                </div>
-                                <i class="lni lni-arrow-right"></i>
-                            </li>
-                        </a>
-                    {{/if}}
-                {{/if}}
+                <a class="nav-link-wrapper" href="/eventlist">
+                    <li class="nav-link">
+                        <div class="link-name">
+                            <i class="lni lni-calendar-days"></i>
+                            <p>Upcoming events</p>
+                        </div>
+                        <i class="lni lni-arrow-right"></i>
+                    </li>
+                </a>
             {{/if}}
 
             {{#if (eq page "past-events")}}
@@ -130,20 +106,37 @@
                     </li>
                 </a>
             {{/if}}
-            <a class="nav-link-wrapper" href="/profile">
-                <li class="nav-link accounts-page-link">
-                    <div class="link-name">
-                        <div class="profile-picture image">
-                                <img src="{{user.profilePic}}" alt="Profile Picture" />
+            {{#if (eq page 'my-profile')}}
+                <a class="nav-link-wrapper" href="/profile/{{user._id}}">
+                    <li class="nav-link accounts-page-link" id="active-link">
+                        <div class="link-name">
+                            <div class="profile-picture image">
+                                    <img src="{{user.profilePic}}" alt="Profile Picture" />
+                            </div>
+                            <div class="profile-info">
+                                <p class="username">{{user.firstName}} {{user.lastName}}</p>
+                                <p class="user-role">{{user.role}}</p>
+                            </div>
                         </div>
-                        <div class="profile-info">
-                            <p class="username">{{user.firstName}} {{user.lastName}}</p>
-                            <p class="user-role">{{user.role}}</p>
+                        <i class="lni lni-arrow-right"></i>
+                    </li>
+                </a>
+            {{else}}
+                <a class="nav-link-wrapper" href="/profile/{{user._id}}">
+                    <li class="nav-link accounts-page-link">
+                        <div class="link-name">
+                            <div class="profile-picture image">
+                                    <img src="{{user.profilePic}}" alt="Profile Picture" />
+                            </div>
+                            <div class="profile-info">
+                                <p class="username">{{user.firstName}} {{user.lastName}}</p>
+                                <p class="user-role">{{user.role}}</p>
+                            </div>
                         </div>
-                    </div>
-                    <i class="lni lni-arrow-right"></i>
-                </li>
-            </a>
+                        <i class="lni lni-arrow-right"></i>
+                    </li>
+                </a>
+            {{/if}}
         </ul>
     </section>
 </nav>
