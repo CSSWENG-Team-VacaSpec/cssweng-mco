@@ -26,7 +26,7 @@ a {
     color: var(--sidebar-fg);
     width: 40vw;
     min-height: fit-content;
-    height: 100%;
+    height: calc(100vh - env(safe-area-inset-bottom));
     background-color: var(--login-bg);
     backdrop-filter: blur(52px);
     border-right: 1px solid var(--login-border);
