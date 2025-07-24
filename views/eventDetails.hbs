@@ -54,9 +54,6 @@
 </div>
     <div class="event-details card">
         {{#if showButtons}}
-        <button class="">
-            
-        </button>
         <div class="event-controls">
             <button class="bg-button button" id="details-edit-button">
                 <a class="bg-button-wrapper button-wrapper" href="/editEvent?id={{event._id}}">
@@ -150,6 +147,14 @@
                     </button>
                 {{/if}}
             </div>
+            {{#if showButtons}}
+                <button class="fg-button button" id="attendance-check-button">
+                    <a class="fg-button-wrapper button-wrapper" href="/eventAttendance?id={{event._id}}">
+                        <i class="lni lni-user-multiple-4"></i>
+                        <p>Check attendance</p>
+                    </a>
+                </button>
+            {{/if}}
             <div class="team-mini-grid" id="participantGrid">
                 {{#if teamMembers.length}}
                     {{#each teamMembers}}
@@ -163,19 +168,19 @@
 
          <div class="grid-container">
             <h3 class="secondary-header">Suppliers</h3>
+            {{#if showButtons}}
+                <button class="fg-button button" id="attendance-check-button-desktop">
+                    <a class="fg-button-wrapper button-wrapper" href="/eventAttendance?id={{event._id}}">
+                        <i class="lni lni-user-multiple-4"></i>
+                        <p>Check attendance</p>
+                    </a>
+                </button>
+            {{/if}}
             <div class="grid-controls">
                 <form role="search" class="search-bar" onsubmit="return false;">
                 <button type="submit"><i class="lni lni-search-1"></i></button>
                     <input type="search" name="q" id="searchInput" placeholder="Search..." autocomplete="off">
                 </form>
-                {{#if showButtons}}
-                    <button class="fg-button button" id="attendance-check-button">
-                        <a class="fg-button-wrapper button-wrapper" href="/eventAttendance?id={{event._id}}">
-                            <i class="lni lni-user-multiple-4"></i>
-                            <p>Check attendance</p>
-                        </a>
-                    </button>
-                {{/if}}
             </div>
             <div class="team-mini-grid">
                 {{!-- <ul id="memberList"></ul>
@@ -188,14 +193,6 @@
                 <p>Currently no members in this event.</p>
             {{/if}}
             </div>
-            {{#if showButtons}}
-                    <button class="fg-button button" id="attendance-check-button-mobile">
-                        <a class="fg-button-wrapper button-wrapper" href="/eventAttendance?id={{event._id}}">
-                            <i class="lni lni-user-multiple-4"></i>
-                            <p>Check attendance</p>
-                        </a>
-                    </button>
-                {{/if}}
         </div>
 
 

@@ -839,6 +839,7 @@ button.disabled-button:hover .button-wrapper {
     flex-direction: column;
     gap: var(--medium-gap);
     opacity: 1;
+    box-sizing: border-box;
     transition: opacity 0.25s, transform 0.15s;
 }
 
@@ -905,9 +906,9 @@ button.disabled-button:hover .button-wrapper {
 
 .team-member-picture {
     width: 5rem;
-    height: 5rem;
+    aspect-ratio: 1;
     object-fit: cover;
-    border-radius: 50%;
+    border-radius: var(--circle-radius);
     background-color: var(--border-light);
 }
 
@@ -1009,7 +1010,7 @@ button.disabled-button:hover .button-wrapper {
     
     body {
         flex-direction: column;
-        height: 100vh;
+        height: calc(100vh - env(safe-area-inset-top) - env(safe-area-inset-bottom));
     }
 
     .page-title-bar {
@@ -1075,30 +1076,20 @@ button.disabled-button:hover .button-wrapper {
     }
 
     .modal {
-        width: 75vw;
+        width: 90vw;
     }
 
     .modal-controls {
         flex-direction: column-reverse;
     }
-}
 
-@media (pointer: coarse) {
-    * {
-        --button-padding: 0.75rem 1.25rem;
+    .search-bar input {
+        font-size: 1rem;
     }
 
     .team-member-details #contact-no {
         font-size: 0.8rem;
     }
-
-.team-member-picture {
-    height: 5rem;
-    aspect-ratio: 1;
-    object-fit: cover;
-    border-radius: var(--circle-radius);
-    background-color: var(--border-light);
-}
 
     .team-member-details {
         display: flex;
@@ -1113,11 +1104,5 @@ button.disabled-button:hover .button-wrapper {
         justify-content: space-between;
         flex-grow: 1;
         gap: var(--medium-gap);
-    }
-}
-
-@media (pointer: coarse) {
-    * {
-        --button-padding: 1rem 1.5rem;
     }
 }

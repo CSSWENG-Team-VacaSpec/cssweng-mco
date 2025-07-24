@@ -1,3 +1,7 @@
+* {
+    box-sizing: border-box;
+}
+
 body {
     margin: 0;
     padding: 0;
@@ -14,11 +18,15 @@ a {
     z-index: 100;
 }
 
+.header {
+    font-size: 2rem;
+}
+
 .login-form {
     color: var(--sidebar-fg);
     width: 40vw;
     min-height: fit-content;
-    height: 100vh;
+    height: 100%;
     background-color: var(--login-bg);
     backdrop-filter: blur(52px);
     border-right: 1px solid var(--login-border);
@@ -26,7 +34,6 @@ a {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    gap: var(--big-gap);
 }
 
 #login-form {
@@ -96,11 +103,11 @@ a {
 @media screen and (max-width: 800px) {
     .login-form {
         width: 100vw;
-        padding: var(--medium-gap);
+        border-right: none;
     }
 
     .login-field {
-        padding: 1.5rem;
+        padding: 1rem;
         font-size: 1rem;
     }
 }
