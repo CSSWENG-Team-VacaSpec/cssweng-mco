@@ -5,12 +5,18 @@
                 <h2 class="secondary-header">Edit profile details</h2>
                 <div class="form-row">
                     <div class="text-field-container">
-                        <label class="field-label" for="first-name">First name</label>
-                        <input type="text" id="first-name" class="text-field" name="first-name" value="{{user.firstName}}" required>
+                        <div class="field-label-container">
+                            <label class="field-label" for="first-name">First name</label>
+                            <span class="error-text">*Required</span>
+                        </div>
+                        <input type="text" id="firstName" class="text-field" name="first-name" value="{{user.firstName}}" required>
                     </div>
                     <div class="text-field-container">
-                        <label class="field-label" for="last-name">Last name</label>
-                        <input type="text" id="last-name" class="text-field" name="last-name" value="{{user.lastName}}" required>
+                        <div class="field-label-container">
+                            <label class="field-label" for="last-name">Last name</label>
+                            <span class="error-text">*Required</span>
+                        </div>
+                        <input type="text" id="lastName" class="text-field" name="last-name" value="{{user.lastName}}" required>
                     </div>
                 </div>
                 <div class="form-row">
@@ -22,9 +28,12 @@
 
                 <div class="form-row">
                     <div class="text-field-container">
-                        <label class="field-label" for="mobile-number">Mobile number</label>
-                        <input type="text" id="mobile-number" class="text-field" name="mobile-number" value="{{user._id}}" required>
-                        <label class="text-field-description" for="mobile-number">You use your mobile number and password to sign in.</p>
+                        <div class="field-label-container">
+                            <label class="field-label" for="mobile-number">Mobile number</label>
+                            <span class="error-text">*Required</span>
+                        </div>
+                        <input type="text" id="mobileNumber" class="text-field" name="mobile-number" value="{{user._id}}" required>
+                        <label class="text-field-description" id="phoneDescription" for="mobile-number">Enter a valid phone number with no spaces and no country code.</p>
                     </div>
                 </div>
                 <div class="form-row">
@@ -34,7 +43,7 @@
                     </div>
                 </div>
                 <div class="form-controls">
-                    <button type="submit" class="fg-button button" id="form-submit-button">
+                    <button type="submit" class="fg-button button" id="editDetailsButton">
                         <div class="button-wrapper">
                             <i class="lni lni-pen-to-square"></i>
                             <p>Edit</p>
@@ -52,24 +61,36 @@
                 <h2 class="secondary-header">Change password</h2>
                 <div class="form-row">
                     <div class="text-field-container">
-                        <label class="field-label" for="current-password">Current password</label>
-                        <input type="password" id="current-password" class="text-field" name="current-password" required>
+                        <div class="field-label-container">
+                            <label class="field-label" for="current-password">Current password</label>
+                            <span class="error-text">*Required</span>
+                        </div>
+                        <input type="password" id="currentPassword" class="text-field" name="current-password" required>
                     </div>
                 </div>
                 <div class="form-row">
                     <div class="text-field-container">
-                        <label class="field-label" for="new-password">New password</label>
-                        <input type="password" id="new-password" class="text-field" name="new-password" required>
-                        <label class="text-field-description" for="new-password">Your password must contain at least 8 characters.</p>
-                    </div>
-                    <div class="text-field-container">
-                        <label class="field-label" for="reenter-new-password">Reenter new password</label>
-                        <input type="password" id="reenter-new-password" class="text-field" name="reenter-new-password" required>
-                        <label class="text-field-description" for="reenter-new-password">The passwords must match.</p>
+                        <div class="field-label-container">
+                            <label class="field-label" for="new-password">New password</label>
+                            <span class="error-text">*Required</span>
+                        </div>
+                        <input type="password" id="newPassword" class="text-field" name="new-password" required>
+                        <label class="text-field-description" id="passLengthCheck" for="new-password">Your new password must contain at least 8 characters and not match your old one.</p>
                     </div>
                 </div>
+                <div class="form-row">
+                    <div class="text-field-container">
+                        <div class="field-label-container">
+                            <label class="field-label" for="reenter-new-password">Reenter new password</label>
+                            <span class="error-text">*Required</span>
+                        </div>
+                        <input type="password" id="reenterNewPassword" class="text-field" name="reenter-new-password" required>
+                        <label class="text-field-description" id="matchPassDesc" for="reenter-new-password">The passwords must match.</p>
+                    </div>
+                </div>
+                    
                 <div class="form-controls">
-                    <button type="submit" class="fg-button button" id="form-submit-button">
+                    <button type="submit" class="disabled-button fg-button button" id="changePasswordButton" disabled>
                         <div class="button-wrapper">
                             <i class="lni lni-pen-to-square"></i>
                             <p>Change password</p>

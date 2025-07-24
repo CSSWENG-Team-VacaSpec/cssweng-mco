@@ -315,6 +315,12 @@ button.form-hidden-button {
     width: 100%;
 }
 
+.field-label-container {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.8rem;
+}
+
 .text-field:focus {
     outline: 1px var(--border-dark) solid;
 }
@@ -324,10 +330,6 @@ button.form-hidden-button {
     font-size: 0.8rem;
     margin: 0;
     padding: 0;
-}
-
-.field-label {
-    font-size: 0.8rem;
 }
 
 .text-field {
@@ -659,6 +661,10 @@ button.disabled-button:hover .button-wrapper {
 
 .destructive-button:hover {
     background-color: var(--error-dark);
+}
+
+.error-text {
+    color: var(--error-light);
 }
 
 .dropdown {
