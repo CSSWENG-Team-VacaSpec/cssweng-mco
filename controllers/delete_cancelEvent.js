@@ -19,7 +19,7 @@ exports.cancelEvent = async (req, res) => {
         console.log("event cancelled");
         await CancelNotif(event,sender);
 
-        res.redirect('/notifications');
+        res.redirect('/eventList');
 
     } catch (err) {
         console.error('Error cancelling event:', err);
@@ -44,7 +44,7 @@ exports.deleteEvent = async (req, res) => {
 
         await Event.findByIdAndDelete(eventId);
 
-        res.redirect('/notifications');
+        res.redirect('/eventList');
             
     } catch (err) {
         console.error('Error deleting event:', err);

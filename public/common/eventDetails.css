@@ -77,23 +77,6 @@
         justify-content: space-between;
     }
 
-    .button {
-        border-radius: 1rem;
-        padding: 0.6rem;
-        font-size: 0.5rem;
-        flex-grow: 1;
-        min-width: 0;
-    }
-
-    .button-wrapper {
-        gap: var(--small-gap);
-        justify-content: center;
-    }
-
-    .button i {
-        font-size: 0.8rem;
-    }
-
     .event-details {
         display: flex;
         flex-direction: column;
@@ -116,10 +99,6 @@
         padding: 0.3rem;
         width: 100%;
         height: fit-content;
-    }
-
-    #search-icon i.lni {
-        font-size: 1rem;
     }
 
     #searchInput::placeholder {
@@ -155,11 +134,8 @@
         flex-wrap: nowrap;
         justify-content: flex-end;
     }
-    
-    .event-controls .button {
-        flex-grow: 0;
-        width: auto;
-        padding: 0.6rem 1rem;
-    }
 
+    .container {
+        padding: 2rem 0;
+    }
 }
