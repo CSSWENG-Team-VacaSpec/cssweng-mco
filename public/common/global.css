@@ -47,6 +47,12 @@
     --icon-size: 1.2rem;
 }
 
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
 body {
     background-color: var(--page-bg);
     color: var(--primary-fg);
