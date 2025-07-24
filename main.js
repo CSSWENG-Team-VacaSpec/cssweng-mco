@@ -63,6 +63,7 @@ const supplierCreateRoute = require('./routes/r_supplier_create.js');
 const delete_cancelEvent = require('./routes/r_delete_cancelEvent.js');
 const eventAttendanceRoute = require('./routes/r_event_attendance.js');
 const pastEventsRoute = require('./routes/r_past_events.js');
+const editEventRoute = require('./routes/r_edit_event.js');
 const deleteCancelEventsRoute = require('./routes/r_delete_cancelEvent.js');
 
 // routes
@@ -81,7 +82,9 @@ app.use('/', searchBarRoute);
 app.use('/', delete_cancelEvent);
 app.use('/', eventAttendanceRoute);
 app.use('/', pastEventsRoute);
+app.use('/', editEventRoute);
 app.use('/', deleteCancelEventsRoute);
+app.use('/', editEventRoute);
 
 // start server
 const PORT = process.env.PORT || 3000;

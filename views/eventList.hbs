@@ -9,7 +9,7 @@
     </form>
 
     {{#if showCreateButton}}
-        <div class="fg-button button">
+        <div class="fg-button button" id="desktop-create-button">
             <a class="fg-button-wrapper button-wrapper" href="/create/event">
                 <i class="lni lni-plus"></i>
                 <p>Create</p>
@@ -37,5 +37,11 @@
             <p class="no-results-message">No events found</p>
         </div>
     {{/each}}
-    
+    {{#if showCreateButton}}
+        <div class="fg-button button" id="mobile-create-button" hidden>
+            <a class="fg-button-wrapper button-wrapper" href="/create/event">
+                <i class="lni lni-plus"></i>
+            </a>
+        </div>
+    {{/if}}
 </div>
