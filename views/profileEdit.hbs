@@ -1,0 +1,82 @@
+<div class="card">
+    <form class="edit-profile-details" action="/api/edit/profile-description" method="post">
+        <div class="form-page-container">
+            <div class="form-page">
+                <h2 class="secondary-header">Edit profile details</h2>
+                <div class="form-row">
+                    <div class="text-field-container">
+                        <label class="field-label" for="first-name">First name</label>
+                        <input type="text" id="first-name" class="text-field" name="first-name" value="{{user.firstName}}" required>
+                    </div>
+                    <div class="text-field-container">
+                        <label class="field-label" for="last-name">Last name</label>
+                        <input type="text" id="last-name" class="text-field" name="last-name" value="{{user.lastName}}" required>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="text-field-container">
+                        <label class="field-label" for="bio">Bio</label>
+                        <textarea id="bio" class="text-field" name="bio" value="{{user.bio}}"></textarea>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="text-field-container">
+                        <label class="field-label" for="mobile-number">Mobile number</label>
+                        <input type="text" id="mobile-number" class="text-field" name="mobile-number" value="{{user._id}}" required>
+                        <label class="text-field-description" for="mobile-number">You use your mobile number and password to sign in.</p>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="text-field-container">
+                        <label class="field-label" for="email">Email</label>
+                        <input type="text" id="email" class="text-field" name="email" value="{{user.email}}">
+                    </div>
+                </div>
+                <div class="form-controls">
+                    <button type="submit" class="fg-button button" id="form-submit-button">
+                        <div class="button-wrapper">
+                            <i class="lni lni-pen-to-square"></i>
+                            <p>Edit</p>
+                        </div>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+<div class="card">
+    <form class="edit-profile-details" action="/api/edit/change-password" method="post">
+        <div class="form-page-container">
+            <div class="form-page">
+                <h2 class="secondary-header">Change password</h2>
+                <div class="form-row">
+                    <div class="text-field-container">
+                        <label class="field-label" for="current-password">Current password</label>
+                        <input type="password" id="current-password" class="text-field" name="current-password" required>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="text-field-container">
+                        <label class="field-label" for="new-password">New password</label>
+                        <input type="password" id="new-password" class="text-field" name="new-password" required>
+                        <label class="text-field-description" for="new-password">Your password must contain at least 8 characters.</p>
+                    </div>
+                    <div class="text-field-container">
+                        <label class="field-label" for="reenter-new-password">Reenter new password</label>
+                        <input type="password" id="reenter-new-password" class="text-field" name="reenter-new-password" required>
+                        <label class="text-field-description" for="reenter-new-password">The passwords must match.</p>
+                    </div>
+                </div>
+                <div class="form-controls">
+                    <button type="submit" class="fg-button button" id="form-submit-button">
+                        <div class="button-wrapper">
+                            <i class="lni lni-pen-to-square"></i>
+                            <p>Change password</p>
+                        </div>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
