@@ -1014,7 +1014,7 @@ button.disabled-button:hover .button-wrapper {
     }
 
     .page-title-bar {
-        padding: 0 1.25rem;
+        padding: 0 var(--medium-gap);
     }
 
     .global-sidebar {
