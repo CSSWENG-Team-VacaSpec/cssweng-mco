@@ -101,6 +101,7 @@
     flex-wrap: wrap;
     gap: var(--small-gap);
     overflow-y: scroll;
+    overflow-x: hidden;
 }
 
 #team-members-page .grid-container {
@@ -108,6 +109,10 @@
 }
 
 @media screen and (max-width: 800px) {
+    .form-wizard {
+        padding-bottom: 50vh;
+    }
+
     .form-row {
         flex-direction: column;
     }
@@ -158,6 +163,7 @@
         display: flex;
         gap: var(--small-gap);
         justify-content: center;
+        padding: var(--small-gap);
     }
 
     .button-wrapper {
@@ -167,6 +173,19 @@
 
     .team-member-picture {
         display: none;
+    }
+
+    .team-mini-grid {
+        flex-direction: column;
+        flex-wrap: nowrap;
+    }
+
+    .team-member-mini-card {
+        width: 100%;
+    }
+
+    .team-member-mini-card #full-name {
+        text-wrap: wrap;
     }
 }
 
