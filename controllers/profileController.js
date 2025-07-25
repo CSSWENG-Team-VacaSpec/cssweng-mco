@@ -23,7 +23,6 @@ exports.renderPage = async (req, res) => {
         res.render('profile', {
             layout: 'main',
             stylesheet: 'profile',
-            script: 'profile',
             title: profile.firstName + ' ' + profile.lastName, // TODO: change to user being displayed
             page: profileType,
             user: req.session.user,

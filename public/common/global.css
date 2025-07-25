@@ -41,10 +41,16 @@
     --container-padding: 2rem 2.5rem;
     --card-padding: 1.5rem;
     --button-padding: 0.5rem 1rem;
-    --sidebar-padding: 1.5rem;
+    --sidebar-padding: 2rem 1.5rem;
 
     --main-font: 'Space Grotesk', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
     --icon-size: 1.2rem;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
 
 body {
@@ -53,6 +59,8 @@ body {
     font-family: var(--main-font);
     display: flex;
     gap: var(--small-gap);
+    box-sizing: border-box;
+    padding: var(--small-gap);
 }
 
 a {
@@ -169,6 +177,15 @@ a {
     gap: var(--small-gap);
     background-color: var(--card-bg);
     color: var(--primary-fg);
+    overflow: hidden;
+}
+
+.team-member-details span#full-name {
+    -webkit-line-clamp: 1;
+            line-clamp: 1;
+    -webkit-box-orient: vertical;
+    text-wrap: nowrap;
+    text-overflow: ellipsis;
 }
 
 .team-member-card[data-role="Manager"] {
@@ -298,6 +315,12 @@ button.form-hidden-button {
     width: 100%;
 }
 
+.field-label-container {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.8rem;
+}
+
 .text-field:focus {
     outline: 1px var(--border-dark) solid;
 }
@@ -307,10 +330,6 @@ button.form-hidden-button {
     font-size: 0.8rem;
     margin: 0;
     padding: 0;
-}
-
-.field-label {
-    font-size: 0.8rem;
 }
 
 .text-field {
@@ -644,6 +663,10 @@ button.disabled-button:hover .button-wrapper {
     background-color: var(--error-dark);
 }
 
+.error-text {
+    color: var(--error-light);
+}
+
 .dropdown {
     position: relative;
     background-color: var(--secondary-bg);
@@ -906,6 +929,7 @@ button.disabled-button:hover .button-wrapper {
 
 .team-member-picture {
     width: 5rem;
+    min-width: 5rem;
     aspect-ratio: 1;
     object-fit: cover;
     border-radius: var(--circle-radius);
@@ -915,8 +939,8 @@ button.disabled-button:hover .button-wrapper {
 .team-member-details {
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
-    flex-grow: 1;
+    justify-content: center;
+    overflow: hidden;
 }
 
 .team-member-medium-details {
@@ -929,8 +953,9 @@ button.disabled-button:hover .button-wrapper {
 }
 
 .team-member-details #full-name {
-    font-weight: bold;
-    font-size: 1.2rem;
+    font-weight: 500;
+    font-size: 1.1rem;
+    text-overflow: ellipsis;
 }
 
 #full-name-medium {
