@@ -21,7 +21,9 @@
                 </div>
                 <div class="form-row">
                     <div class="text-field-container">
-                        <label class="field-label" for="bio">Bio</label>
+                        <div class="field-label-container">
+                            <label class="field-label" for="bio">Bio</label>
+                        </div>
                         <textarea id="bio" class="text-field" name="bio" value="{{user.bio}}"></textarea>
                     </div>
                 </div>
@@ -38,15 +40,17 @@
                 </div>
                 <div class="form-row">
                     <div class="text-field-container">
-                        <label class="field-label" for="email">Email</label>
+                        <div class="field-label-container">
+                            <label class="field-label" for="email">Email</label>
+                        </div>
                         <input type="text" id="email" class="text-field" name="email" value="{{user.email}}">
                     </div>
                 </div>
                 <div class="form-controls">
                     <button type="submit" class="fg-button button" id="editDetailsButton">
                         <div class="button-wrapper">
-                            <i class="lni lni-pen-to-square"></i>
-                            <p>Edit</p>
+                            <i class="lni lni-floppy-disk-1"></i>
+                            <p>Save</p>
                         </div>
                     </button>
                 </div>
