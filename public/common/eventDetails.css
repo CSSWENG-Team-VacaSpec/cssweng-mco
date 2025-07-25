@@ -62,12 +62,8 @@
     justify-content: flex-end;
 }
 
-#attendance-check-button-desktop {
-    display: flex;
-}
-
-#attendance-check-button-mobile {
-    display: none;
+#attendance-check-button {
+    width: 100%
 }
 
 @media screen and (max-width: 800px) {
@@ -103,15 +99,6 @@
 
     #searchInput::placeholder {
         font-size: 0.7rem;
-    }
-
-    #attendance-check-button-desktop {
-        display: none;
-    }
-
-    #attendance-check-button-mobile {
-        display: flex;
-        width: 100%;
     }
 
     .grid-container {
