@@ -57,11 +57,9 @@ exports.searchTeamMembers= async (req, res) => {
 exports.searchEvents = async (req, res) => {
   try {
     const query = req.query.q?.trim() || '';
-    const status = req.query.status; 
+    const scope = req.query.scope;
     const userId = req.session.user._id || req.session.user;
-    const scope = req.query.scope; // new query param: 'past' or 'upcoming'
 
-    // Find teams where the user is a member
     const teams = await Team.find({
       $or: [
         { manager: userId },
@@ -75,16 +73,17 @@ exports.searchEvents = async (req, res) => {
     }
 
     const teamIds = teams.map(team => team._id);
-
-    // Find events tied to user's teams
     let userEvents = await Events.find({ _id: { $in: teamIds } }).lean();
 
-    if (status) {
-      userEvents = userEvents.filter(event => event.status === status);
+    // 💡 Add this:
+    if (scope === 'past') {
+      userEvents = userEvents.filter(e => ['completed', 'cancelled'].includes(e.status));
+    } else if (scope === 'upcoming') {
+      userEvents = userEvents.filter(e => ['planning', 'in progress', 'postponed'].includes(e.status));
     }
 
     const results = query
-      ? searchEvents(userEvents, query, scope) 
+      ? searchEvents(userEvents, query, scope)
       : userEvents;
 
     return res.status(200).json({ results });

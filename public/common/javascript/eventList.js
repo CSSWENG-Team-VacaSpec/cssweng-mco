@@ -63,33 +63,34 @@ document.addEventListener('DOMContentLoaded', function() {
         };
     }
 
-    const searchEvents = debounce(function(query) {
-        if (!query) {
-            renderEvents(originalEvents);
-            return;
-        }
+    const searchEvents = debounce(function (query) {
+        container.innerHTML = '<div class="search-loading">Searching events...</div>';
 
-        container.innerHTML = '';
-        container.appendChild(getInProgressContainer());
+        const url = query
+            ? `/searchEvents?q=${encodeURIComponent(query)}&scope=upcoming` 
+            : `/searchEvents?scope=upcoming`; // or `past`
 
-        fetch(`/searchEvents?q=${encodeURIComponent(query)}}&scope=upcoming`)
-            .then(response => response.text())
+        fetch(url)
+            .then(res => res.json())
             .then(data => {
-                let events = JSON.parse(data);
-                events = events.results;
-
-                if (events.length === 0) {
-                    container.innerHTML = '';
-                    container.appendChild(getNoResultsContainer());
+                const events = data.results;
+                if (!events || events.length === 0) {
+                    container.innerHTML = `
+                        <div class="no-results-container">
+                            <i class="lni lni-emoji-sad"></i>
+                            <p class="no-results-message">No results found</p>
+                        </div>
+                    `;
                 } else {
                     renderEvents(events);
                 }
             })
-            .catch(error => {
-                console.error('Search failed:', error);
-                renderEvents(originalEvents);
+            .catch(err => {
+                console.error('Search failed:', err);
+                container.innerHTML = '<p class="error-message">Failed to fetch events.</p>';
             });
     }, 300);
+
 
     function renderEvents(events) {
         if (events.length === 0) {

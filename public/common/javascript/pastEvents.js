@@ -56,83 +56,92 @@ document.addEventListener('DOMContentLoaded', function() {
         };
     }
 
-    const searchEvents = debounce(function(query) {
-        if (!query) {
-            renderEvents(originalEvents);
-            return;
-        }
-
+    const searchEvents = debounce(function (query) {
         container.innerHTML = '<div class="search-loading">Searching events...</div>';
 
-        fetch(`/searchEvents?q=${encodeURIComponent(query)}&scope=past`)
-            .then(response => response.text())
-            .then(data => {
-                container.innerHTML = ''; // clear loading state
+        let url = '/searchEvents?scope=past';
+            if (query && query.length > 0) {
+                url += `&q=${encodeURIComponent(query)}`;
+            }
 
-                if (data.length === 0 || !data.includes('event-box')) {
-                    container.innerHTML = `
-                        <div class="no-results-container">
-                            <i class="lni lni-emoji-sad"></i>
-                            <p class="no-results-message">No results found</p>
-                        </div>
-                    `;
-                } else {
-                    renderEvents(data);
-
-                    // Double-check if no .event-box rendered (in case data is empty shell)
-                    const hasEventBoxes = container.querySelector('.event-box');
-                    if (!hasEventBoxes) {
-                        container.innerHTML = `
-                            <div class="no-results-container">
-                                <i class="lni lni-emoji-sad"></i>
-                                <p class="no-results-message">No results found</p>
-                            </div>
-                        `;
-                    }
-                }
-            })
-            .catch(error => {
-                console.error('Search failed:', error);
-                renderEvents(originalEvents);
-            });
-    }, 300);
-
-    function renderEvents(events) {
-        if (events.length === 0) {
-            container.innerHTML = '<p class="no-events-message">No events found</p>';
-            return;
-        }
-
-        events = JSON.parse(events);
-        events = events.results;
-
-        container.innerHTML = '';
-        events.forEach(event => {
-            const eventElement = document.createElement('div');
-            container.appendChild(eventElement);
-            
-            eventElement.outerHTML = `
-                <div class="event-box container"
-                    data-id="${event._id}"
-                    data-cp-first-name="${event.CPFirstName}"
-                    data-cp-last-name="${event.CPLastName}"
-                    data-cp-contact-no="${event.CPContactNo}"
-                >
-                    <div class="event-box-top">
-                        <span id="event-name">${event.eventName}</span>
-                        <span id="client-name">${event.clientFirstName} ${event.clientLastName}</span>
+        fetch(url)
+        .then(res => {
+            if (!res.ok) throw new Error('Network response was not ok');
+            return res.json();
+        })
+        .then(data => {
+            const events = data.results;
+            if (!events || events.length === 0) {
+                container.innerHTML = `
+                    <div class="no-results-container">
+                        <i class="lni lni-emoji-sad"></i>
+                        <p class="no-results-message">No results found</p>
                     </div>
-                    <div class="event-box-bottom">
-                        <span id="date">${event.eventDate}</span>
-                        <span id="location">${event.location}</span>
-                        <span><strong>Description</strong></span>
-                        <span id="description">${event.description || 'No description'}</span>
-                        <span id="status" data-status="${event.status}"><strong>● Status:</strong> ${event.status}</span>
-                    </div>
+                `;
+            } else {
+                renderEvents(events);
+            }
+        })
+        .catch(err => {
+            console.error('Search failed:', err);
+            container.innerHTML = `
+                <div class="no-results-container">
+                    <i class="lni lni-warning"></i>
+                    <p class="no-results-message">Failed to fetch events.</p>
                 </div>
             `;
         });
-    }
+    }, 300);
+
+
+    
+    function renderEvents(events) {
+            if (events.length === 0) {
+                container.innerHTML = '';
+                container.appendChild(getNoResultsContainer());
+                return;
+            }
+
+            container.innerHTML = '';
+            events.forEach(event => {
+                const eventElement = document.createElement('div');
+                container.appendChild(eventElement);
+                
+                eventElement.outerHTML = `
+                    <div class="event-box card"
+                        data-id="${event._id}"
+                        data-cp-first-name="${event.CPFirstName}"
+                        data-cp-last-name="${event.CPLastName}"
+                        data-cp-contact-no="${event.CPContactNo}"
+                    >
+                        <div class="event-box-top">
+                            <div class="main-event-info">
+                                <span id="event-name" class="card-title">${event.eventName}</span>
+                                <span id="client-name">${event.clientFirstName} ${event.clientLastName}</span>
+                            </div>
+                            <span id="status" data-status="${event.status}">${event.status}</span>
+                        </div>
+                        <div class="card-group">
+                            <div class="card-description-item card-secondary">
+                                <i class="lni lni-calendar-days"></i>
+                                <span id="date"> ${event.eventDate}</span>
+                            </div>
+                            <div class="card-description-item card-secondary">
+                                <i class="lni lni-map-pin-5"></i>
+                                <span id="location">${event.location}</span>
+                            </div>
+                        </div>
+                        
+                        <div class="card-group">
+                            <div class="card-description-item">
+                                <i class="lni lni-pen-to-square"></i>
+                                <span id="description">${event.description || 'No description'}</span>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            });
+        }
 
     document.getElementById('eventSearchInput').addEventListener('input', (e) => {
         searchEvents(e.target.value.trim());
