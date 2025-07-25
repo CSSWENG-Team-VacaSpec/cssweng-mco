@@ -1,0 +1,34 @@
+<div class="card">
+    <form class="form" action="/api/delete/member" method="post">
+        <div class="form-page-container">
+            <div class="form-page" id="team-members-page">
+                <div class="grid-container">
+                    <h1 class="secondary-header">Search</h1>
+                    <div role="search" class="search-bar" id="memberSearchForm">
+                        <button type="submit" id="search-icon"><i class="lni lni-search-1"></i></button>
+                        <input type="search" name="q" id="memberSearchInput" placeholder="Search team members...">
+                    </div>
+                    <div class="team-mini-grid" id="memberSearchResults">
+                        {{#each members}}
+                            {{>teamMemberMini this}}
+                        {{else}}
+                            <p>No members currently</p>
+                        {{/each}}
+                    </div>
+                </div>
+                <div class="grid-container">
+                    <h1 class="secondary-header">Team members to delete</h1>
+                    <div class="team-mini-grid" id="addedMembers"></div>
+                </div>
+            </div>
+        </div>
+        <div class="form-controls">
+            <button type="submit" class="destructive-button button" id="form-submit-button">
+                <div class="button-wrapper">
+                    <i class="lni lni-trash-3"></i>
+                    <p>Delete</p>
+                </div>
+            </button>
+        </div>
+    </form>
+</div>
