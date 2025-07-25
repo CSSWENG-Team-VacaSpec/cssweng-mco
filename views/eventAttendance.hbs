@@ -1,5 +1,6 @@
 <div class="event-attendance card">
-    <div class="attendance-team">
+    <!-- Page 1: Team Attendance -->
+    <div class="attendance-form" id="team-attendance" data-page="0">
         <h2 class="secondary-header">Team Members</h2>
         <div class="members-box">
             {{#if teamMembers.length}}
@@ -12,7 +13,8 @@
         </div>
     </div>
 
-    <div class="attendance-supplier">
+    <!-- Page 2: Supplier Attendance -->
+    <div class="attendance-form" id="supplier-attendance" data-page="1">
         <h2 class="secondary-header">Suppliers</h2>
         <div class="members-box">
             {{#if suppliers.length}}
@@ -27,22 +29,22 @@
 </div>
 
 <div class="attendance-page-buttons">
-    <button class="bg-button button" id="form-cancel-button" href="/eventDetails?id={{event._id}}">
-        <div class="bg-button-wrapper button-wrapper">
-            <i class="lni lni-xmark"></i>
-            <p>Cancel</p>
+    <button type="button" class="disabled-button bg-button button" id="form-back-button" disabled>
+        <div class="button-wrapper">
+            <i class="lni lni-arrow-left"></i>
+            <p>Back</p>
         </div>
     </button>
-
-    <button class="fg-button button" id="submit-attendance" href="/eventDetails?id={{event._id}}">
+    <button type="button" class="fg-button button" id="form-next-button">
+        <div class="button-wrapper">
+            <i class="lni lni-arrow-right"></i>
+            <p>Next</p>
+        </div>
+    </button>
+    <button type="button" class="fg-button button" id="submit-attendance">
         <div class="fg-button-wrapper button-wrapper">
             <i class="lni lni-check"></i>
             <p>Done</p>
         </div>
     </button>
 </div>
-
-<script>
-    const teamId = '{{team._id}}';
-    const eventId = '{{event._id}}';
-</script>
