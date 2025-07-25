@@ -45,6 +45,7 @@ document.addEventListener('DOMContentLoaded', function() {
     document.getElementById('eventSearchForm').addEventListener('submit', (e) => {
         e.preventDefault();
         const query = document.getElementById('eventSearchInput').value.trim();
+            console.log('Input triggered with:', value);
         searchEvents(query);
     });
 
@@ -64,7 +65,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
         container.innerHTML = '<div class="search-loading">Searching events...</div>';
 
-        fetch(`/searchEvents?q=${encodeURIComponent(query)}`)
+        fetch(`/searchEvents?q=${encodeURIComponent(query)}&scope=past`)
             .then(response => response.text())
             .then(data => {
                 if (data.length === 0) {

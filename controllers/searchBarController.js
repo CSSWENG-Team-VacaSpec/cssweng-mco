@@ -57,9 +57,11 @@ exports.searchTeamMembers= async (req, res) => {
 exports.searchEvents = async (req, res) => {
   try {
     const query = req.query.q?.trim() || '';
+    const status = req.query.status; 
     const userId = req.session.user._id || req.session.user;
+    const scope = req.query.scope; // new query param: 'past' or 'upcoming'
 
-    // get teams the user is part of
+    // Find teams where the user is a member
     const teams = await Team.find({
       $or: [
         { manager: userId },
@@ -72,13 +74,17 @@ exports.searchEvents = async (req, res) => {
       return res.status(200).json({ results: [] });
     }
 
-    const poNumbers = teams.map(team => team._id);
+    const teamIds = teams.map(team => team._id);
 
-    //get users events
-    const userEvents = await Events.find({ _id: { $in: poNumbers } }).lean();
+    // Find events tied to user's teams
+    let userEvents = await Events.find({ _id: { $in: teamIds } }).lean();
+
+    if (status) {
+      userEvents = userEvents.filter(event => event.status === status);
+    }
 
     const results = query
-      ? searchEvents(userEvents, query)  // uses Fuse.js
+      ? searchEvents(userEvents, query, scope) 
       : userEvents;
 
     return res.status(200).json({ results });

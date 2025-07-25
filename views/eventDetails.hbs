@@ -166,35 +166,6 @@
             </div>
         </div>
 
-         <div class="grid-container">
-            <h3 class="secondary-header">Suppliers</h3>
-            {{#if showButtons}}
-                <button class="fg-button button" id="attendance-check-button-desktop">
-                    <a class="fg-button-wrapper button-wrapper" href="/eventAttendance?id={{event._id}}">
-                        <i class="lni lni-user-multiple-4"></i>
-                        <p>Check attendance</p>
-                    </a>
-                </button>
-            {{/if}}
-            <div class="grid-controls">
-                <form role="search" class="search-bar" onsubmit="return false;">
-                <button type="submit"><i class="lni lni-search-1"></i></button>
-                    <input type="search" name="q" id="searchInput" placeholder="Search..." autocomplete="off">
-                </form>
-            </div>
-            <div class="team-mini-grid">
-                {{!-- <ul id="memberList"></ul>
-            <p id="emptyMessage" style="display: none;">No matching team members found.</p> --}}
-            {{#if teamMembers.length}}
-                {{#each teamMembers}}
-                    {{> teamMemberMini this}}
-                {{/each}}
-            {{else}}
-                <p>Currently no members in this event.</p>
-            {{/if}}
-            </div>
-        </div>
-
 
     <script>
     const teamId = '{{team._id}}'; //gets the teamid in eventDetailsController

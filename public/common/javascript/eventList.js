@@ -72,7 +72,7 @@ document.addEventListener('DOMContentLoaded', function() {
         container.innerHTML = '';
         container.appendChild(getInProgressContainer());
 
-        fetch(`/searchEvents?q=${encodeURIComponent(query)}`)
+        fetch(`/searchEvents?q=${encodeURIComponent(query)}}&scope=upcoming`)
             .then(response => response.text())
             .then(data => {
                 let events = JSON.parse(data);
