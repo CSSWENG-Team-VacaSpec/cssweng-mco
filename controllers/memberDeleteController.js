@@ -5,14 +5,14 @@ exports.renderPage = async (req, res) => {
         const members = await EmployeeAccount.find({ status: 'active' }).lean();
         res.render('memberDelete', {
             layout: 'form',
-            script: 'memberSupplierDelete',
+            script: 'memberDelete',
             title: 'Delete team members',
             page: 'member-delete',
             user: req.session.user,
             members: members
         });
     } catch (error) {
-
+        console.error('Could not load member deletion page.');
     }
 }
 
