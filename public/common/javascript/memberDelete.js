@@ -38,6 +38,5 @@ document.addEventListener('DOMContentLoaded', () => {
         
         deleteButton.disabled = addedMembers.length === 0;
         deleteButton.classList.toggle('disabled-button', deleteButton.disabled);
-        console.log(addedMembers);
     });
 });
