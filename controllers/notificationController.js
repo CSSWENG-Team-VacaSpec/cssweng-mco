@@ -139,10 +139,11 @@ exports.respondInvite = async (req, res) => {
      if (response === "available") {
       const employeeCN = userAccount._id;
 
-      const alreadyInTeam = team.teamMemberList.includes(employeeCN);
+      const alreadyInTeam = addToTeam.teamMemberList.includes(employeeCN);
 
       if (!alreadyInTeam) {
         addToTeam.teamMemberList.push(employeeCN);
+        addToTeam.teamMemberList = [...new Set(addToTeam.teamMemberList)];
         await addToTeam.save();
         console.log(`Added ${employeeCN} to team ${addToTeam._id}`);
       } else {
