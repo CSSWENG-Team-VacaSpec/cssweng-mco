@@ -45,7 +45,6 @@ document.addEventListener('DOMContentLoaded', function() {
     document.getElementById('eventSearchForm').addEventListener('submit', (e) => {
         e.preventDefault();
         const query = document.getElementById('eventSearchInput').value.trim();
-            console.log('Input triggered with:', value);
         searchEvents(query);
     });
 
@@ -68,10 +67,28 @@ document.addEventListener('DOMContentLoaded', function() {
         fetch(`/searchEvents?q=${encodeURIComponent(query)}&scope=past`)
             .then(response => response.text())
             .then(data => {
-                if (data.length === 0) {
-                    container.innerHTML = '<p class="no-results">No matching events found</p>';
+                container.innerHTML = ''; // clear loading state
+
+                if (data.length === 0 || !data.includes('event-box')) {
+                    container.innerHTML = `
+                        <div class="no-results-container">
+                            <i class="lni lni-emoji-sad"></i>
+                            <p class="no-results-message">No results found</p>
+                        </div>
+                    `;
                 } else {
                     renderEvents(data);
+
+                    // Double-check if no .event-box rendered (in case data is empty shell)
+                    const hasEventBoxes = container.querySelector('.event-box');
+                    if (!hasEventBoxes) {
+                        container.innerHTML = `
+                            <div class="no-results-container">
+                                <i class="lni lni-emoji-sad"></i>
+                                <p class="no-results-message">No results found</p>
+                            </div>
+                        `;
+                    }
                 }
             })
             .catch(error => {
