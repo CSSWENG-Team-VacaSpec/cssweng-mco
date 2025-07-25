@@ -151,12 +151,12 @@
 
             <h3 class="secondary-header">Suppliers</h3>
             <div class="team-mini-grid">
-                {{#if teamMembers.length}}
-                    {{#each teamMembers}}
-                    {{> teamMemberMini this}}
+                {{#if suppliers.length}}
+                    {{#each supplier}}
+                    {{> supplierMini this}}
                     {{/each}}
                 {{else}}
-                    <p>Currently no members in this event.</p>
+                    <p>Currently no suppliers in this event.</p>
                 {{/if}}
             </div>
         </div>
