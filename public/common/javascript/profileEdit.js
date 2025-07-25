@@ -60,17 +60,20 @@ document.addEventListener('DOMContentLoaded', () => {
 
     firstName.addEventListener('input', () => {
         firstNameFilled = firstName.value !== '';
+        firstName.classList.toggle('error-field', !firstNameFilled);
         updateEditDetailsButton();
     });
     
     lastName.addEventListener('input', () => {
         lastNameFilled = lastName.value !== '';
+        lastName.classList.toggle('error-field', !lastNameFilled);
         updateEditDetailsButton();
     });
     
     mobileNumber.addEventListener('input', () => {
         mobileNumberFilled = mobileNumber.value.match(/^\d{11}$/);
         phoneDescription.classList.toggle('error-text', !mobileNumberFilled);
+        mobileNumber.classList.toggle('error-field', !mobileNumberFilled);
         updateEditDetailsButton();
     });
 
@@ -79,6 +82,19 @@ document.addEventListener('DOMContentLoaded', () => {
         editDetailsButton.classList.toggle('disabled-button', editDetailsButton.disabled);
     }
 
+    function initializeInputStates() {
+        firstNameFilled = firstName.value.trim() !== '';
+        firstName.classList.toggle('error-field', !firstNameFilled);
+
+        lastNameFilled = lastName.value.trim() !== '';
+        lastName.classList.toggle('error-field', !lastNameFilled);
+
+        mobileNumberFilled = /^\d{11}$/.test(mobileNumber.value.trim());
+        phoneDescription.classList.toggle('error-text', !mobileNumberFilled);
+        mobileNumber.classList.toggle('error-field', !mobileNumberFilled);
+    }
+
+    initializeInputStates();
     updateChangePassButton();
     updateEditDetailsButton();
 });
