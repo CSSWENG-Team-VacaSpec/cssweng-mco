@@ -1,4 +1,4 @@
-import { openModalButton, closeModalButton, modalConfirmButton } from './modal.js';
+import { closeModalButton, modalConfirmButton } from './modal.js';
 
 let page = 0;
 const MAX_PAGE = 2;
