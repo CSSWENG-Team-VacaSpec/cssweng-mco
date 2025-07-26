@@ -83,13 +83,14 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function initializeInputStates() {
+        const mobileNumberRegex = /(^\d{11}$)|(^\d{4} \d{3} \d{4}$)|(^\+\d{12}$)|(^\+\d{2} \d{3} \d{3} \d{4}$)/;
         firstNameFilled = firstName.value.trim() !== '';
         firstName.classList.toggle('error-field', !firstNameFilled);
 
         lastNameFilled = lastName.value.trim() !== '';
         lastName.classList.toggle('error-field', !lastNameFilled);
 
-        mobileNumberFilled = /^\d{11}$/.test(mobileNumber.value.trim());
+        mobileNumberFilled = mobileNumberRegex.test(mobileNumber.value.trim());
         phoneDescription.classList.toggle('error-text', !mobileNumberFilled);
         mobileNumber.classList.toggle('error-field', !mobileNumberFilled);
     }
