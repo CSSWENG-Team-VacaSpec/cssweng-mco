@@ -1,24 +1,24 @@
 <div class="card">
-    <form class="form" action="/api/delete/supplier" method="post">
+    <form class="form" action="/api/delete/member" method="post">
         <div class="form-page-container">
-            <div class="form-page" id="suppliers-page">
+            <div class="form-page" id="members-page">
                 <div class="grid-container">
                     <h1 class="secondary-header">Search</h1>
-                    <div role="search" class="search-bar" id="supplierSearchForm">
+                    <div role="search" class="search-bar" id="memberSearchForm">
                         <button type="submit" id="search-icon"><i class="lni lni-search-1"></i></button>
-                        <input type="search" name="q" id="supplierSearchInput" placeholder="Search suppliers...">
+                        <input type="search" name="q" id="memberSearchInput" placeholder="Search members...">
                     </div>
-                    <div class="team-mini-grid" id="supplierSearchResults">
-                        {{#each suppliers}}
-                            {{>supplierMini this}}
+                    <div class="team-mini-grid" id="memberSearchResults">
+                        {{#each members}}
+                            {{>teamMemberMini this}}
                         {{else}}
-                            <p>No suppliers currently</p>
+                            <p>No team members currently</p>
                         {{/each}}
                     </div>
                 </div>
                 <div class="grid-container">
-                    <h1 class="secondary-header">Suppliers to delete</h1>
-                    <div class="team-mini-grid" id="addedSuppliers"></div>
+                    <h1 class="secondary-header">Team members to delete</h1>
+                    <div class="team-mini-grid" id="addedMembers"></div>
                 </div>
             </div>
         </div>
