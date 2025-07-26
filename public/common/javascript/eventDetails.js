@@ -1,6 +1,6 @@
 document.addEventListener('DOMContentLoaded', function() {
     const eventData = JSON.parse(sessionStorage.getItem('currentEvent'));
-    
+
     if (eventData) {
         const eventId = eventData?._id
         document.getElementById('event-name').textContent = eventData.eventName;
@@ -33,15 +33,19 @@ document.addEventListener('DOMContentLoaded', function() {
         const cancelButton = document.getElementById('cancel-button');
         const attendanceButton = document.getElementById('attendance-check-button');
 
-        deleteButton.addEventListener('click', () => {
-            modalDeleteContainer.classList.remove('modal-container-hidden');
-            modalDelete.classList.remove('modal-hidden');
-        });
+        if (deleteButton !== null) {
+            deleteButton.addEventListener('click', () => {
+                modalDeleteContainer.classList.remove('modal-container-hidden');
+                modalDelete.classList.remove('modal-hidden');
+            });
+        }
 
-        cancelButton.addEventListener('click', () => {
-            modalCancelContainer.classList.remove('modal-container-hidden');
-            modalCancel.classList.remove('modal-hidden');
-        });
+        if (cancelButton !== null) {
+            cancelButton.addEventListener('click', () => {
+                modalCancelContainer.classList.remove('modal-container-hidden');
+                modalCancel.classList.remove('modal-hidden');
+            });
+        }
 
         if (attendanceButton) {
             attendanceButton.addEventListener('click', () => {
@@ -130,4 +134,10 @@ document.addEventListener('DOMContentLoaded', function() {
     } else {
         window.location.href = '/eventList';
     }
+
+    // call browser history back function when clicking on the back link.
+    const backLink = document.getElementById('backLink');
+    backLink.addEventListener('click', () => {
+        history.back();
+    });
 });
