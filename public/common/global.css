@@ -1136,4 +1136,8 @@ button.disabled-button:hover .button-wrapper {
         flex-grow: 1;
         gap: var(--medium-gap);
     }
+
+    .attendance-box-text {
+        display: none;
+    }
 }

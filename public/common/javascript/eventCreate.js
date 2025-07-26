@@ -99,7 +99,7 @@ document.addEventListener('DOMContentLoaded', () => {
             supplier._cloneRef = clone;
 
             clone.addEventListener('click', function() {
-                addedMembersContainer.removeChild(clone);
+                addedSuppliersContainer.removeChild(clone);
                 supplier.classList.remove('selected-team-member');
             });
 
