@@ -200,12 +200,16 @@
                 participantGrid.innerHTML = '';
                 supplierGrid.innerHTML = '';
 
-                // Handle empty result
-                if (members.length === 0 && suppliers.length === 0) {
-                    participantGrid.innerHTML = '<p>No matching participants found.</p>';
-                    supplierGrid.innerHTML = '';
-                    return;
+                // Handle empty team member results
+                if (members.length === 0) {
+                    participantGrid.innerHTML = '<p>No matching team members found.</p>';
                 }
+
+                // Handle empty supplier results
+                if (suppliers.length === 0) {
+                    supplierGrid.innerHTML = '<p>No matching suppliers found.</p>';
+                }
+
 
                 // Render team members
                 members.forEach(participant => {
