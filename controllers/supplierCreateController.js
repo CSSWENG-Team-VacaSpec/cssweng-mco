@@ -1,4 +1,4 @@
-const EmployeeAccount = require('../models/employeeAccounts');   // TODO: replace with a supplier model.
+const Supplier = require('../models/suppliers');
 const { v4: uuidv4 } = require('uuid');
 
 exports.renderPage = async (req, res) => {
@@ -11,12 +11,25 @@ exports.renderPage = async (req, res) => {
             user: req.session.user,
         });
     } catch (error) {
-
+        console.error('Render error (supplier):', error);
+        res.status(500).send('Failed to load supplier creation page');
     }
-}
+};
 
 exports.createSupplier = async (req, res) => {
     try {
+        const { name, ['contact-info']: contactInfo, description } = req.body;
+
+        const newSupplier = new Supplier({
+            _id: uuidv4(),
+            companyName: name,
+            contactNames: [name],        // Single contact name for now
+            contactNumbers: [contactInfo],
+            notes: description,
+        });
+
+        await newSupplier.save();
+        res.redirect('/teamList');
     } catch (error) {
         console.error('Error adding supplier:', error);
         res.status(500).send('Failed to add supplier');
