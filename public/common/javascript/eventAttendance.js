@@ -1,8 +1,35 @@
 document.addEventListener('DOMContentLoaded', () => {
     const eventId = window.eventId || new URLSearchParams(window.location.search).get('id');
+    const MAX_PAGE = 1;
+    let page = 0;
 
     const teamAttendance = {};
     const supplierAttendance = {};
+
+    const nextButton = document.getElementById('form-next-button');
+    const backButton = document.getElementById('form-back-button');
+    const submitButton = document.getElementById('submit-attendance');
+    const formContainer = document.querySelector('.event-attendance.card');
+    const attendanceForms = document.querySelectorAll('.attendance-form');
+
+    // Initialize page visibility
+    updatePage();
+
+    nextButton.addEventListener('click', () => {
+        if (page < MAX_PAGE) {
+            page++;
+            updatePage();
+            updateNavigationButtons();
+        }
+    });
+
+    backButton.addEventListener('click', () => {
+        if (page > 0) {
+            page--;
+            updatePage();
+            updateNavigationButtons();
+        }
+    });
 
     const attendanceBoxes = document.querySelectorAll('.attendance-box');
     console.log("Found", attendanceBoxes.length, "attendance boxes");
@@ -95,4 +122,32 @@ document.addEventListener('DOMContentLoaded', () => {
     pageBackButton?.addEventListener('click', () => {
         window.location.href = `/event-details?id=${eventId}`;
     });
+
+    function updatePage() {
+        if (page === 0) {
+            formContainer.style.transform = `translateX(0%)`;
+        } else {
+            formContainer.style.transform = `translateX(calc(-${page * -0.5}% - ${page} * var(--big-gap)))`;
+        }
+
+        attendanceForms.forEach(form => {
+            form.style.display = 'none';
+        });
+
+        const currentForm = document.querySelector(`.attendance-form[data-page="${page}"]`);
+        if (currentForm) {
+            currentForm.style.display = 'block';
+        }
+
+        submitButton.style.display = page === MAX_PAGE ? 'block' : 'none';
+        nextButton.style.display = page === MAX_PAGE ? 'none' : 'block';
+    }
+
+    function updateNavigationButtons() {
+        backButton.disabled = page === 0;
+        nextButton.disabled = page === MAX_PAGE;
+
+        backButton.classList.toggle('disabled-button', backButton.disabled);
+        nextButton.classList.toggle('disabled-button', nextButton.disabled);
+    }
 });

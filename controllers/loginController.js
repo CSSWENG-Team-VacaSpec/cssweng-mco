@@ -56,7 +56,7 @@ exports.authenticateEmployee = async (req, res) => {
         if (!employee) {
             return res.render('login', {
                 layout: 'login',
-                error: "Employee not found"
+                error: "Login credentials invalid. If your number isn’t in our system, contact the Admin."
             });
         }
         
@@ -64,7 +64,7 @@ exports.authenticateEmployee = async (req, res) => {
         if (!isPasswordMatch) {
             return res.render('login', {
                 layout: 'login',
-                error: "Incorrect password"
+                error: "Login credentials invalid. If your number isn’t in our system, contact the Admin."
             });
         }
 
