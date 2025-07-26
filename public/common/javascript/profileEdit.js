@@ -51,6 +51,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const firstName = document.getElementById('firstName');
     const lastName = document.getElementById('lastName');
     const mobileNumber = document.getElementById('mobileNumber');
+    const mobileNumberRegex = /^(?:\d{11}|\d{4} \d{3} \d{4}|\+\d{12}|\+\d{2} \d{3} \d{3} \d{4})$/;
 
     const phoneDescription = document.getElementById('phoneDescription');
 
@@ -71,7 +72,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
     
     mobileNumber.addEventListener('input', () => {
-        mobileNumberFilled = mobileNumber.value.match(/^\d{11}$/);
+        mobileNumberFilled = mobileNumberRegex.test(mobileNumber.value.trim());
         phoneDescription.classList.toggle('error-text', !mobileNumberFilled);
         mobileNumber.classList.toggle('error-field', !mobileNumberFilled);
         updateEditDetailsButton();
@@ -83,7 +84,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function initializeInputStates() {
-        const mobileNumberRegex = /(^\d{11}$)|(^\d{4} \d{3} \d{4}$)|(^\+\d{12}$)|(^\+\d{2} \d{3} \d{3} \d{4}$)/;
         firstNameFilled = firstName.value.trim() !== '';
         firstName.classList.toggle('error-field', !firstNameFilled);
 
