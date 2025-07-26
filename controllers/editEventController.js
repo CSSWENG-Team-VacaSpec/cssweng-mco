@@ -53,3 +53,62 @@ exports.getEditEventPage = async (req, res) => {
     }
     
 };
+
+exports.editEvent = async (req, res) => {
+    
+     try {
+        const {
+            'event-name': eventName,
+            'client-name': clientName,
+            'event-description': description,
+            location,
+            'start-date': eventDate,
+            'end-date': endDate,
+            'contact-name': contactName,
+            'phone-number': phoneNumber,
+            addedMembers,
+            addedSuppliers,
+        } = req.body;
+
+        const [CPFirstName, ...CPLastNameParts] = contactName.trim().split(' ');
+        const CPLastName = CPLastNameParts.join(' ');
+
+        const [clientFirstName, ...clientLastNameParts] = clientName.trim().split(' ');
+        const clientLastName = clientLastNameParts.join(' ');
+
+        const eventId = req.query.id;
+      
+
+        const parsedMembers = addedMembers ? JSON.parse(addedMembers) : [];
+        const parsedSuppliers = addedSuppliers ? JSON.parse(addedSuppliers) : [];
+
+        const updatedEvent = await Event.findByIdAndUpdate(
+            eventId,
+            {
+                eventName,
+                clientName,
+                description,
+                location,
+                eventDate,
+                clientFirstName,
+                clientLastName,
+                CPFirstName,
+                CPLastName,
+                CPContactNo: phoneNumber,
+                members: parsedMembers,
+                suppliers: parsedSuppliers
+            },
+            { new: true } 
+        );
+
+        if (!updatedEvent) {
+            return res.status(404).send('Event not found');
+        }
+
+        res.redirect(`/event-details?id=${eventId}&_=${Date.now()}`); //creates a new req 
+    } catch (err) {
+        console.error('Error updating event:', err);
+        res.status(500).send('Internal server error');
+    }
+    
+};
