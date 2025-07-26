@@ -58,7 +58,7 @@ exports.getTeamPage = async (req, res) => {
 
         const managers = employees.filter(emp => emp.role === 'Manager');
         const members = employees.filter(emp => emp.role === 'Team Member');
-
+        
         res.render('teamList', {
             layout: 'teamListLayout',
             stylesheet: 'teamList',
@@ -67,6 +67,7 @@ exports.getTeamPage = async (req, res) => {
             page: 'team-members',
             user: req.session.user,
             managers, 
+            isManager,
             searchQuery,
             members});
     } catch (error) {
