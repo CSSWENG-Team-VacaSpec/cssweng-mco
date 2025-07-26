@@ -150,9 +150,9 @@
             </div>
 
             <h3 class="secondary-header">Suppliers</h3>
-            <div class="team-mini-grid">
-                {{#if suppliers.length}}
-                    {{#each supplier}}
+            <div class="team-mini-grid" id="supplierGrid">
+                {{#if supplierList.length}}
+                    {{#each supplierList}}
                     {{> supplierMini this}}
                     {{/each}}
                 {{else}}
@@ -170,12 +170,16 @@
                 </button>
             {{/if}}
     <script>
-    const teamId = '{{team._id}}'; //gets the teamid in eventDetailsController
+    const teamId = '{{team._id}}';
     </script>
 
     <script>
         const searchInput = document.getElementById('searchInput');
         const participantGrid = document.getElementById('participantGrid');
+        const supplierGrid = document.getElementById('supplierGrid');
+
+        const originalParticipantContent = participantGrid.innerHTML;
+        const originalSupplierContent = supplierGrid.innerHTML;
 
         function debounce(fn, delay) {
             let timeout;
@@ -191,21 +195,23 @@
                 const data = await response.json();
                 const { members, suppliers } = data;
 
-                // Clear previous contents
+                // Clear both containers
                 participantGrid.innerHTML = '';
+                supplierGrid.innerHTML = '';
 
-                if (members.length === 0 && suppliers.length === 0) {
-                    participantGrid.innerHTML = '<p>No matching participants found.</p>';
-                    return;
+                // Handle empty team member results
+                if (members.length === 0) {
+                    participantGrid.innerHTML = '<p>No matching team members found.</p>';
                 }
 
-                // Combine members and suppliers, assign role tags
-                const combined = [
-                    ...members.map(m => ({ ...m, role: m.role || 'Team Member' })),
-                    ...suppliers.map(s => ({ ...s, role: s.role || 'Supplier' }))
-                ];
+                // Handle empty supplier results
+                if (suppliers.length === 0) {
+                    supplierGrid.innerHTML = '<p>No matching suppliers found.</p>';
+                }
 
-                combined.forEach(participant => {
+
+                // Render team members
+                members.forEach(participant => {
                     const button = document.createElement('button');
                     button.className = 'team-member-mini-card';
                     button.setAttribute('type', 'button');
@@ -213,14 +219,14 @@
                     button.setAttribute('data-firstName', participant.firstName || '');
                     button.setAttribute('data-lastName', participant.lastName || '');
                     button.setAttribute('data-email', participant.email || '');
-                    button.setAttribute('data-role', participant.role || '');
+                    button.setAttribute('data-role', participant.role || 'Team Member');
                     button.setAttribute('data-bio', participant.bio || '');
                     button.setAttribute('data-pfp', participant.pfp || '');
 
                     button.innerHTML = `
                         <div class="team-member-mini-picture" style="background-image: url('${participant.pfp || ''}');"></div>
                         <span id="full-name">${participant.firstName ?? ''} ${participant.lastName ?? ''}</span>
-                        <span id="role">${participant.role || ''}</span>
+                        <span id="role">${participant.role || 'Team Member'}</span>
                         <i id="teamMiniAddButton" class="lni lni-plus"></i>
                         <i id="teamMiniRemoveButton" class="lni lni-xmark"></i>
                     `;
@@ -228,25 +234,36 @@
                     participantGrid.appendChild(button);
                 });
 
+                // Render suppliers
+                suppliers.forEach(supplier => {
+                    const card = document.createElement('div');
+                    card.className = 'team-member-mini-card';
+                    card.innerHTML = `
+                        <div class="team-member-mini-picture" style="background-image: url('')"></div>
+                        <span id="full-name">${supplier.companyName}</span>
+                        <span id="role">Supplier</span>
+                        <i id="teamMiniAddButton" class="lni lni-plus"></i>
+                        <i id="teamMiniRemoveButton" class="lni lni-xmark"></i>
+                    `;
+                    supplierGrid.appendChild(card);
+                });
+
             } catch (err) {
                 console.error('Search failed:', err);
                 participantGrid.innerHTML = '<p>Error loading search results.</p>';
+                supplierGrid.innerHTML = '';
             }
         }
 
         searchInput.addEventListener('input', debounce((e) => {
-            const query = e.target.value;
-            if (query.trim() === '') {
-                // reload original team members if input is cleared
-                window.location.reload(); // OR cache original HTML on load and reinsert
+            const query = e.target.value.trim();
+            if (query === '') {
+                participantGrid.innerHTML = originalParticipantContent;
+                supplierGrid.innerHTML = originalSupplierContent;
             } else {
                 fetchEventParticipants(query);
             }
         }, 300));
     </script>
-
-
-       
     </div>
-    
 </div>
