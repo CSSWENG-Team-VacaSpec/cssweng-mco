@@ -12,24 +12,6 @@ exports.getTeamPage = async (req, res) => {
         const userId = req.session.user._id || req.session.user;
         const role = req.session.user.role?.trim();
         const isManager = role === 'Manager';
-        const showCreateButton = isManager
-
-        const teams = await Team.find({
-            $or: [
-                { manager: userId },
-                { programLead: userId },
-                { teamMemberList: userId }
-            ]
-        });
-
-        if (!teams || teams.length === 0) {
-            console.log('No Team Members');
-            return res.render('teamList', {
-                layout: 'teamListLayout',
-                user: req.session.user,
-                page: 'team-members'
-            });
-        }
 
         const searchQuery = req.query.q?.trim();
 
