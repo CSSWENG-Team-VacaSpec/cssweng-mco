@@ -1026,6 +1026,45 @@ button.disabled-button:hover .button-wrapper {
     background-color: var(--accent-light);
 }
 
+.pagination-controls-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: var(--medium-gap);
+    bottom: 0;
+    left: 0;
+    right: 0;
+}
+
+.pagination-control {
+    display: flex;
+    align-items: center;
+    gap: var(--small-gap);
+    font-size: var(--icon-size);
+    padding: var(--small-gap);
+    color: var(--primary-fg);
+}
+
+.pagination-control:hover {
+    color: var(--accent-medium);
+}
+
+.pagination-form-input {
+    padding: var(--small-gap);
+    text-align: center;
+    border: none;
+    border-radius: var(--input-field-radius);
+    box-shadow: inset 0 0 0 1px var(--border-dark);
+}
+
+.disabled-link {
+    pointer-events: none;
+    color: var(--secondary-fg);
+}
+
+.disabled-link:hover {
+    color: var(--secondary-fg);
+}
 
 @media screen and (max-width: 800px) {
     * {

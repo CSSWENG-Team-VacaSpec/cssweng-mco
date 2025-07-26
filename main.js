@@ -4,6 +4,7 @@ const session = require('express-session');
 const mongoose = require('mongoose');
 const path = require('path');
 const exphbs = require('express-handlebars');
+const { add, subtract, gt, lt } = require('./utils/comparators.js');
 const { eq } = require('./utils/getPage.js');
 const { formatPhone } = require('./utils/phoneNumberHelper.js');
 
@@ -43,7 +44,7 @@ app.use((req, res, next) => {
 app.engine('hbs', exphbs.engine({
   extname: '.hbs',
   defaultLayout: 'main', // main layout
-  helpers: { eq, formatPhone},
+  helpers: { eq, formatPhone, add, subtract, lt, gt },
   layoutsDir: path.join(__dirname, 'views', 'layouts'), // Directory where layout files are stored
   partialsDir: path.join(__dirname, 'views', 'partials') // Directory for reusable template 
 }));app.set('view engine', 'hbs');
