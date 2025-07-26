@@ -33,14 +33,14 @@ document.addEventListener('DOMContentLoaded', function() {
         const cancelButton = document.getElementById('cancel-button');
         const attendanceButton = document.getElementById('attendance-check-button');
 
-        if (deleteButton !== null) {
+        if (deleteButton) {
             deleteButton.addEventListener('click', () => {
                 modalDeleteContainer.classList.remove('modal-container-hidden');
                 modalDelete.classList.remove('modal-hidden');
             });
         }
 
-        if (cancelButton !== null) {
+        if (cancelButton) {
             cancelButton.addEventListener('click', () => {
                 modalCancelContainer.classList.remove('modal-container-hidden');
                 modalCancel.classList.remove('modal-hidden');
