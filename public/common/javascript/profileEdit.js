@@ -78,6 +78,14 @@ document.addEventListener('DOMContentLoaded', () => {
         updateEditDetailsButton();
     });
 
+    // check that profile picture is uploaded.
+    const pfpUpload = document.getElementById('pfpUpload');
+    const editPfpButton = document.getElementById('editPfpButton');
+
+    pfpUpload.addEventListener('input', () => {
+        editPfpButton.classList.toggle('disabled-button', pfpUpload.value === '');
+    })
+
     function updateEditDetailsButton() {
         editDetailsButton.disabled = !(firstNameFilled && lastNameFilled && mobileNumberFilled);
         editDetailsButton.classList.toggle('disabled-button', editDetailsButton.disabled);
