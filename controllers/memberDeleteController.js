@@ -2,6 +2,9 @@ const EmployeeAccount = require('../models/employeeAccounts');
 
 exports.renderPage = async (req, res) => {
     try {
+        if (!req.session.user || req.session.user.role?.trim() !== 'Manager') {
+            return res.redirect('/login'); 
+        }
         const members = await EmployeeAccount.find({ status: 'active' }).lean();
         res.render('memberDelete', {
             layout: 'form',
@@ -18,10 +21,9 @@ exports.renderPage = async (req, res) => {
 
 exports.deleteMember = async (req, res) => {
     try {
-        if (req.session.user.role?.trim() !== 'Manager') {
+        if (!req.session.user || req.session.user.role?.trim() !== 'Manager') {
             return res.status(403).send('Unauthorized');
         }
-
         const memberIds = req.body.memberIds;
         if (!Array.isArray(memberIds) || memberIds.length === 0) {
             return res.status(400).send('No members selected');
