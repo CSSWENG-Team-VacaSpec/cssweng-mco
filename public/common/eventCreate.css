@@ -95,15 +95,6 @@
     gap: var(--small-gap);
 }
 
-.team-mini-grid {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    gap: var(--small-gap);
-    overflow-y: scroll;
-    overflow-x: hidden;
-}
-
 #team-members-page .grid-container {
     height: 50%;
 }
@@ -125,14 +116,6 @@
 
     .button i {
         font-size: 1rem;
-    }
-
-    .team-mini-grid {
-        display: flex;
-        flex-direction: row;
-        flex-wrap: wrap;
-        gap: var(--small-gap);
-        overflow-y: scroll;
     }
 
     #team-members-page .grid-container {
@@ -173,11 +156,6 @@
 
     .team-member-picture {
         display: none;
-    }
-
-    .team-mini-grid {
-        flex-direction: column;
-        flex-wrap: nowrap;
     }
 
     .team-member-mini-card {

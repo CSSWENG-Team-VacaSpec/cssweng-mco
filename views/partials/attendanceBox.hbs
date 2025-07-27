@@ -5,7 +5,13 @@
      data-attendance="{{attendance}}">
 
     <div class="team-member-medium-details">
-        <span id="full-name-medium">{{firstName}} {{lastName}}</span>
+        <span id="full-name-medium">
+        {{#if (eq role 'supplier')}}
+            {{companyName}}
+        {{else}}
+            {{firstName}} {{lastName}}
+        {{/if}}
+        </span>
         <span id="contact-no-medium">{{formatPhone _id}}</span>
     </div>
 

@@ -13,18 +13,26 @@ async function searchEventParticipants(eventId, query) {
     const employees = await EmployeeAccount.find({ _id: { $in: employeeIds } }, '-password').lean();
     const suppliers = await Supplier.find({ _id: { $in: supplierIds } }).lean();
 
-    const enrich = (arr, type) =>
-        arr.map(p => ({
-            ...p,
-            fullName: `${p.firstName ?? ''} ${p.lastName ?? ''}`.trim(),
-            type
-        }));
+    // Enrich employee data
+    const enrichedMembers = employees.map(p => ({
+        ...p,
+        fullName: `${p.firstName ?? ''} ${p.lastName ?? ''}`.trim(),
+        type: 'member'
+    }));
 
-    const enrichedMembers = enrich(employees, 'member');
-    const enrichedSuppliers = enrich(suppliers, 'supplier');
+    // Enrich supplier data
+    const enrichedSuppliers = suppliers.map(s => ({
+        ...s,
+        fullName: s.companyName,  // Needed for searching
+        type: 'supplier'
+    }));
 
-    const fuse = new Fuse([...enrichedMembers, ...enrichedSuppliers], {
-        keys: ['firstName', 'lastName', 'email', '_id', 'fullName'],
+    // Combine both for search
+    const all = [...enrichedMembers, ...enrichedSuppliers];
+
+    // Add `companyName` as searchable key
+    const fuse = new Fuse(all, {
+        keys: ['firstName', 'lastName', 'email', '_id', 'fullName', 'companyName'],
         threshold: 0.4
     });
 

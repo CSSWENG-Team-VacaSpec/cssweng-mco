@@ -10,7 +10,7 @@
             <button type="submit"><i class="lni lni-search-1"></i></button>
             <input type="search" name="q" placeholder="Search..." value="{{searchQuery}}">
         </form>
-        {{!-- {{#if showCreateButton}} TODO: SHOW THESE DROPDOWNS ONLY TO MANAGERS --}}
+        {{#if isManager}}
         <div id="addDropdown" class="dropdown">
             <i class="lni lni-plus"></i>
             <p>Add</p>
@@ -31,17 +31,17 @@
             <p>Remove</p>
             <i class="lni lni-chevron-down dropdown-chevron"></i>
             <div class="dropdown-content">
-                <a href="/create/user" class="dropdown-item">
+                <a href="/delete/user" class="dropdown-item">
                     <i class="lni lni-user-4"></i>
                     Team member
                 </a>
-                <a href="/create/supplier" class="dropdown-item">
+                <a href="/delete/supplier" class="dropdown-item">
                     <i class="lni lni-truck-delivery-1"></i>
                     Supplier
                 </a>
             </div>
         </div>
-        {{!-- {{/if}} --}}
+        {{/if}}
     </div>
 
     <div class="team-members-container">
