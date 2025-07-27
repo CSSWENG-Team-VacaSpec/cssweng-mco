@@ -896,6 +896,7 @@ button.disabled-button:hover .button-wrapper {
     flex-wrap: wrap;
     gap: var(--small-gap);
     overflow-y: scroll;
+    overflow-x: hidden;
 }
 
 #status {
@@ -1094,6 +1095,11 @@ button.disabled-button:hover .button-wrapper {
 
     .team-member-mini-picture {
         display: none;
+    }
+
+    .team-mini-grid {
+        flex-direction: column;
+        flex-wrap: nowrap;
     }
 
     .form-row {
