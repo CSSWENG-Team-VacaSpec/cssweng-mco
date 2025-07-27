@@ -4,6 +4,7 @@ const session = require('express-session');
 const mongoose = require('mongoose');
 const path = require('path');
 const exphbs = require('express-handlebars');
+const { add, subtract, gt, lt } = require('./utils/comparators.js');
 const { eq } = require('./utils/getPage.js');
 const { formatPhone } = require('./utils/phoneNumberHelper.js');
 
@@ -43,7 +44,7 @@ app.use((req, res, next) => {
 app.engine('hbs', exphbs.engine({
   extname: '.hbs',
   defaultLayout: 'main', // main layout
-  helpers: { eq, formatPhone},
+  helpers: { eq, formatPhone, add, subtract, lt, gt },
   layoutsDir: path.join(__dirname, 'views', 'layouts'), // Directory where layout files are stored
   partialsDir: path.join(__dirname, 'views', 'partials') // Directory for reusable template 
 }));app.set('view engine', 'hbs');
@@ -59,7 +60,9 @@ const teamRoute = require('./routes/r_team.js');
 const profileRoute = require('./routes/r_profile.js');
 const eventCreateRoute = require('./routes/r_event_create.js');
 const memberCreateRoute = require('./routes/r_member_create.js');
+const memberDeleteRoute = require('./routes/r_member_delete.js');
 const supplierCreateRoute = require('./routes/r_supplier_create.js');
+const supplierDeleteRoute = require('./routes/r_supplier_delete.js');
 const delete_cancelEvent = require('./routes/r_delete_cancelEvent.js');
 const eventAttendanceRoute = require('./routes/r_event_attendance.js');
 const pastEventsRoute = require('./routes/r_past_events.js');
@@ -79,6 +82,8 @@ app.use('/create', eventCreateRoute);
 app.use('/create', memberCreateRoute);
 app.use('/create', supplierCreateRoute);
 app.use('/edit', editProfileRoute);
+app.use('/', memberDeleteRoute);
+app.use('/', supplierDeleteRoute);
 app.use('/', loginRoute); 
 app.use('/', searchBarRoute);
 app.use('/', delete_cancelEvent);

@@ -31,7 +31,7 @@
 </div>
 
 <div class="create-events-wizard card">
-    <form class="create-event-form" action="/create/createEvent" method="post">
+    <form class="create-event-form" action="/editEvent?id={{event._id}}" method="post">
         <div class="form-page-container">
             <div class="form-page">
                 <h1 class="secondary-header">Event details</h1>
@@ -42,7 +42,7 @@
                     </div>
                     <div class="text-field-container">
                         <label class="field-label" for="client-name">Client name</label>
-                        <input type="text" id="client-name" class="text-field" name="client-name" value="{{event.clientName}}" required>
+                        <input type="text" id="client-name" class="text-field" name="client-name" value="{{event.clientFirstName}}  {{event.clientLastName}}" required>
                     </div>
                 </div>
                 <div class="form-row">
@@ -122,26 +122,7 @@
                 </div>
             </div>
         </div>
-        <div class="form-controls">
-            <button type="button" class="bg-button button" id="form-cancel-button">
-                <div class="button-wrapper">
-                    <i class="lni lni-xmark"></i>
-                    <p>Cancel</p>
-                </div>
-            </button>
-            <button type="button" class="bg-button button" id="form-back-button">
-                <div class="button-wrapper">
-                    <i class="lni lni-arrow-left"></i>
-                    <p>Back</p>
-                </div>
-            </button>
-            <button type="button" class="fg-button button" id="form-next-button">
-                <div class="button-wrapper">
-                    <i class="lni lni-arrow-right"></i>
-                    <p>Next</p>
-                </div>
-            </button>
-            <button type="submit" class="fg-button button" id="form-submit-button" disabled>
+            <button type="submit" class="fg-button button" id="form-submit-button">
                 <div class="button-wrapper">
                     <i class="lni lni-pencil-1"></i>
                     <p>Edit event</p>

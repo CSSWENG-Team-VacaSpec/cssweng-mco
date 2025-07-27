@@ -5,7 +5,13 @@
      data-attendance="{{attendance}}">
 
     <div class="team-member-medium-details">
-        <span id="full-name-medium">{{firstName}} {{lastName}}</span>
+        <span id="full-name-medium">
+        {{#if (eq role 'supplier')}}
+            {{companyName}}
+        {{else}}
+            {{firstName}} {{lastName}}
+        {{/if}}
+        </span>
         <span id="contact-no-medium">{{formatPhone _id}}</span>
     </div>
 
@@ -13,14 +19,14 @@
         <button class="fg-button button present-button {{#if (eq attendance 'present')}}selected{{/if}}">
             <div class="fg-button-wrapper button-wrapper">
                 <i class="lni lni-check"></i>
-                <p>Present</p>
+                <p class="attendance-box-text">Present</p>
             </div>
         </button>
 
         <button class="fg-button button absent-button {{#if (eq attendance 'absent')}}selected{{/if}}">
             <div class="fg-button-wrapper button-wrapper">
                 <i class="lni lni-xmark"></i>
-                <p>Absent</p>
+                <p class="attendance-box-text">Absent</p>
             </div>
         </button>
     </div>

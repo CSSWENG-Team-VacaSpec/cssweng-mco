@@ -34,7 +34,7 @@
     {{else}}
         <div class="no-results-container">
             <i class="lni lni-emoji-sad"></i>
-            <p class="no-results-message">No events found</p>
+            <p class="no-results-message">No results found</p>
         </div>
     {{/each}}
     {{#if showCreateButton}}
@@ -43,5 +43,29 @@
                 <i class="lni lni-plus"></i>
             </a>
         </div>
+    {{/if}}
+</div>
+
+<div class="pagination-controls-container">
+    {{#if (gt currentPageNumber 1)}}
+    <a href="/eventList?page={{subtract currentPageNumber 1}}" class="pagination-control" id="pagination-previous-button">
+        <i class="lni lni-arrow-left"></i>
+    </a>
+    {{else}}
+    <a class="disabled-link pagination-control" id="pagination-previous-button">
+        <i class="lni lni-arrow-left"></i>
+    </a>
+    {{/if}}
+    <form class="pagination-form" method="get">
+        <input type="number" min="1" max="{{subtract pageCount 1}}" name="page" class="pagination-form-input" id="currentPage" size="2" value="{{currentPageNumber}}">
+    </form>
+    {{#if (lt currentPageNumber (subtract pageCount 1))}}
+    <a href="/eventList?page={{add currentPageNumber 1}}" class="pagination-control" id="pagination-next-button">
+        <i class="lni lni-arrow-right"></i>
+    </a>
+    {{else}}
+    <a class="disabled-link pagination-control" id="pagination-next-button">
+        <i class="lni lni-arrow-right"></i>
+    </a>
     {{/if}}
 </div>

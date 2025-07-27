@@ -67,6 +67,10 @@ a {
     text-decoration: none;
 }
 
+textarea {
+    resize: none;
+}
+
 .global-sidebar {
     background-color: var(--sidebar-bg);
     color: var(--sidebar-fg);
@@ -654,6 +658,18 @@ button.disabled-button:hover .button-wrapper {
     color: var(--border-light);
 }
 
+.disabled-field {
+    background-color: var(--secondary-bg);
+    color: var(--secondary-fg);
+    box-shadow: inset 0 0 0 1px var(--border-light);
+    pointer-events: none;
+    cursor: not-allowed;
+}
+
+.disabled-field:hover {
+
+}
+
 .destructive-button {
     background-color: var(--error-light);
     color: var(--primary-bg);
@@ -665,6 +681,10 @@ button.disabled-button:hover .button-wrapper {
 
 .error-text {
     color: var(--error-light);
+}
+
+.error-field {
+    box-shadow: inset 0 0 0 1px var(--error-light);
 }
 
 .dropdown {
@@ -896,6 +916,7 @@ button.disabled-button:hover .button-wrapper {
     flex-wrap: wrap;
     gap: var(--small-gap);
     overflow-y: scroll;
+    overflow-x: hidden;
 }
 
 #status {
@@ -1026,6 +1047,45 @@ button.disabled-button:hover .button-wrapper {
     background-color: var(--accent-light);
 }
 
+.pagination-controls-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: var(--medium-gap);
+    bottom: 0;
+    left: 0;
+    right: 0;
+}
+
+.pagination-control {
+    display: flex;
+    align-items: center;
+    gap: var(--small-gap);
+    font-size: var(--icon-size);
+    padding: var(--small-gap);
+    color: var(--primary-fg);
+}
+
+.pagination-control:hover {
+    color: var(--accent-medium);
+}
+
+.pagination-form-input {
+    padding: var(--small-gap);
+    text-align: center;
+    border: none;
+    border-radius: var(--input-field-radius);
+    box-shadow: inset 0 0 0 1px var(--border-dark);
+}
+
+.disabled-link {
+    pointer-events: none;
+    color: var(--secondary-fg);
+}
+
+.disabled-link:hover {
+    color: var(--secondary-fg);
+}
 
 @media screen and (max-width: 800px) {
     * {
@@ -1096,6 +1156,11 @@ button.disabled-button:hover .button-wrapper {
         display: none;
     }
 
+    .team-mini-grid {
+        flex-direction: column;
+        flex-wrap: nowrap;
+    }
+
     .form-row {
         flex-direction: column;
     }
@@ -1129,5 +1194,9 @@ button.disabled-button:hover .button-wrapper {
         justify-content: space-between;
         flex-grow: 1;
         gap: var(--medium-gap);
+    }
+
+    .attendance-box-text {
+        display: none;
     }
 }
