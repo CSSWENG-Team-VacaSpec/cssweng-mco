@@ -50,9 +50,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const editDetailsButton = document.getElementById('editDetailsButton');
     const firstName = document.getElementById('firstName');
     const lastName = document.getElementById('lastName');
-    const mobileNumber = document.getElementById('mobileNumber');
-
-    const phoneDescription = document.getElementById('phoneDescription');
 
     let firstNameFilled = false;
     let lastNameFilled = false;
@@ -69,16 +66,9 @@ document.addEventListener('DOMContentLoaded', () => {
         lastName.classList.toggle('error-field', !lastNameFilled);
         updateEditDetailsButton();
     });
-    
-    mobileNumber.addEventListener('input', () => {
-        mobileNumberFilled = mobileNumber.value.match(/^\d{11}$/);
-        phoneDescription.classList.toggle('error-text', !mobileNumberFilled);
-        mobileNumber.classList.toggle('error-field', !mobileNumberFilled);
-        updateEditDetailsButton();
-    });
 
     function updateEditDetailsButton() {
-        editDetailsButton.disabled = !(firstNameFilled && lastNameFilled && mobileNumberFilled);
+        editDetailsButton.disabled = !(firstNameFilled && lastNameFilled);
         editDetailsButton.classList.toggle('disabled-button', editDetailsButton.disabled);
     }
 
@@ -88,10 +78,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
         lastNameFilled = lastName.value.trim() !== '';
         lastName.classList.toggle('error-field', !lastNameFilled);
-
-        mobileNumberFilled = /^\d{11}$/.test(mobileNumber.value.trim());
-        phoneDescription.classList.toggle('error-text', !mobileNumberFilled);
-        mobileNumber.classList.toggle('error-field', !mobileNumberFilled);
     }
 
     initializeInputStates();
