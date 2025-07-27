@@ -50,7 +50,11 @@ exports.authenticateEmployee = async (req, res) => {
             });
         }
 
-        const employee = await EmployeeAccount.findOne({ _id: number });
+        const employee = await EmployeeAccount.findOne({
+            _id: number,
+            status: { $in: ['active', 'unactivated'] }
+        });
+        
         console.log("Fetched employee:", employee);
         
         if (!employee) {
