@@ -3,6 +3,9 @@ const { v4: uuidv4 } = require('uuid');
 
 exports.renderPage = async (req, res) => {
     try {
+        if (!req.session.user || req.session.user.role?.trim() !== 'Manager') {
+            return res.redirect('/login'); 
+        }
         res.render('supplierCreate', {
             layout: 'form',
             script: 'memberSupplierCreate',
@@ -18,6 +21,9 @@ exports.renderPage = async (req, res) => {
 
 exports.createSupplier = async (req, res) => {
     try {
+        if (!req.session.user || req.session.user.role?.trim() !== 'Manager') {
+            return res.status(403).send('Unauthorized');
+        }
         const { name, ['contact-info']: contactInfo, description } = req.body;
 
         const newSupplier = new Supplier({
