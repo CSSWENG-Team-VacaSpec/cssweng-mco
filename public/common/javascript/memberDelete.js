@@ -39,4 +39,16 @@ document.addEventListener('DOMContentLoaded', () => {
         deleteButton.disabled = addedMembers.length === 0;
         deleteButton.classList.toggle('disabled-button', deleteButton.disabled);
     });
+
+    const form = deleteButton.closest('form');
+    form.addEventListener('submit', (e) => {
+        addedMembers.forEach(id => {
+            const input = document.createElement('input');
+            input.type = 'hidden';
+            input.name = 'memberIds';
+            input.value = id;
+            form.appendChild(input);
+        });
+    });
+
 });
