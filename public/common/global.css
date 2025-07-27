@@ -666,10 +666,6 @@ button.disabled-button:hover .button-wrapper {
     cursor: not-allowed;
 }
 
-.disabled-field:hover {
-
-}
-
 .destructive-button {
     background-color: var(--error-light);
     color: var(--primary-bg);
