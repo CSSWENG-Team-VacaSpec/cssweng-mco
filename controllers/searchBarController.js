@@ -3,6 +3,7 @@ const searchEmployees = require('../utils/searchEmployees');
 const searchEvents = require('../utils/searchEvents');
 const Team = require('../models/teams');
 const Events = require('../models/events');
+const Supplier = require('../models/suppliers');
 
 
 // This function handles the search request for employees
@@ -75,7 +76,6 @@ exports.searchEvents = async (req, res) => {
     const teamIds = teams.map(team => team._id);
     let userEvents = await Events.find({ _id: { $in: teamIds } }).lean();
 
-    // 💡 Add this:
     if (scope === 'past') {
       userEvents = userEvents.filter(e => ['completed', 'cancelled'].includes(e.status));
     } else if (scope === 'upcoming') {
@@ -93,3 +93,26 @@ exports.searchEvents = async (req, res) => {
     return res.status(500).json({ error: 'Server error during event search' });
   }
 };
+
+// This function handles the search request for suppliers
+exports.searchSuppliers = async (req, res) => {
+  try {
+    const query = (req.query.q || '').trim().toLowerCase();
+
+    // Fetch all suppliers
+    const suppliers = await Supplier.find({}).lean();
+
+    // Filter suppliers based on company name or contact name match
+    const results = suppliers.filter(supplier => {
+      const nameMatch = supplier.companyName.toLowerCase().includes(query);
+      const contactMatch = supplier.contactNames?.some(name => name.toLowerCase().includes(query));
+      return nameMatch || contactMatch;
+    });
+
+    return res.status(200).json({ results });
+  } catch (error) {
+    console.error('Supplier search failed:', error);
+    return res.status(500).json({ error: 'Server error during supplier search' });
+  }
+};
+
