@@ -68,6 +68,13 @@ exports.authenticateEmployee = async (req, res) => {
             });
         }
 
+        // If the employee is currently unactivated, update their status to active
+        if (employee.status === 'unactivated') {
+            employee.status = 'active';
+            await employee.save();
+            console.log(`Updated status for ${employee._id} to active`);
+        }
+
         req.session.user = {
             _id: employee._id,
             email: employee.email,

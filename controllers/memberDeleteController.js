@@ -18,6 +18,21 @@ exports.renderPage = async (req, res) => {
 
 exports.deleteMember = async (req, res) => {
     try {
+        if (req.session.user.role?.trim() !== 'Manager') {
+            return res.status(403).send('Unauthorized');
+        }
+
+        const memberIds = req.body.memberIds;
+        if (!Array.isArray(memberIds) || memberIds.length === 0) {
+            return res.status(400).send('No members selected');
+        }
+
+        await EmployeeAccount.updateMany(
+            { _id: { $in: memberIds } },
+            { $set: { status: 'terminated' } }
+        );
+
+        res.redirect('/teamList');
     } catch (error) {
         console.error('Error deleting team member:', error);
         res.status(500).send('Failed to delete team member');

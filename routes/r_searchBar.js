@@ -5,6 +5,7 @@ const searchBarController = require('../controllers/searchBarController');
 router.get('/searchEmployees', searchBarController.searchEmployees);
 router.get('/searchTeamMembers', searchBarController.searchTeamMembers);
 router.get('/searchEvents', searchBarController.searchEvents);
+router.get('/search/suppliers', searchBarController.searchSuppliers);
 module.exports = router;
 
 /*
