@@ -62,14 +62,12 @@
                 </a>
             </button>
             
-            <form action="/deleteEvent?id={{event._id}}">
-                <button type="submit" class="destructive-button button" id="details-delete-button">
-                    <span class="bg-button-wrapper button-wrapper">
+            <button type="button" class="destructive-button button" id="details-delete-button" data-event-id="{{event._id}}">
+                <span class="bg-button-wrapper button-wrapper">
                     <i class="lni lni-trash-3"></i>
-                        <p>Delete</p>
-                    </span>
-                </button>
-            </form>
+                    <p>Delete</p>
+                </span>
+            </button>
         </div>
         {{/if}}
 
