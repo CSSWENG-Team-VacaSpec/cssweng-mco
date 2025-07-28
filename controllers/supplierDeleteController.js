@@ -34,7 +34,10 @@ exports.deleteSupplier = async (req, res) => {
             return res.status(400).send('No suppliers selected');
         }
 
-        await Supplier.deleteMany({ _id: { $in: supplierIds } });
+        await Supplier.updateMany(
+            { _id: { $in: supplierIds } },
+            { $set: { status: 'inactive' } } 
+        );
 
         res.redirect('/teamList');
     } catch (error) {

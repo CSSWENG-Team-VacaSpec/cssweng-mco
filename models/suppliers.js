@@ -5,7 +5,13 @@ const supplierSchema = new mongoose.Schema({
     companyName: { type: String, required: true },
     contactNames: { type: [String], required: true },   // Array of roles corresponding to contact persons
     contactNumbers: { type: [String], required: true }, // Array of contact numbers
-    notes: { type: String, required: false }            // description or notes about the supplier
+    notes: { type: String, required: false },           // description or notes about the supplier
+    status: {
+        type: String, 
+        required: true,
+        enum: ['active', 'inactive'],
+        default: 'active'
+    }
 },
 { collection: "suppliers" });
 

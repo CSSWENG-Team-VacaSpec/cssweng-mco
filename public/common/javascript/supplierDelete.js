@@ -73,15 +73,22 @@ document.addEventListener('DOMContentLoaded', () => {
             }
 
             data.results.forEach(supplier => {
-                const card = document.createElement('div');
-                card.className = 'team-member-mini-card';
-                card.dataset.id = supplier._id;
-                card.innerHTML = `
-                    <p><strong>${supplier.companyName}</strong></p>
-                    <p>${supplier.contactNames.join(', ')}</p>
+                const button = document.createElement('button');
+                button.type = 'button';
+                button.className = 'team-member-mini-card';
+                button.dataset.id = supplier._id;
+                button.dataset.company = supplier.companyName;
+
+                button.innerHTML = `
+                    <div class="team-member-mini-picture" style="background-image: url('/images/default-supplier.png');"></div>
+                    <span id="full-name">${supplier.companyName}</span>
+                    <i id="teamMiniAddButton" class="lni lni-plus"></i>
+                    <i id="teamMiniRemoveButton" class="lni lni-xmark"></i>
                 `;
-                suppliersContainer.appendChild(card);
+
+                suppliersContainer.appendChild(button);
             });
+
         } catch (error) {
             console.error('Error fetching suppliers:', error);
         }
