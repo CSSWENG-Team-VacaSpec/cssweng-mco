@@ -28,47 +28,23 @@ exports.editProfileDescription = async (req, res) => {
         const {
             'first-name': firstName,
             'last-name': lastName,
-            'mobile-number': mobileNumber,
             email,
             bio
         } = req.body;
 
-        if (!firstName || !lastName || !mobileNumber) {
-        return res.status(400).send("First name, last name, and mobile number are required.");
-         }
-
-        const phonePattern = /^0\d{10}$/; //checking of profile mobile number
-        if (!phonePattern.test(mobileNumber)) {
-            return res.status(400).send("Invalid phone number. It must be 11 digits, start with 0, and contain no spaces or country code.");
+         if (!firstName?.trim() || !lastName?.trim()) {
+            return res.status(400).send("First name and last name are required.");
         }
 
         const updateFields = {
-            firstName,
-            lastName,
-            email,
-            bio
+            firstName: firstName.trim(),
+            lastName: lastName.trim(),
+            email: email?.trim(),
+            bio: bio?.trim()
         };
 
-        if (mobileNumber !== userId) { //create new acc to update the acc and delete the old one since it has a new ID 
-            const existing = await EmployeeAccount.findById(mobileNumber);
-            if (existing) {
-                return res.status(400).send("That phone number is already in use.");
-            }
-
-            const user = await EmployeeAccount.findById(userId);
-            const updatedUser = new EmployeeAccount({
-                ...user.toObject(),
-                _id: mobileNumber,
-                ...updateFields
-            });
-
-            await EmployeeAccount.deleteOne({ _id: userId });
-            await updatedUser.save();
-            req.session.user = updatedUser;
-
-        } else {
-            await EmployeeAccount.findByIdAndUpdate(userId, updateFields);
-        }
+        await EmployeeAccount.findByIdAndUpdate(userId, updateFields);
+        
 
         res.redirect(`/profile/${userId}`);
 
