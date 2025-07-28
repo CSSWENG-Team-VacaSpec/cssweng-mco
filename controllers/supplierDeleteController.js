@@ -5,7 +5,9 @@ exports.renderPage = async (req, res) => {
         if (!req.session.user || req.session.user.role?.trim() !== 'Manager') {
             return res.redirect('/login'); 
         }
-        const suppliers = await Supplier.find({}).lean();
+        
+        const suppliers = await Supplier.find({ status: 'active' }).lean();
+        
         res.render('supplierDelete', {
             layout: 'form',
             script: 'supplierDelete',
@@ -25,12 +27,17 @@ exports.deleteSupplier = async (req, res) => {
             return res.status(403).send('Unauthorized');
         }
 
+        console.log('BODY:', req.body);
+
         const supplierIds = req.body.supplierIds;
         if (!Array.isArray(supplierIds) || supplierIds.length === 0) {
             return res.status(400).send('No suppliers selected');
         }
 
-        await Supplier.deleteMany({ _id: { $in: supplierIds } });
+        await Supplier.updateMany(
+            { _id: { $in: supplierIds } },
+            { $set: { status: 'inactive' } } 
+        );
 
         res.redirect('/teamList');
     } catch (error) {

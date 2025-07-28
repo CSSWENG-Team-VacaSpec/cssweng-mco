@@ -99,10 +99,8 @@ exports.searchSuppliers = async (req, res) => {
   try {
     const query = (req.query.q || '').trim().toLowerCase();
 
-    // Fetch all suppliers
-    const suppliers = await Supplier.find({}).lean();
+    const suppliers = await Supplier.find({ status: 'active' }).lean();
 
-    // Filter suppliers based on company name or contact name match
     const results = suppliers.filter(supplier => {
       const nameMatch = supplier.companyName.toLowerCase().includes(query);
       const contactMatch = supplier.contactNames?.some(name => name.toLowerCase().includes(query));
@@ -115,4 +113,3 @@ exports.searchSuppliers = async (req, res) => {
     return res.status(500).json({ error: 'Server error during supplier search' });
   }
 };
-
