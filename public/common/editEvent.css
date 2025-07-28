@@ -99,6 +99,18 @@
     height: 50%;
 }
 
+#status-dropdown {
+    position: absolute;
+    right: var(--card-padding);
+    top: var(--card-padding);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+    border-radius: var(--card-radius);
+    cursor: pointer;
+}
+
 @media screen and (max-width: 800px) {
     .form-wizard {
         padding-bottom: 50vh;

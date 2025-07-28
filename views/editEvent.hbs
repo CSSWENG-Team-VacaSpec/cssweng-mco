@@ -2,26 +2,25 @@
     <form class="form" action="/editEvent?id={{event._id}}" method="post">
         <div class="form-page-container">
             <div class="form-page" id="detailsPage">
-                <h1 class="secondary-header">Event details: </h1>
-                <h1 class="secondaryheader" id="event-name">{{event.eventName}}</h1>
+                <h1 class="secondary-header">Event details</h1>
                 <div id="status-dropdown" class="dropdown">
                     <p>Status: </p>
-                    <p id="event-status">Add</p>
+                    <p id="event-status" id="status">{{event.status}}</p>
                     <i class="lni lni-chevron-down dropdown-chevron"></i>
                     <div class="dropdown-content">
-                        <a class="dropdown-item">
+                        <a class="dropdown-item" data-status="planning">
                             Planning
                         </a>
-                        <a class="dropdown-item">
+                        <a class="dropdown-item" data-status="in progress">
                             In Progress
                         </a>
-                        <a class="dropdown-item">
+                        <a class="dropdown-item" data-status="cancelled">
                             Cancelled
                         </a>
-                        <a class="dropdown-item">
+                        <a class="dropdown-item" data-status="postponed">
                             Postponed
                         </a>
-                        <a class="dropdown-item">
+                        <a class="dropdown-item" data-status="cancelled">
                             Completed
                         </a>
                     </div>
@@ -82,13 +81,19 @@
                         {{#each members}}
                             {{>teamMemberMini this}}
                         {{else}}
-                            <p>No members currently</p>
+                            <p>No other members currently</p>
                         {{/each}}
                     </div>
                 </div>
                 <div class="grid-container">
                     <h1 class="secondary-header">Added team members</h1>
-                    <div class="team-mini-grid" id="addedMembers"></div>
+                    <div class="team-mini-grid" id="addedMembers">
+                        {{#each addedMembers}}
+                            {{>teamMemberMini this}}
+                        {{else}}
+                            <p>No members added yet</p>
+                        {{/each}}
+                    </div>
                 </div>
             </div>
             <div class="form-page" id="suppliers-page">
