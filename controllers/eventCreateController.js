@@ -8,8 +8,9 @@ const { v4: uuidv4 } = require('uuid');
 exports.renderPage = async (req, res) => {
     try {
 
-    const user = req.session.user
-
+    const userId = req.session.user
+    const user = await EmployeeAccount.findById(userId).lean();
+    
     if (!user || user.role !== 'Manager') {
 
          return res.status(403).send('Access denied: Managers only.'); 
@@ -17,7 +18,7 @@ exports.renderPage = async (req, res) => {
     
 
     const members = await EmployeeAccount.find({ status: 'active' }).lean();
-    const suppliers = await Suppliers.find({}).lean(); // Get all suppliers
+    const suppliers = await Suppliers.find({ status: 'active' }).lean();
 
         res.render('eventCreate', {
             layout: 'form',
@@ -38,11 +39,12 @@ exports.renderPage = async (req, res) => {
 exports.createEvent = async (req, res) => {
     try {
 
-    const user = req.session.user
+    const userId = req.session.user
+    const user = await EmployeeAccount.findById(userId).lean();
+    
+    if (!user || user.role !== 'Manager') {
 
-    if (user.role !== 'Manager') {
-        
-        return res.status(403).send('Access denied: Managers only.'); 
+         return res.status(403).send('Access denied: Managers only.'); 
     }
         const { 
             'event-name': eventName,

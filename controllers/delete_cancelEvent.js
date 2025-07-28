@@ -1,15 +1,18 @@
 const Event = require('../models/events');
 const DeleteNotif = require('../utils/deleteNotification');
 const CancelNotif = require('../utils/cancelNotification');
+const EmployeeAccount = require('../models/employeeAccounts');   
 
 exports.cancelEvent = async (req, res) => {
 
-    const user = req.session.user
+    const userId = req.session.user
+    const user = await EmployeeAccount.findById(userId).lean();
+    
+    if (!user || user.role !== 'Manager') {
 
-    if (user.role !== 'Manager') {
-        
-        return res.status(403).send('Access denied: Managers only.'); 
+         return res.status(403).send('Access denied: Managers only.'); 
     }
+    
 
     const eventId = req.query.id;
 
@@ -39,12 +42,14 @@ exports.cancelEvent = async (req, res) => {
 
 exports.deleteEvent = async (req, res) => {
 
-    const user = req.session.user
-
+    const userId = req.session.user
+    const user = await EmployeeAccount.findById(userId).lean();
+    
     if (!user || user.role !== 'Manager') {
-        
-        return res.status(403).send('Access denied: Managers only.'); 
+
+         return res.status(403).send('Access denied: Managers only.'); 
     }
+    
 
     const eventId = req.query.id;
 

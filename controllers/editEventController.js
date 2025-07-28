@@ -9,11 +9,12 @@ exports.getEditEventPage = async (req, res) => {
 
         const userId = req.session.user._id || req.session.user;
         const eventId = req.query.id;
+        const user = await User.findById(userId).lean();
+    
+         if (!user || user.role !== 'Manager') {
 
-        if (!user || userId.role !== 'Manager') {
-        
-        return res.status(403).send('Access denied: Managers only.'); 
-         }
+         return res.status(403).send('Access denied: Managers only.'); 
+        }
 
         const team = await Team.findById(eventId).lean();
         const event = await Event.findById(eventId).lean(); 
@@ -63,12 +64,14 @@ exports.editEvent = async (req, res) => {
     
      try {
 
-    const user = req.session.user
-
+    const userId = req.session.user
+    const user = await User.findById(userId).lean();
+    
     if (!user || user.role !== 'Manager') {
-        
-        return res.status(403).send('Access denied: Managers only.'); 
+
+         return res.status(403).send('Access denied: Managers only.'); 
     }
+    
         const {
             'event-name': eventName,
             'client-name': clientName,
