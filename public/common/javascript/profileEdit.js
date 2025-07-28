@@ -66,7 +66,6 @@ document.addEventListener('DOMContentLoaded', () => {
         lastName.classList.toggle('error-field', !lastNameFilled);
         updateEditDetailsButton();
     });
-
     function updateEditDetailsButton() {
         editDetailsButton.disabled = !(firstNameFilled && lastNameFilled);
         editDetailsButton.classList.toggle('disabled-button', editDetailsButton.disabled);
@@ -79,6 +78,14 @@ document.addEventListener('DOMContentLoaded', () => {
         lastNameFilled = lastName.value.trim() !== '';
         lastName.classList.toggle('error-field', !lastNameFilled);
     }
+
+    // check that profile picture is uploaded.
+    const pfpUpload = document.getElementById('pfpUpload');
+    const editPfpButton = document.getElementById('editPfpButton');
+
+    pfpUpload.addEventListener('input', () => {
+        editPfpButton.classList.toggle('disabled-button', pfpUpload.value === '');
+    })
 
     initializeInputStates();
     updateChangePassButton();
