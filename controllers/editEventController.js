@@ -39,18 +39,32 @@ exports.getEditEventPage = async (req, res) => {
 
         const users = await User.find({ _id: { $in: userIds } }).lean();
 
+        const allMembers = await User.find({}).lean();
+
+        const currentTeamMembers = event.members || [];
+        const currentSuppliers = event.suppliers || [];
+
+        const addedMembers = allMembers.filter(m =>
+            currentTeamMembers.some(id => id.equals(m._id))
+        );
+        const availableMembers = allMembers.filter(m =>
+            !currentTeamMembers.some(id => id.equals(m._id))
+        );
+
         res.render('editEvent', {
         user: req.session.user,
-        layout: 'main',
+        layout: 'form',
         stylesheet: 'editEvent',
         script: 'editEvent',
         title: 'Edit Event',
         page: 'edit-event',
         clientName: `${event.clientFirstName} ${event.clientLastName}`,
         showButtons,
-        teamMembers: users,
-        team,
-        event
+        members: availableMembers,
+        addedMembers: addedMembers,
+        event: {
+            ...event,
+            teamMembers: currentTeamMembers        }
     });
 
     }   catch (error) {
@@ -83,6 +97,7 @@ exports.editEvent = async (req, res) => {
             'phone-number': phoneNumber,
             addedMembers,
             addedSuppliers,
+            status
         } = req.body;
 
         const [CPFirstName, ...CPLastNameParts] = contactName.trim().split(' ');
