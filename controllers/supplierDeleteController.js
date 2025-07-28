@@ -5,7 +5,9 @@ exports.renderPage = async (req, res) => {
         if (!req.session.user || req.session.user.role?.trim() !== 'Manager') {
             return res.redirect('/login'); 
         }
+        
         const suppliers = await Supplier.find({}).lean();
+        
         res.render('supplierDelete', {
             layout: 'form',
             script: 'supplierDelete',
@@ -24,6 +26,8 @@ exports.deleteSupplier = async (req, res) => {
         if (!req.session.user || req.session.user.role?.trim() !== 'Manager') {
             return res.status(403).send('Unauthorized');
         }
+
+        console.log('BODY:', req.body);
 
         const supplierIds = req.body.supplierIds;
         if (!Array.isArray(supplierIds) || supplierIds.length === 0) {

@@ -95,6 +95,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Add hidden inputs on delete submit
     deleteForm.addEventListener('submit', (e) => {
+        e.preventDefault(); // Prevent native form submission
+
+        deleteForm.querySelectorAll('input[name="memberIds"]').forEach(el => el.remove());
+
         addedMembers.forEach(id => {
             const input = document.createElement('input');
             input.type = 'hidden';
@@ -102,5 +106,8 @@ document.addEventListener('DOMContentLoaded', () => {
             input.value = id;
             deleteForm.appendChild(input);
         });
+
+        deleteForm.submit(); 
     });
+
 });

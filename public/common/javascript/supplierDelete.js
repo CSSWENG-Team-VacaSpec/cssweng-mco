@@ -41,13 +41,19 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     form.addEventListener('submit', (e) => {
+        e.preventDefault();
+        
+        form.querySelectorAll('input[name="supplierIds"]').forEach(el => el.remove());
+
         addedSuppliers.forEach(id => {
             const input = document.createElement('input');
             input.type = 'hidden';
-            input.name = 'supplierIds';
+            input.name = 'supplierIds[]'; 
             input.value = id;
             form.appendChild(input);
         });
+
+        form.submit();
     });
 
     const supplierSearchInput = document.getElementById('supplierSearchInput');

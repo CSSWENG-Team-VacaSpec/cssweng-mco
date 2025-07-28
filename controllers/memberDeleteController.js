@@ -24,7 +24,16 @@ exports.deleteMember = async (req, res) => {
         if (!req.session.user || req.session.user.role?.trim() !== 'Manager') {
             return res.status(403).send('Unauthorized');
         }
-        const memberIds = req.body.memberIds;
+
+        console.log('BODY:', req.body); // keep for testing
+
+        let memberIds = req.body.memberIds;
+
+        // Convert to array if it's a single string
+        if (typeof memberIds === 'string') {
+            memberIds = [memberIds];
+        }
+
         if (!Array.isArray(memberIds) || memberIds.length === 0) {
             return res.status(400).send('No members selected');
         }
