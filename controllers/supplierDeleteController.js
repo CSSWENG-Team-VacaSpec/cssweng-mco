@@ -6,7 +6,7 @@ exports.renderPage = async (req, res) => {
             return res.redirect('/login'); 
         }
         
-        const suppliers = await Supplier.find({}).lean();
+        const suppliers = await Supplier.find({ status: 'active' }).lean();
         
         res.render('supplierDelete', {
             layout: 'form',
