@@ -1,0 +1,34 @@
+<div class="card">
+    <form class="form" action="/api/delete/supplier" method="post">
+        <div class="form-page-container">
+            <div class="form-page" id="suppliers-page">
+                <div class="grid-container">
+                    <h1 class="secondary-header">Search</h1>
+                    <div role="search" class="search-bar" id="supplierSearchForm">
+                        <button type="submit" id="search-icon"><i class="lni lni-search-1"></i></button>
+                        <input type="search" name="q" id="supplierSearchInput" placeholder="Search suppliers...">
+                    </div>
+                    <div class="team-mini-grid" id="supplierSearchResults">
+                        {{#each suppliers}}
+                            {{>supplierMini this}}
+                        {{else}}
+                            <p>No suppliers currently</p>
+                        {{/each}}
+                    </div>
+                </div>
+                <div class="grid-container">
+                    <h1 class="secondary-header">Suppliers to delete</h1>
+                    <div class="team-mini-grid" id="addedSuppliers"></div>
+                </div>
+            </div>
+        </div>
+        <div class="form-controls">
+            <button type="submit" class="disabled-button destructive-button button" id="deleteSuppliersButton" disabled>
+                <div class="button-wrapper">
+                    <i class="lni lni-trash-3"></i>
+                    <p>Delete</p>
+                </div>
+            </button>
+        </div>
+    </form>
+</div>

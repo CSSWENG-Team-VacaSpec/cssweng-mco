@@ -140,6 +140,12 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
+    // select text on 
+    const pageSelector = document.getElementById('currentPage');
+    pageSelector.addEventListener('focus', () => {
+        pageSelector.select();
+    });
+
     document.getElementById('eventSearchInput').addEventListener('input', (e) => {
         searchEvents(e.target.value.trim());
     });

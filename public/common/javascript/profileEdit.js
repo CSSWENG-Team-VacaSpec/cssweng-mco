@@ -50,9 +50,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const editDetailsButton = document.getElementById('editDetailsButton');
     const firstName = document.getElementById('firstName');
     const lastName = document.getElementById('lastName');
-    const mobileNumber = document.getElementById('mobileNumber');
-
-    const phoneDescription = document.getElementById('phoneDescription');
 
     let firstNameFilled = false;
     let lastNameFilled = false;
@@ -60,25 +57,30 @@ document.addEventListener('DOMContentLoaded', () => {
 
     firstName.addEventListener('input', () => {
         firstNameFilled = firstName.value !== '';
+        firstName.classList.toggle('error-field', !firstNameFilled);
         updateEditDetailsButton();
     });
     
     lastName.addEventListener('input', () => {
         lastNameFilled = lastName.value !== '';
-        updateEditDetailsButton();
-    });
-    
-    mobileNumber.addEventListener('input', () => {
-        mobileNumberFilled = mobileNumber.value.match(/^\d{11}$/);
-        phoneDescription.classList.toggle('error-text', !mobileNumberFilled);
+        lastName.classList.toggle('error-field', !lastNameFilled);
         updateEditDetailsButton();
     });
 
     function updateEditDetailsButton() {
-        editDetailsButton.disabled = !(firstNameFilled && lastNameFilled && mobileNumberFilled);
+        editDetailsButton.disabled = !(firstNameFilled && lastNameFilled);
         editDetailsButton.classList.toggle('disabled-button', editDetailsButton.disabled);
     }
 
+    function initializeInputStates() {
+        firstNameFilled = firstName.value.trim() !== '';
+        firstName.classList.toggle('error-field', !firstNameFilled);
+
+        lastNameFilled = lastName.value.trim() !== '';
+        lastName.classList.toggle('error-field', !lastNameFilled);
+    }
+
+    initializeInputStates();
     updateChangePassButton();
     updateEditDetailsButton();
 });
