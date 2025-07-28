@@ -17,14 +17,29 @@
         <strong>{{data.eventName}} Invite Response</strong>
       {{/if}}
     </span>
-    <span class="client-name">
-      {{#if (eq type "event_invite")}}
-        {{data.clientName}}
-      {{else}}
-        {{data.senderName}}  
+    {{#if (eq type "event_invite")}}
+      {{#if (eq @root.user.role "Team Member")}} 
+        <span class="notif-expiry">
+          Invitation expires
+          {{#if (eq data.daysLeft 0)}}
+            Today
+          {{else}}
+            in {{data.daysLeft}} day{{#unless (eq data.daysLeft 1)}}s{{/unless}}
+          {{/if}}.
+        </span>
       {{/if}}
-    </span>
+    {{/if}}
   </div>
+
+  <div class="card-description-item">
+      <span class="client-name">
+        {{#if (eq type "event_invite")}}
+          {{data.clientName}}
+        {{else}}
+          {{data.senderName}}  
+        {{/if}}
+      </span>
+    </div>
 
   <div class="event-box-bottom">
     <div class="card-description-item card-secondary">
@@ -37,7 +52,7 @@
         {{#if (eq type "event_invite")}}
           {{data.description}}
         {{else}}
-          {{data.message}}  
+          {{data.message}}
         {{/if}}
       </span>
     </div>
@@ -47,19 +62,11 @@
     <div class="notif-controls">
       <span class="notif-response">Response: <strong>{{data.response}}</strong></span>
       {{#if (eq @root.user.role "Team Member")}} 
-        <span class="notif-expiry">
-          Invitation expires
-          {{#if (eq data.daysLeft 0)}}
-            Today
-          {{else}}
-            in {{data.daysLeft}} day{{#unless (eq data.daysLeft 1)}}s{{/unless}}
-          {{/if}}.
-        </span>
-        <div class="notif-buttons">
+        <div class="form-controls">
           <form action="/respondInvite/{{data.inviteID}}" method="POST" style="display:inline;">
             <input type="hidden" name="response" value="unavailable">
             <button class="bg-button button">
-                <a class="bg-button-wrapper button-wrapper" href="#">
+                <a class="bg-button-wrapper button-wrapper">
                     <i class="lni lni-thumbs-down-3"></i>
                     <p>Not available</p>
                 </a>
@@ -68,7 +75,7 @@
           <form action="/respondInvite/{{data.inviteID}}" method="POST" style="display:inline;">
             <input type="hidden" name="response" value="available">
             <button class="fg-button button">
-                <a class="fg-button-wrapper button-wrapper" href="#">
+                <a class="fg-button-wrapper button-wrapper">
                     <i class="lni lni-thumbs-up-3"></i>
                     <p>Available</p>
                 </a>
