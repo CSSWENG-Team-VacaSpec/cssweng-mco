@@ -50,10 +50,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const editDetailsButton = document.getElementById('editDetailsButton');
     const firstName = document.getElementById('firstName');
     const lastName = document.getElementById('lastName');
-    const mobileNumber = document.getElementById('mobileNumber');
-    const mobileNumberRegex = /^(?:\d{11}|\d{4} \d{3} \d{4}|\+\d{12}|\+\d{2} \d{3} \d{3} \d{4})$/;
-
-    const phoneDescription = document.getElementById('phoneDescription');
 
     let firstNameFilled = false;
     let lastNameFilled = false;
@@ -70,24 +66,8 @@ document.addEventListener('DOMContentLoaded', () => {
         lastName.classList.toggle('error-field', !lastNameFilled);
         updateEditDetailsButton();
     });
-    
-    mobileNumber.addEventListener('input', () => {
-        mobileNumberFilled = mobileNumberRegex.test(mobileNumber.value.trim());
-        phoneDescription.classList.toggle('error-text', !mobileNumberFilled);
-        mobileNumber.classList.toggle('error-field', !mobileNumberFilled);
-        updateEditDetailsButton();
-    });
-
-    // check that profile picture is uploaded.
-    const pfpUpload = document.getElementById('pfpUpload');
-    const editPfpButton = document.getElementById('editPfpButton');
-
-    pfpUpload.addEventListener('input', () => {
-        editPfpButton.classList.toggle('disabled-button', pfpUpload.value === '');
-    })
-
     function updateEditDetailsButton() {
-        editDetailsButton.disabled = !(firstNameFilled && lastNameFilled && mobileNumberFilled);
+        editDetailsButton.disabled = !(firstNameFilled && lastNameFilled);
         editDetailsButton.classList.toggle('disabled-button', editDetailsButton.disabled);
     }
 
@@ -97,11 +77,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
         lastNameFilled = lastName.value.trim() !== '';
         lastName.classList.toggle('error-field', !lastNameFilled);
-
-        mobileNumberFilled = mobileNumberRegex.test(mobileNumber.value.trim());
-        phoneDescription.classList.toggle('error-text', !mobileNumberFilled);
-        mobileNumber.classList.toggle('error-field', !mobileNumberFilled);
     }
+
+    // check that profile picture is uploaded.
+    const pfpUpload = document.getElementById('pfpUpload');
+    const editPfpButton = document.getElementById('editPfpButton');
+
+    pfpUpload.addEventListener('input', () => {
+        editPfpButton.classList.toggle('disabled-button', pfpUpload.value === '');
+    })
 
     initializeInputStates();
     updateChangePassButton();

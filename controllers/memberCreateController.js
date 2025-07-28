@@ -3,6 +3,9 @@ const bcrypt = require('bcrypt');
 
 exports.renderPage = async (req, res) => {
     try {
+        if (!req.session.user || req.session.user.role?.trim() !== 'Manager') {
+            return res.redirect('/login'); 
+        }
         res.render('memberCreate', {
             layout: 'form',
             script: 'memberSupplierCreate',
@@ -18,6 +21,9 @@ exports.renderPage = async (req, res) => {
 
 exports.createMember = async (req, res) => {
     try {
+        if (!req.session.user || req.session.user.role?.trim() !== 'Manager') {
+            return res.status(403).send('Unauthorized');
+        }
         const {
             ['first-name']: firstName,
             ['last-name']: lastName,

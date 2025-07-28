@@ -1,5 +1,5 @@
 <div class="card">
-    <form class="edit-profile-details" action="/api/edit/profile-description" method="post">
+    <form class="edit-profile-details" action="/edit/edit-profile-details" method="post">
         <div class="form-page-container">
             <div class="form-page">
                 <h2 class="secondary-header">Edit profile details</h2>
@@ -24,18 +24,17 @@
                         <div class="field-label-container">
                             <label class="field-label" for="bio">Bio</label>
                         </div>
-                        <textarea id="bio" class="text-field" name="bio" value="{{user.bio}}"></textarea>
+                        <textarea id="bio" class="text-field" name="bio" rows="6">{{user.bio}}</textarea>
                     </div>
                 </div>
 
                 <div class="form-row">
                     <div class="text-field-container">
                         <div class="field-label-container">
-                            <label class="field-label" for="mobileNumber">Mobile number</label>
-                            <span class="error-text">*Required</span>
+                            <label class="field-label" for="mobile-number">Mobile number</label>
+                            <span>Cannot be edited</span>
                         </div>
-                        <input type="text" id="mobileNumber" class="text-field" name="mobile-number" value="{{user._id}}" required>
-                        <label class="text-field-description" id="phoneDescription" for="mobile-number">Enter a valid phone number.</label>
+                        <div class="disabled-field text-field" disabled>{{user._id}}</div>
                     </div>
                 </div>
                 <div class="form-row">
@@ -84,7 +83,32 @@
     </form>
 </div>
 <div class="card">
-    <form class="edit-profile-details" action="/api/edit/change-password" method="post">
+    <form class="edit-profile-details" action="/api/edit/change-profile-picture" method="post">
+        <div class="form-page-container">
+            <div class="form-page">
+                <h2 class="secondary-header">Change profile picture</h2>
+                <div class="form-row">
+                    <div class="text-field-container">
+                        <div class="field-label-container">
+                            <label class="field-label" for="pfpUpload">Upload a profile picture here (.jpg, .png) of up to 2 MB.</label>
+                        </div>
+                    </div>
+                </div>
+                <input id="pfpUpload" name="pfp-upload" type="file" accept=".jpg,.png,.jpeg,.JPG,.PNG,.JPEG,image/jpeg,image/png" />
+                <div class="form-controls">
+                    <button type="submit" class="disabled-button fg-button button" id="editPfpButton">
+                        <div class="button-wrapper">
+                            <i class="lni lni-floppy-disk-1"></i>
+                            <p>Save</p>
+                        </div>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+<div class="card">
+    <form class="edit-profile-details" action="/edit/changePassword" method="post">
         <div class="form-page-container">
             <div class="form-page">
                 <h2 class="secondary-header">Change password</h2>

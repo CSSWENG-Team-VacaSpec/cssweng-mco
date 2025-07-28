@@ -50,7 +50,11 @@ exports.authenticateEmployee = async (req, res) => {
             });
         }
 
-        const employee = await EmployeeAccount.findOne({ _id: number });
+        const employee = await EmployeeAccount.findOne({
+            _id: number,
+            status: { $in: ['active', 'unactivated'] }
+        });
+        
         console.log("Fetched employee:", employee);
         
         if (!employee) {
@@ -66,6 +70,13 @@ exports.authenticateEmployee = async (req, res) => {
                 layout: 'login',
                 error: "Login credentials invalid. If your number isn’t in our system, contact the Admin."
             });
+        }
+
+        // If the employee is currently unactivated, update their status to active
+        if (employee.status === 'unactivated') {
+            employee.status = 'active';
+            await employee.save();
+            console.log(`Updated status for ${employee._id} to active`);
         }
 
         req.session.user = {
