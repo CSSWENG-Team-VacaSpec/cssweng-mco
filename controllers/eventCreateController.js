@@ -7,6 +7,15 @@ const { v4: uuidv4 } = require('uuid');
 
 exports.renderPage = async (req, res) => {
     try {
+
+    const user = req.session.user
+
+    if (!user || user.role !== 'Manager') {
+
+         return res.status(403).send('Access denied: Managers only.'); 
+    }
+    
+
     const members = await EmployeeAccount.find({ status: 'active' }).lean();
     const suppliers = await Suppliers.find({}).lean(); // Get all suppliers
 
@@ -28,6 +37,13 @@ exports.renderPage = async (req, res) => {
 
 exports.createEvent = async (req, res) => {
     try {
+
+    const user = req.session.user
+
+    if (user.role !== 'Manager') {
+        
+        return res.status(403).send('Access denied: Managers only.'); 
+    }
         const { 
             'event-name': eventName,
             'client-first-name': clientFirstName,

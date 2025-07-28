@@ -3,6 +3,14 @@ const DeleteNotif = require('../utils/deleteNotification');
 const CancelNotif = require('../utils/cancelNotification');
 
 exports.cancelEvent = async (req, res) => {
+
+    const user = req.session.user
+
+    if (user.role !== 'Manager') {
+        
+        return res.status(403).send('Access denied: Managers only.'); 
+    }
+
     const eventId = req.query.id;
 
     try {
@@ -30,6 +38,14 @@ exports.cancelEvent = async (req, res) => {
 
 
 exports.deleteEvent = async (req, res) => {
+
+    const user = req.session.user
+
+    if (!user || user.role !== 'Manager') {
+        
+        return res.status(403).send('Access denied: Managers only.'); 
+    }
+
     const eventId = req.query.id;
 
     try {
