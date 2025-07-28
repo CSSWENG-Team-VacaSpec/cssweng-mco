@@ -13,8 +13,9 @@ exports.getEventAttendancePage = async (req, res) => {
         const team = await Team.findById(eventId).lean();
         if (!team) return res.status(404).send("Team not found");
 
-        const supplierUsers = await User.find({ _id: { $in: team.supplierList } }).lean();
-        const supplierMap = Object.fromEntries(supplierUsers.map(u => [u._id, u]));
+        const Supplier = require('../models/suppliers');
+        const supplierUsers = await Supplier.find({ _id: { $in: team.supplierList } }).lean();
+        const supplierMap = Object.fromEntries(supplierUsers.map(s => [s._id, s]));
 
         let isManager = String(team.manager) === String(userId);
         let isProgramLead = String(team.programLead) === String(userId);

@@ -53,18 +53,6 @@
     gap: var(--small-gap);
 }
 
-.team-mini-grid {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    gap: var(--small-gap);
-    overflow-y: scroll;
-}
-
-#team-members-page .grid-container {
-    height: 50%;
-}
-
 @media screen and (max-width: 800px) {
     .form-row {
         flex-direction: column;

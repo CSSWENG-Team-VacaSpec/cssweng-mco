@@ -24,7 +24,7 @@ exports.getPastEventsPage = async (req, res) => {
         });
 
         if (!teams || teams.length === 0) {
-            console.log('👤 User is not assigned to any teams.');
+            console.log('User is not assigned to any teams.');
             return res.render('pastEvents', {
                 layout: 'main',
                 stylesheet: 'pastEvents',
@@ -38,7 +38,10 @@ exports.getPastEventsPage = async (req, res) => {
 
         const poNumbers = teams.map(team => team._id);
 
-        const events = await Event.find({ _id: { $in: poNumbers } });
+        const events = await Event.find({ 
+            _id: { $in: poNumbers },
+            status: { $in: ['completed', 'cancelled'] }
+        });
 
         // Debug logs
         console.log("PO Numbers:", poNumbers);

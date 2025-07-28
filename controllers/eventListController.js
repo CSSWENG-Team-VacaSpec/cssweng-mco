@@ -9,6 +9,14 @@ exports.getEventListPage = async (req, res) => {
             return res.redirect('/login');
         }
 
+        // handle pagination.
+        const pageNum = parseInt(req.query.page) || 1;
+
+        // document count per page;
+        const DOCUMENTS_PER_PAGE = 10;
+        const TOTAL_EVENTS = await Event.countDocuments({});
+        const PAGES = Math.ceil(TOTAL_EVENTS / DOCUMENTS_PER_PAGE);
+
         const userId = req.session.user._id || req.session.user;
         const role = req.session.user.role?.trim();
 
@@ -24,7 +32,7 @@ exports.getEventListPage = async (req, res) => {
         });
 
         if (!teams || teams.length === 0) {
-            console.log('👤 User is not assigned to any teams.');
+            console.log(' User is not assigned to any teams.');
             return res.render('eventList', {
                 layout: 'main',
                 stylesheet: 'eventList',
@@ -38,7 +46,11 @@ exports.getEventListPage = async (req, res) => {
 
         const poNumbers = teams.map(team => team._id);
 
-        const events = await Event.find({ _id: { $in: poNumbers } });
+        const events = await Event.find({ 
+            _id: { $in: poNumbers }, 
+            status: { $in: ['planning', 'in progress', 'postponed'] },
+        }).skip((pageNum - 1) * DOCUMENTS_PER_PAGE)
+          .limit(DOCUMENTS_PER_PAGE);
 
         // Debug logs
         console.log("PO Numbers:", poNumbers);
@@ -46,27 +58,29 @@ exports.getEventListPage = async (req, res) => {
         console.log(" Connected DB:", mongoose.connection.name);
 
         res.render('eventList', {
-        layout: 'main',
-        stylesheet: 'eventList',
-        script: 'eventList',
-        title: 'Event List',
-        user: req.session.user, 
-        events: events.map(event => ({
-            _id: event._id,
-            eventName: event.eventName,
-            companyName: event.companyName,
-            clientFirstName: event.clientFirstName,
-            clientLastName: event.clientLastName,
-            eventDate: event.eventDate,
-            description: event.description,
-            status: event.status,
-            location: event.location,
-            CPFirstName: event.CPFirstName,
-            CPLastName: event.CPLastName,
-            CPContactNo: event.CPContactNo
-        })),
-        showCreateButton,
-        page: 'upcoming-events'
+            layout: 'main',
+            stylesheet: 'eventList',
+            script: 'eventList',
+            title: 'Event List',
+            user: req.session.user, 
+            events: events.map(event => ({
+                _id: event._id,
+                eventName: event.eventName,
+                companyName: event.companyName,
+                clientFirstName: event.clientFirstName,
+                clientLastName: event.clientLastName,
+                eventDate: event.eventDate,
+                description: event.description,
+                status: event.status,
+                location: event.location,
+                CPFirstName: event.CPFirstName,
+                CPLastName: event.CPLastName,
+                CPContactNo: event.CPContactNo
+            })),
+            showCreateButton,
+            page: 'upcoming-events',
+            pageCount: PAGES,
+            currentPageNumber: pageNum
     });
 
     } catch (error) {
