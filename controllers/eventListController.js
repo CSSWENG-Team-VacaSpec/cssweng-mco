@@ -11,11 +11,7 @@ exports.getEventListPage = async (req, res) => {
 
         // handle pagination.
         const pageNum = parseInt(req.query.page) || 1;
-
-        // document count per page;
         const DOCUMENTS_PER_PAGE = 10;
-        const TOTAL_EVENTS = await Event.countDocuments({});
-        const PAGES = Math.ceil(TOTAL_EVENTS / DOCUMENTS_PER_PAGE);
 
         const userId = req.session.user._id || req.session.user;
         const role = req.session.user.role?.trim();
@@ -51,6 +47,10 @@ exports.getEventListPage = async (req, res) => {
             status: { $in: ['planning', 'in progress', 'postponed'] },
         }).skip((pageNum - 1) * DOCUMENTS_PER_PAGE)
           .limit(DOCUMENTS_PER_PAGE);
+
+        // document count per page;
+        const TOTAL_EVENTS = events.length;
+        const PAGES = Math.ceil(TOTAL_EVENTS / DOCUMENTS_PER_PAGE);
 
         // Debug logs
         console.log("PO Numbers:", poNumbers);
