@@ -35,7 +35,7 @@ exports.getEditEventPage = async (req, res) => {
 
         res.render('editEvent', {
         user: req.session.user,
-        layout: 'main',
+        layout: 'form',
         stylesheet: 'editEvent',
         script: 'editEvent',
         title: 'Edit Event',

@@ -1,40 +1,31 @@
-<div class="modal-container modal-container-hidden">
-    <div class="modal modal-hidden">
-        <h2 class="modal-header header">Discard changes?</h2>
-        <p class="modal-description">Changes will not be saved.</p>
-        <div class="modal-controls">
-            <button class="bg-button button" id="cancel-modal-no-button">
-                <div class="button-wrapper">
-                    <i class="lni lni-pencil-1"></i>
-                    <p>Keep editing</p>
-                </div>
-            </button>
-            <button class="destructive-button button" id="cancel-modal-yes-button">
-                <div class="button-wrapper">
-                    <i class="lni lni-trash-3"></i>
-                    <p>Discard</p>
-                </div>
-            </button>
-        </div>
-    </div>
-</div>
-
-<div class="page-title-bar">
-    <button class="back-link" id="page-back-button">
-        <div class="button-wrapper">
-            <i class="lni lni-arrow-left"></i>
-            <p>Back</p>
-        </div>
-    </button>
-    <h2 class="header">Edit event: </h2>
-    <h2 class="header" id="event-name">{{event.eventName}}</h2>
-</div>
-
-<div class="create-events-wizard card">
-    <form class="create-event-form" action="/editEvent?id={{event._id}}" method="post">
+<DIV class="form-wizard card">
+    <form class="form" action="/editEvent?id={{event._id}}" method="post">
         <div class="form-page-container">
-            <div class="form-page">
-                <h1 class="secondary-header">Event details</h1>
+            <div class="form-page" id="detailsPage">
+                <h1 class="secondary-header">Event details: </h1>
+                <h1 class="secondaryheader" id="event-name">{{event.eventName}}</h1>
+                <div id="status-dropdown" class="dropdown">
+                    <p>Status: </p>
+                    <p id="event-status">Add</p>
+                    <i class="lni lni-chevron-down dropdown-chevron"></i>
+                    <div class="dropdown-content">
+                        <a class="dropdown-item">
+                            Planning
+                        </a>
+                        <a class="dropdown-item">
+                            In Progress
+                        </a>
+                        <a class="dropdown-item">
+                            Cancelled
+                        </a>
+                        <a class="dropdown-item">
+                            Postponed
+                        </a>
+                        <a class="dropdown-item">
+                            Completed
+                        </a>
+                    </div>
+                </div>
                 <div class="form-row">
                     <div class="text-field-container">
                         <label class="field-label" for="event-name">Event name</label>
@@ -84,7 +75,7 @@
                 <div class="grid-container">
                     <h1 class="secondary-header">Search</h1>
                     <div role="search" class="search-bar" id="memberSearchForm">
-                        <button type="submit"><i class="lni lni-search-1"></i></button>
+                        <button type="submit" id="search-icon"><i class="lni lni-search-1"></i></button>
                         <input type="search" name="q" id="memberSearchInput" placeholder="Search team members...">
                     </div>
                     <div class="team-mini-grid" id="memberSearchResults">
@@ -105,7 +96,7 @@
                 <div class="grid-container">
                     <h1 class="secondary-header">Search</h1>
                     <div role="search" class="search-bar" id="supplierSearchForm">
-                        <button type="submit"><i class="lni lni-search-1"></i></button>
+                        <button type="submit" id="search-icon"><i class="lni lni-search-1"></i></button>
                         <input type="search" name="q" id="memberSearchInput" placeholder="Search suppliers...">
                     </div>
                     <div class="team-mini-grid" id="supplierSearchResults">
@@ -122,6 +113,19 @@
                 </div>
             </div>
         </div>
+        <div class="form-controls">
+            <button type="button" class="disabled-button bg-button button" id="form-back-button" disabled>
+                <div class="button-wrapper">
+                    <i class="lni lni-arrow-left"></i>
+                    <p>Back</p>
+                </div>
+            </button>
+            <button type="button" class="disabled-button fg-button button" id="form-next-button" disabled>
+                <div class="button-wrapper">
+                    <i class="lni lni-arrow-right"></i>
+                    <p>Next</p>
+                </div>
+            </button>
             <button type="submit" class="fg-button button" id="form-submit-button">
                 <div class="button-wrapper">
                     <i class="lni lni-pencil-1"></i>
@@ -131,6 +135,5 @@
         </div>
         <input type="hidden" id="added-members-input" name="addedMembers">
         <input type="hidden" id="added-suppliers-input" name="addedSuppliers">
-
     </form>
-</div>
+</DIV>

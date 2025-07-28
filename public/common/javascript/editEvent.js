@@ -1,9 +1,11 @@
+import { closeModalButton, modalConfirmButton } from './modal.js';
+
 let page = 0;
 const MAX_PAGE = 2;
 
 document.addEventListener('DOMContentLoaded', () => {
 
-    const eventId = eventData?._id
+    const eventId = new URLSearchParams(window.location.search).get('id');
     document.getElementById('event-name').textContent = eventData.eventName;
     document.getElementById('client-name').textContent = eventData.clientName;
     document.getElementById('date').textContent = eventData.eventDate;
@@ -18,15 +20,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const nextButton = document.getElementById('form-next-button');
     const backButton = document.getElementById('form-back-button');
-    const cancelButton = document.getElementById('form-cancel-button');
     const submitButton = document.getElementById('form-submit-button');
-    const pageBackButton = document.getElementById('page-back-button');
     const formContainer = document.getElementsByClassName('form-page-container')[0];
-    
-    const modalContainer = document.getElementsByClassName('modal-container')[0];
-    const modal = document.getElementsByClassName('modal')[0];
-    const modalCloseButton = document.getElementById('cancel-modal-no-button');
-    const modalConfirmButton = document.getElementById('cancel-modal-yes-button');
 
     const membersContainer = document.getElementById('memberSearchResults');
     let members = membersContainer ? membersContainer.getElementsByClassName('team-member-mini-card') : [];
@@ -40,41 +35,45 @@ document.addEventListener('DOMContentLoaded', () => {
     const addedSuppliersContainer = document.getElementById('addedSuppliers');
     let addedSuppliers = [];
 
+    const statusDropdown = document.getElementById('status-dropdown');
+    let statusDropdownOpen = false;
+
+    document.addEventListener('click', (e) => {
+        if (!e.target.closest('#status-dropdown')) {
+            statusDropdownOpen = false;
+        }
+        updateDropdowns();
+    });
+
+    statusDropdown.addEventListener('click', () => {
+        statusDropdownOpen = !statusDropdownOpen;
+        updateDropdowns();
+    });
+
+    function updateDropdowns(){
+        statusDropdown.classList.toggle('dropdown-open', statusDropdownOpen);
+    }
+
     nextButton.addEventListener('click', () => {
         if (page < MAX_PAGE) {
             page++;
-            formContainer.style.transform = `translateX(-${page * 100}%)`;
+            updatePage();
+            updateNavigationButtons();
+            //updateSubmitButton();
         }
-        updateButtons();
     });
 
     backButton.addEventListener('click', () => {
         if (page > 0) {
             page--;
-            formContainer.style.transform = `translateX(-${page * 100}%)`;
+            updatePage();
+            updateNavigationButtons();
+            //updateSubmitButton();
         }
-        updateButtons();
     });
 
-    cancelButton.addEventListener('click', () => {
-        cancelEventCreation();
-    });
-
-    pageBackButton.addEventListener('click', () => {
-        cancelEventCreation();
-    });
-
-    modalCloseButton.addEventListener('click', () => {
-        modalContainer.classList.add('modal-container-hidden');
-        modal.classList.add('modal-hidden');
-    });
-
-    modalConfirmButton.addEventListener('click', () => {
-        modalContainer.classList.add('modal-container-hidden');
-        modal.classList.add('modal-hidden');
-        location.href = '/eventlist';
-    });
-
+    closeModalButton(modalConfirmButton, '/event-details?id=${eventId}');
+    
     membersContainer.addEventListener('click', (event) => {
         const member = event.target.closest('.team-member-mini-card');
         let selected = member.classList.contains('selected-team-member');
@@ -131,25 +130,25 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    function updateButtons() {
-        submitButton.disabled = page < MAX_PAGE // TODO: frontend form validation.
-        submitButton.classList.toggle('disabled-button', submitButton.disabled);
-        submitButton.classList.toggle('form-hidden-button', submitButton.disabled);
-        submitButton.classList.toggle('submit-button', !submitButton.disabled);
-
-        nextButton.disabled = page >= MAX_PAGE;
-        nextButton.classList.toggle('disabled-button', nextButton.disabled);
-        nextButton.classList.toggle('form-hidden-button', nextButton.disabled);
-        nextButton.classList.toggle('fg-button', !nextButton.disabled);
-
-        backButton.disabled = page <= 0;
-        backButton.classList.toggle('disabled-button', backButton.disabled);
-        backButton.classList.toggle('bg-button', !backButton.disabled);
+    function updatePage() {
+        if (page === 0) {
+            formContainer.style.transform = `translateX(0%)`;
+        } else {
+            formContainer.style.transform = `translateX(calc(-${page * 100}% - ${page} * var(--big-gap)))`;
+        }
     }
 
-    function cancelEventCreation() {
-        modalContainer.classList.remove('modal-container-hidden');
-        modal.classList.remove('modal-hidden');
+    function updateNavigationButtons() {
+        backButton.disabled = page <= 0;
+        nextButton.disabled = page >= MAX_PAGE;
+
+        backButton.classList.toggle('disabled-button', backButton.disabled);
+        backButton.classList.toggle('bg-button', !backButton.disabled);
+        
+        nextButton.classList.toggle('disabled-button', nextButton.disabled);
+        nextButton.classList.toggle('fg-button', !nextButton.disabled);
+        
+        nextButton.classList.toggle('form-hidden-button', page >= MAX_PAGE);
     }
 
     submitButton.addEventListener('click', () => {
@@ -160,5 +159,5 @@ document.addEventListener('DOMContentLoaded', () => {
         suppliersInput.value = JSON.stringify(addedSuppliers);
     });
     
-    updateButtons();
+    updateNavigationButtons();
 });
