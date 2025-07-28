@@ -372,11 +372,12 @@ button.form-hidden-button {
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
-    gap: var(--medium-gap);
     list-style-type: none;
     border-radius: var(--button-radius);
     padding: var(--medium-gap);
     font-size: 0.9rem;
+    max-width: 100%;
+    overflow: hidden;
 }
 
 .nav-link i, .nav-link p {
@@ -427,8 +428,18 @@ button.form-hidden-button {
     height: 2rem;
 }
 
+.profile-info {
+    max-width: 124px;
+    overflow: hidden;
+    white-space: nowrap;
+    flex-shrink: 1;
+}
+
 .username {
+    overflow: hidden;
+    max-width: 100%;
     font-weight: 500;
+    text-overflow: ellipsis;
 }
 
 .user-role {
@@ -793,6 +804,10 @@ button.disabled-button:hover .button-wrapper {
     gap: var(--medium-gap);
 }
 
+.page-title-bar i.title-icon {
+    font-size: 1.75rem;
+}
+
 .search-bar {
     display: flex;
     align-items: center;
@@ -1115,9 +1130,13 @@ button.disabled-button:hover .button-wrapper {
         transition: opacity 0.25s, transform 0.15s;
     }
 
+    .nav-link {
+        font-size: 1rem;
+    }
+
     .logo-container {
-        display: flex;
-        justify-content: end;
+        pointer-events: none;
+        visibility: hidden;
     }
 
     .mobile-top-bar {

@@ -19,13 +19,13 @@
     </span>
     {{#if (eq type "event_invite")}}
       {{#if (eq @root.user.role "Team Member")}} 
-        <span class="notif-expiry">
-          Invitation expires
-          {{#if (eq data.daysLeft 0)}}
-            Today
-          {{else}}
-            in {{data.daysLeft}} day{{#unless (eq data.daysLeft 1)}}s{{/unless}}
-          {{/if}}.
+        {{#if (eq data.daysLeft 0)}}
+          <span class="notif-expiry">Invitation expires today</span>
+        {{else if (eq data.daysLeft 1)}}
+          <span class="notif-expiry">Invitation expires in {{data.daysLeft}} day</span>
+        {{else}}
+          <span class="notif-expiry">Invitation expires in {{data.daysLeft}} days</span>
+        {{/if}}
         </span>
       {{/if}}
     {{/if}}

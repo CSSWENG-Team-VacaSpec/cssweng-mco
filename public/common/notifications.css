@@ -1,15 +1,3 @@
-.notification-list {
-    height: calc(100% - 3rem);
-    overflow-y: scroll;
-}
-
-.notif-footer {
-    width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-}
-
 .notif-controls {
     display: flex;
     gap: var(--small-gap);
@@ -18,4 +6,15 @@
 .notif-expiry {
     font-weight: 600;
     color: var(--accent-medium);
+}
+
+@media screen and (max-width: 800px) {
+    .notif-controls {
+        align-items: start;
+        flex-direction: column;
+    }
+
+    .form-controls {
+        width: 100%;
+    }
 }
