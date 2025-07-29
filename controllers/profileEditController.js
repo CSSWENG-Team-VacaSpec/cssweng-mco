@@ -99,3 +99,44 @@ exports.changePassword = async (req, res) => {
         res.status(500).send("Server error");
     }
 };
+
+exports.changeProfilePicture = async (req, res) => {
+  try {
+    const userId = req.session.user._id || req.session.user;
+
+    if (!req.file) {
+      return res.status(400).send("No file uploaded.");
+    }
+
+    await EmployeeAccount.findByIdAndUpdate(userId, {
+      pfp: {
+        data: req.file.buffer,
+        contentType: req.file.mimetype
+      }
+    });
+
+    res.redirect(`/profile/${userId}`);
+  } catch (err) {
+    console.error('Error uploading profile picture:', err);
+    res.status(500).send("Server error");
+  }
+};
+
+
+
+exports.getProfilePicture = async (req, res) => {
+  try {
+    const userId = req.session.user._id || req.session.user;
+
+    const user = await EmployeeAccount.findById(userId).select('pfp');
+    if (!user || !user.pfp || !user.pfp.data) {
+      return res.status(404).send('Profile picture not found.');
+    }
+
+    res.set('Content-Type', user.pfp.contentType || 'image/png');
+    res.send(user.pfp.data); 
+  } catch (err) {
+    console.error('Error retrieving profile picture:', err);
+    res.status(500).send('Internal Server Error');
+  }
+};
