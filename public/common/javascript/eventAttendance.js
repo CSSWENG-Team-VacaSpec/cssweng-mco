@@ -120,7 +120,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Back button
     const pageBackButton = document.getElementById('page-back-button');
     pageBackButton?.addEventListener('click', () => {
-        window.location.href = `/event-details?id=${eventId}`;
+        history.back();
     });
 
     function updatePage() {

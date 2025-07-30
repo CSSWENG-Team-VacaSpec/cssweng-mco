@@ -14,14 +14,14 @@ function openModal() {
 
 /**
  * Closes the modal and redirects if given a URL.
- * @param {string} redirect URL to redirect to after closing the modal. Nothing happens if left blank.
+ * @param {boolean} back True if button should move user to previous page.
  */
 function closeModal(redirect = null) {
     modalContainer.classList.add('modal-container-hidden');
     modal.classList.add('modal-hidden');
 
-    if (redirect !== null) {
-        location.href = redirect;
+    if (redirect) {
+        history.back()
     }
 }
 
@@ -38,11 +38,11 @@ export function openModalButton(button) {
 /**
  * 
  * @param {HTMLElement} button Button to map to close the modal.
- * @param {*} redirect URL to redirect to.
+ * @param {boolean} back True if modal should also move user back upon closing.
  */
-export function closeModalButton(button, redirect) {
+export function closeModalButton(button, back) {
     button.addEventListener('click', () => {
-        closeModal(redirect);
+        closeModal(back);
     });
 }
 
