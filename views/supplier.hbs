@@ -1,0 +1,48 @@
+<div class="page-title-bar">
+    <button class="back-link" id="page-back-button">
+        <a class="button-wrapper">
+            <i class="lni lni-arrow-left"></i>
+        </a>
+    </button>
+    <h1 class="header">{{supplier.companyName}}</h1>
+</div>
+<div class="profile-content">
+    <div class="card" id="personalInfo">
+        <div id="profile-picture"></div>
+        <div class="personal-info-content">
+            <h2>{{supplier.companyName}}</h2>
+            <p>Supplier</p>
+        </div>
+    </div>
+    <div class="card">
+        <div class="card-header">
+            <i class="lni lni-user-4"></i>
+            <p>Contact person</p>
+        </div>
+        <div class="column-data-view">
+            <div class="card-column">
+                {{#each supplier.contactNames}}
+                    <div class="card-description-item">
+                        <i class="lni lni-user-4"></i>
+                        <p>{{this}}</p>
+                    </div>
+                {{/each}}
+            </div>
+            <div class="card-column">
+                {{#each supplier.contactNumbers}}
+                    <div class="card-description-item">
+                        <i class="lni lni-phone"></i>
+                        <a href="tel:{{this}}">{{this}}</a>
+                    </div>
+                {{/each}}
+            </div>
+        </div>
+    </div>
+    <div class="card" id="notes">
+        <div class="card-header">
+            <i class="lni lni-notebook-1"></i>
+            <p>Notes</p>
+        </div>
+        <p>{{supplier.notes}}</p>
+    </div>
+</div>

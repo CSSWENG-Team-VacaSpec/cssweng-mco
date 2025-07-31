@@ -1,4 +1,9 @@
 <div class="page-title-bar">
+    <button class="back-link" id="page-back-button">
+        <a class="button-wrapper">
+            <i class="lni lni-arrow-left"></i>
+        </a>
+    </button>
     <h1 class="header">{{profile.firstName}} {{profile.lastName}}</h1>
 </div>
 {{#if (eq page 'my-profile')}}
@@ -26,14 +31,24 @@
         </div>
     </div>
     <div class="card" id="dateJoined">
-        <p class="card-header">Date joined</p>
+        <div class="card-header">
+            <i class="lni lni-calendar-days"></i>
+            <p>Date joined</p>
+        </div>
         <p>{{profile.createdAt}}</p>
     </div>
     <div class="card" id="bio">
-        <p class="card-header">Bio</p>
+        <div class="card-header">
+            <i class="lni lni-user-4"></i>
+            <p>Bio</p>
+        </div>
         <p>{{profile.bio}}</p>
     </div>
     <div class="card" id="contactInfo">
+        <div class="card-header">
+            <i class="lni lni-phone"></i>
+            <p>Contact</p>
+        </div>
         <div class="card-description-item">
             <i class="lni lni-phone"></i>
             <a href="tel:{{profile._id}}">{{profile._id}}</a>

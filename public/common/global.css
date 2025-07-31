@@ -147,7 +147,14 @@ textarea {
 }
 
 .card-header {
+    display: flex;
+    align-items: center;
+    gap: var(--small-gap);
     font-weight: 500;
+}
+
+.card-header i {
+    font-size: 1.25rem;
 }
 
 .card-secondary {
@@ -173,6 +180,19 @@ textarea {
 .card-description-item i {
     font-size: var(--icon-size);
     color: var(--secondary-fg);
+}
+
+.column-data-view {
+    display: flex;
+    flex-direction: row;
+    gap: var(--small-gap);
+    width: 100%;
+}
+
+.card-column {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
 }
 
 .team-member-card {

@@ -5,6 +5,10 @@ document.addEventListener('DOMContentLoaded', () => {
 function displayError(message="") {
     let error;
     const description = document.getElementById('errorDescription');
+
+    if (description === null) {
+        return;
+    }
     
     // either display a specific message or display the one sent by backend.
     if (message !== "") {
