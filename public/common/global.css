@@ -863,6 +863,37 @@ button.disabled-button:hover .button-wrapper {
     font-size: var(--icon-size);
 }
 
+.error-container {
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    top: var(--big-gap);
+    right: var(--big-gap);
+    gap: var(--small-gap);
+    opacity: 0;
+    pointer-events: none;
+    z-index: 5000;
+    transform: translateX(var(--big-gap));
+}
+
+.error-message {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    gap: var(--small-gap);
+    background-color: var(--error-light);
+    color: var(--primary-bg);
+    padding: 0.5rem 1.5rem;
+    box-shadow: var(--card-shadow-hover);
+    border-radius: var(--button-radius);
+    min-width: 300px;
+    max-width: 20vw;
+}
+
+.error-show {
+    animation: errorShow 5s ease-in-out;
+}
+
 .modal-container {
     position: fixed;
     top: 0;
@@ -1214,5 +1245,18 @@ button.disabled-button:hover .button-wrapper {
 
     .attendance-box-text {
         display: none;
+    }
+}
+
+@keyframes errorShow {
+    0%, 100% {
+        opacity: 0;
+        pointer-events: none;
+        transform: translateX(var(--big-gap));
+    }
+    10%, 90% {
+        opacity: 1;
+        pointer-events: all;
+        transform: translateX(0);
     }
 }
