@@ -1252,11 +1252,13 @@ button.disabled-button:hover .button-wrapper {
     0%, 100% {
         opacity: 0;
         pointer-events: none;
+        z-index: -1;
         transform: translateX(var(--big-gap));
     }
     10%, 90% {
         opacity: 1;
         pointer-events: all;
+        z-index: 5001;
         transform: translateX(0);
     }
 }
