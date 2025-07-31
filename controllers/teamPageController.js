@@ -1,4 +1,5 @@
 const EmployeeAccount = require('../models/employeeAccounts');
+const Supplier = require('../models/suppliers');
 const Team = require('../models/teams');
 const searchEmployees = require('../utils/searchEmployees');
 const mongoose = require('mongoose');
@@ -19,6 +20,11 @@ exports.getTeamPage = async (req, res) => {
         let employees = await EmployeeAccount.find(
             { status: { $in: ['active', 'unactivated'] } },
             '-password'
+        ).lean();
+
+        // Fetch suppliers
+        let suppliers = await Supplier.find(
+            { status: 'active'}
         ).lean();
 
         // Convert pfp buffer to base64
@@ -51,7 +57,9 @@ exports.getTeamPage = async (req, res) => {
             managers, 
             isManager,
             searchQuery,
-            members});
+            members,
+            suppliers
+        });
     } catch (error) {
         console.error('Error loading team page:', error);
         res.status(500).send('Server Error: Unable to load team.');
