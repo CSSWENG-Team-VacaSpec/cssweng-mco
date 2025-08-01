@@ -2,6 +2,7 @@ const EmployeeAccount = require('../models/employeeAccounts');
 const Supplier = require('../models/suppliers');
 const Team = require('../models/teams');
 const searchEmployees = require('../utils/searchEmployees');
+const searchSuppliers = require('../utils/searchSuppliers');
 const mongoose = require('mongoose');
 
 exports.getTeamPage = async (req, res) => {
@@ -42,6 +43,7 @@ exports.getTeamPage = async (req, res) => {
         // if searching, filter employees using fuzzy search
         if (searchQuery && searchQuery !== '') {
             employees = searchEmployees(employees, searchQuery);
+            suppliers = searchSuppliers(suppliers, searchQuery);
         }
 
         const managers = employees.filter(emp => emp.role === 'Manager');
