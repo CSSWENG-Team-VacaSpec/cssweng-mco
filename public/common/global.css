@@ -446,6 +446,7 @@ button.form-hidden-button {
 .profile-picture {
     width: 2rem;
     height: 2rem;
+    object-fit: cover;
 }
 
 .profile-info {
