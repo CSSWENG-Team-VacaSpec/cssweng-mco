@@ -23,7 +23,8 @@ exports.renderPage = async (req, res) => {
             page: 'reset-password',
             title: 'Reset password for ' + resetUser.firstName + ' ' + resetUser.lastName,
             user: user,
-            resetUser: resetUser
+            resetUser: resetUser,
+            error: req.query.error
         });
     } catch (error) {
         console.error('Could not load profile editor.', error);
@@ -33,29 +34,31 @@ exports.renderPage = async (req, res) => {
 exports.resetPassword = async (req, res) => {
     try {
         if (!req.session.user || req.session.user.role !== 'Manager') {
-            return res.status(403).send('Unauthorized');
+            return res.redirect('/login');
         }
 
         const userId = req.params.id;
         const newPassword = req.body['new-password'];
 
-        if (!newPassword) {
-            return res.status(400).send('Password is required');
-        }
-
-        if (newPassword.length < 8) {
-            return res.status(400).send('Password must be at least 8 characters long');
+        if (!newPassword || newPassword.length < 8) {
+            return res.redirect(`/reset/password/${userId}?error=short`);
         }
 
         const user = await EmployeeAccount.findById(userId);
-
         if (!user) {
-            return res.status(404).send('User not found');
+            return res.redirect(`/reset/password/${userId}?error=notfound`);
         }
 
-        const isSame = await bcrypt.compare(newPassword, user.password);
+        let isSame = false;
+
+        if (user.password.startsWith('$2b$') || user.password.startsWith('$2a$')) {
+            isSame = await bcrypt.compare(newPassword, user.password);
+        } else {
+            isSame = newPassword === user.password;
+        }
+
         if (isSame) {
-            return res.status(400).send('New password must not match the old password');
+            return res.redirect(`/reset/password/${userId}?error=same`);
         }
 
         const hashedPassword = await bcrypt.hash(newPassword, 10);
@@ -65,14 +68,14 @@ exports.resetPassword = async (req, res) => {
             { $set: { password: hashedPassword } }
         );
 
-        // Delete related reset-password notifications
         await Notification.deleteMany({
             sender: userId,
             message: { $regex: /requested a password reset/i }
         });
-        res.redirect('/teamList');
+
+        return res.redirect('/teamList');
     } catch (error) {
         console.error('Error resetting password:', error);
-        res.status(500).send('Server error while resetting password');
+        return res.redirect(`/reset/password/${req.params.id}?error=server`);
     }
 };
