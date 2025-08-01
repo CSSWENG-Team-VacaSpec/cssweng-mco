@@ -47,4 +47,4 @@ export function closeModalButton(button, back) {
 }
 
 openModalButton(pageBackButton);
-closeModalButton(modalCloseButton);
+closeModalButton(modalCloseButton, false);

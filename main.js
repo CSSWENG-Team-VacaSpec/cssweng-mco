@@ -69,6 +69,7 @@ const eventAttendanceRoute = require('./routes/r_event_attendance.js');
 const pastEventsRoute = require('./routes/r_past_events.js');
 const editEventRoute = require('./routes/r_edit_event.js');
 const editProfileRoute = require('./routes/r_edit_profile.js');
+const resetPasswordRoute = require('./routes/r_reset_password.js');
 const deleteCancelEventsRoute = require('./routes/r_delete_cancelEvent.js');
 
 // routes
@@ -79,6 +80,7 @@ app.use('/', notificationRoute);
 app.use('/', eventDetailsRoute);
 app.use('/', teamRoute);
 app.use('/', profileRoute);
+app.use('/', resetPasswordRoute);
 app.use('/', supplierRoute);
 app.use('/create', eventCreateRoute);
 app.use('/create', memberCreateRoute);

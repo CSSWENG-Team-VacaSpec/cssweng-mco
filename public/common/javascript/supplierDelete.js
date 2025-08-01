@@ -1,7 +1,7 @@
 import { closeModalButton, modalConfirmButton } from './modal.js';
 
 document.addEventListener('DOMContentLoaded', () => {
-    closeModalButton(modalConfirmButton, '/teamList');
+    closeModalButton(modalConfirmButton, true);
 
     const deleteButton = document.getElementById('deleteSuppliersButton');
     const suppliersContainer = document.getElementById('supplierSearchResults');

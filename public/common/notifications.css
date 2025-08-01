@@ -1,6 +1,12 @@
 .notif-controls {
     display: flex;
+    justify-content: flex-end;
     gap: var(--small-gap);
+    cursor: default;
+}
+
+.notif-button {
+    display: inline;
 }
 
 .notif-expiry {

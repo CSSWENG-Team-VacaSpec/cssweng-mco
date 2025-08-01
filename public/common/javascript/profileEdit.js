@@ -2,7 +2,7 @@ import { closeModalButton, modalConfirmButton } from './modal.js';
 
 document.addEventListener('DOMContentLoaded', () => {
     // implement link to go back to profile page.
-    closeModalButton(modalConfirmButton, `/profile/${currNumber}`);
+    closeModalButton(modalConfirmButton, true);
 
     // form buttons
     const changePasswordButton = document.getElementById('changePasswordButton');
