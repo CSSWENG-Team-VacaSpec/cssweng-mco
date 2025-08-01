@@ -56,7 +56,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    closeModalButton(modalConfirmButton, '/eventList');
+    closeModalButton(modalConfirmButton, true);
 
     membersContainer.addEventListener('click', (event) => {
         const member = event.target.closest('.team-member-mini-card');

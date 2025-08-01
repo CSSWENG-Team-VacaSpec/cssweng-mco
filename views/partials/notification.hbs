@@ -63,19 +63,19 @@
       <span class="notif-response">Response: <strong>{{data.response}}</strong></span>
       {{#if (eq @root.user.role "Team Member")}} 
         <div class="form-controls">
-          <form action="/respondInvite/{{data.inviteID}}" method="POST" style="display:inline;">
+          <form class="notif-button" action="/respondInvite/{{data.inviteID}}" method="POST">
             <input type="hidden" name="response" value="unavailable">
             <button class="bg-button button">
-                <a class="bg-button-wrapper button-wrapper">
+                <a class="button-wrapper">
                     <i class="lni lni-thumbs-down-3"></i>
                     <p>Not available</p>
                 </a>
             </button>
           </form>
-          <form action="/respondInvite/{{data.inviteID}}" method="POST" style="display:inline;">
+          <form class="notif-button" action="/respondInvite/{{data.inviteID}}" method="POST">
             <input type="hidden" name="response" value="available">
             <button class="fg-button button">
-                <a class="fg-button-wrapper button-wrapper">
+                <a class="button-wrapper">
                     <i class="lni lni-thumbs-up-3"></i>
                     <p>Available</p>
                 </a>
@@ -83,6 +83,16 @@
           </form>
         </div>
       {{/if}}
+    </div>
+  {{/if}}
+  {{#if (eq type "change_pw_request")}}
+    <div class="notif-controls">
+      <button class="fg-button button">
+        <a class="button-wrapper" href="/reset/password/{{data.senderCN}}">
+          <i class="lni lni-unlocked-2"></i>
+          <p>Reset password</p>
+        </a>
+      </button>
     </div>
   {{/if}}
 </div>
