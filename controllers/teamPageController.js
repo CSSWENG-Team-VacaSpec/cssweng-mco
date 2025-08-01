@@ -1,6 +1,8 @@
 const EmployeeAccount = require('../models/employeeAccounts');
+const Supplier = require('../models/suppliers');
 const Team = require('../models/teams');
 const searchEmployees = require('../utils/searchEmployees');
+const searchSuppliers = require('../utils/searchSuppliers');
 const mongoose = require('mongoose');
 
 exports.getTeamPage = async (req, res) => {
@@ -21,6 +23,11 @@ exports.getTeamPage = async (req, res) => {
             '-password'
         ).lean();
 
+        // Fetch suppliers
+        let suppliers = await Supplier.find(
+            { status: 'active'}
+        ).lean();
+
         // Convert pfp buffer to base64
         employees.forEach(emp => {
             if (emp.pfp?.data && emp.pfp?.contentType) {
@@ -36,6 +43,7 @@ exports.getTeamPage = async (req, res) => {
         // if searching, filter employees using fuzzy search
         if (searchQuery && searchQuery !== '') {
             employees = searchEmployees(employees, searchQuery);
+            suppliers = searchSuppliers(suppliers, searchQuery);
         }
 
         const managers = employees.filter(emp => emp.role === 'Manager');
@@ -51,7 +59,9 @@ exports.getTeamPage = async (req, res) => {
             managers, 
             isManager,
             searchQuery,
-            members});
+            members,
+            suppliers
+        });
     } catch (error) {
         console.error('Error loading team page:', error);
         res.status(500).send('Server Error: Unable to load team.');

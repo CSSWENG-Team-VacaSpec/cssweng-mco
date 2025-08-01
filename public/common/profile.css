@@ -8,6 +8,7 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
+    gap: var(--small-gap);
     padding: 3rem 2.5rem;
 }
 
@@ -35,6 +36,10 @@
     aspect-ratio: 1;
     background-color: var(--secondary-fg);
     border-radius: var(--circle-radius);
+}
+
+#notes {
+    grid-column: span 2;
 }
 
 @media screen and (max-width: 800px) {
