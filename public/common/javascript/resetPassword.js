@@ -23,7 +23,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     function updateChangePassButton() {
-        changePasswordButton.disabled = !(validCurrentPassword && validNewPassword && matchNewPassword);
+        changePasswordButton.disabled = !validNewPassword;
         changePasswordButton.classList.toggle('disabled-button', changePasswordButton.disabled);
     }
 
