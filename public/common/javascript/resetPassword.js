@@ -15,6 +15,30 @@ document.addEventListener('DOMContentLoaded', () => {
     const passwordLengthDescription = document.getElementById('passLengthCheck');
 
     let validNewPassword = false;
+
+    const errorContainer = document.getElementById('resetPasswordPage');
+    const error = errorContainer?.dataset.error;
+
+    if (error) {
+        let message = '';
+        switch (error) {
+            case 'short':
+                message = 'Password must be at least 8 characters.';
+                break;
+            case 'same':
+                message = 'New password must not match the old password.';
+                break;
+            case 'notfound':
+                message = 'User not found.';
+                break;
+            case 'server':
+                message = 'Server error. Please try again later.';
+                break;
+        }
+
+        if (message) alert(message);
+    }
+
     
     newPassword.addEventListener('input', () => {
         validNewPassword = newPassword.value.length >= 8;
@@ -23,7 +47,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     function updateChangePassButton() {
-        changePasswordButton.disabled = !(validCurrentPassword && validNewPassword && matchNewPassword);
+        changePasswordButton.disabled = !validNewPassword;
         changePasswordButton.classList.toggle('disabled-button', changePasswordButton.disabled);
     }
 
