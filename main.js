@@ -24,20 +24,20 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 //opening of sessions 
 app.use(session({
-    secret: 'yourSecretKey', 
-    resave: false,
-    saveUninitialized: false,
-    store: MongoStore.create({
-        mongoUrl: process.env.MONGODB_URI, 
-        collectionName: 'sessions',
-        ttl: 14 * 24 * 60 * 60 
-    }),
-    cookie: {
-        maxAge: 14 * 24 * 60 * 60 * 1000,
-        httpOnly: true,
-        sameSite: 'lax',
-        secure: process.env.NODE_ENV === 'production'
-    }
+  secret: 'yourSecretKey',
+  resave: false,
+  saveUninitialized: false,
+  store: MongoStore.create({
+    mongoUrl: process.env.MONGODB_URI,
+    collectionName: 'sessions',
+    ttl: 14 * 24 * 60 * 60
+  }),
+  cookie: {
+    maxAge: 14 * 24 * 60 * 60 * 1000, 
+    httpOnly: true,
+    sameSite: 'lax',
+    secure: false
+  }
 }));
 
 app.use((req, res, next) => {
@@ -54,11 +54,23 @@ app.use((req, res, next) => {
 
 // Apply to all routes *except* public ones
 app.use((req, res, next) => {
-    const publicRoutes = ['/login', '/register', '/forgot-password'];
-    if (publicRoutes.includes(req.path)) {
-        return next();
-    }
-    isLoggedIn(req, res, next);
+  const publicRoutes = ['/', '/login', '/forgot-password'];
+
+  if (publicRoutes.includes(req.path)) return next();
+
+  if (req.session && req.session.user) return next();
+
+  return res.redirect('/login');
+});
+
+app.get('/', (req, res) => {
+  if (req.session && req.session.user) {
+    // User is logged in – redirect to event list
+    return res.redirect('/eventlist');
+  } else {
+    // Not logged in – show login page
+    return res.redirect('/login');
+  }
 });
 
 // view engine setup
