@@ -15,7 +15,6 @@ exports.getProfilePicture = async (req, res) => {
                 res.set('Content-Type', 'image/png');
                 res.send(defaultPfp);
             } else {
-                console.log(user.pfp.contentType);
                 res.set('Content-Type', user.pfp.contentType || 'image/png');
                 res.send(user.pfp.data);
             }
