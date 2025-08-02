@@ -7,6 +7,8 @@ const exphbs = require('express-handlebars');
 const { add, subtract, gt, lt } = require('./utils/comparators.js');
 const { eq } = require('./utils/getPage.js');
 const { formatPhone } = require('./utils/phoneNumberHelper.js');
+const MongoStore = require('connect-mongo'); 
+const isLoggedIn = require('./middlewares/isLoggedIn.js');
 
 const app = express();
 
@@ -21,24 +23,43 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, 'public')));
 
 //opening of sessions 
-app.use(
-    session({
-        secret: "my_secret_key",
-        saveUninitialized: false,
-        resave: false
-    })
-);
+app.use(session({
+    secret: 'yourSecretKey', 
+    resave: false,
+    saveUninitialized: false,
+    store: MongoStore.create({
+        mongoUrl: process.env.MONGODB_URI, 
+        collectionName: 'sessions',
+        ttl: 14 * 24 * 60 * 60 
+    }),
+    cookie: {
+        maxAge: 14 * 24 * 60 * 60 * 1000,
+        httpOnly: true,
+        sameSite: 'lax',
+        secure: process.env.NODE_ENV === 'production'
+    }
+}));
 
 app.use((req, res, next) => {
     res.locals.message = req.session.message;
     delete req.session.message;
     next();
 });
+
 //for the browser not to save caches for user persistence purposes
 app.use((req, res, next) => {
     res.setHeader('Cache-Control', 'no-store, no-cache, must-revalidate, private');
     next();
-  });
+});
+
+// Apply to all routes *except* public ones
+app.use((req, res, next) => {
+    const publicRoutes = ['/login', '/register', '/forgot-password'];
+    if (publicRoutes.includes(req.path)) {
+        return next();
+    }
+    isLoggedIn(req, res, next);
+});
 
 // view engine setup
 app.engine('hbs', exphbs.engine({
@@ -47,7 +68,8 @@ app.engine('hbs', exphbs.engine({
   helpers: { eq, formatPhone, add, subtract, lt, gt },
   layoutsDir: path.join(__dirname, 'views', 'layouts'), // Directory where layout files are stored
   partialsDir: path.join(__dirname, 'views', 'partials') // Directory for reusable template 
-}));app.set('view engine', 'hbs');
+}));
+app.set('view engine', 'hbs');
 app.set('views', path.join(__dirname, 'views'));
 
 // route declaration
