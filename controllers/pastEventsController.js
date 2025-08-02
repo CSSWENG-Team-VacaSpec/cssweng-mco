@@ -48,7 +48,7 @@ exports.getPastEventsPage = async (req, res) => {
         }).skip((pageNum - 1) * DOCUMENTS_PER_PAGE)
           .limit(DOCUMENTS_PER_PAGE);
 
-        // document count per page;
+        // total events count.
         const totalEvents = await Event.countDocuments({
             _id: { $in: poNumbers },
             status: { $in: ['completed', 'cancelled'] }
