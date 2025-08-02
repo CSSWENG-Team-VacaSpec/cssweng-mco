@@ -18,7 +18,15 @@ exports.renderPage = async (req, res) => {
             profileType = 'other-profile'
         }
 
-        console.log('viewing profile page of type ' + profileType + '\nid in params: ' + req.params.id + '\nid in session: ' + req.session._id);
+        // Convert pfp buffer to base64
+        if (profile.pfp?.data && profile.pfp?.contentType) {
+            profile.pfp = `data:${profile.pfp.contentType};base64,${profile.pfp.data.toString('base64')}`;
+        } else {
+            profile.pfp = '/common/user.svg';
+        }
+
+        // Normalize role here
+        profile.role = profile.role?.trim();
 
         res.render('profile', {
             layout: 'main',
