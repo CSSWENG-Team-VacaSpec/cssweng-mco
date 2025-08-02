@@ -20,6 +20,18 @@ exports.renderPage = async (req, res) => {
     const members = await EmployeeAccount.find({ status: 'active' }).lean();
     const suppliers = await Suppliers.find({ status: 'active' }).lean();
 
+    // Convert pfp buffer to base64
+    members.forEach(emp => {
+        if (emp.pfp?.data && emp.pfp?.contentType) {
+            emp.pfp = `data:${emp.pfp.contentType};base64,${emp.pfp.data.toString('base64')}`;
+        } else {
+            emp.pfp = '/common/user.svg';
+        }
+
+        // Normalize role here
+        emp.role = emp.role?.trim();
+    });
+
         res.render('eventCreate', {
             layout: 'form',
             stylesheet: 'eventCreate',

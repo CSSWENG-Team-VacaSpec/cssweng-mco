@@ -33,7 +33,7 @@ exports.getTeamPage = async (req, res) => {
             if (emp.pfp?.data && emp.pfp?.contentType) {
                 emp.pfp = `data:${emp.pfp.contentType};base64,${emp.pfp.data.toString('base64')}`;
             } else {
-                emp.pfp = null;
+                emp.pfp = '/common/user.svg';
             }
 
             // Normalize role here

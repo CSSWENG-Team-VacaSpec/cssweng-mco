@@ -35,6 +35,18 @@ exports.getEventDetailsPage = async (req, res) => {
 
         const users = await User.find({ _id: { $in: userIds } }).lean();
         const supplierList = await Suppliers.find({_id: { $in: team.supplierList }}).lean();
+
+        // Convert pfp buffer to base64
+        users.forEach(emp => {
+            if (emp.pfp?.data && emp.pfp?.contentType) {
+                emp.pfp = `data:${emp.pfp.contentType};base64,${emp.pfp.data.toString('base64')}`;
+            } else {
+                emp.pfp = '/common/user.svg';
+            }
+
+            // Normalize role here
+            emp.role = emp.role?.trim();
+        });
         
         console.log(supplierList)
         res.render('eventDetails', {
@@ -49,7 +61,6 @@ exports.getEventDetailsPage = async (req, res) => {
             team,
             event,
             supplierList
-    
         });
     }   catch (error) {
         console.error("Error opening event:", error);
