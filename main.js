@@ -71,6 +71,7 @@ const editEventRoute = require('./routes/r_edit_event.js');
 const editProfileRoute = require('./routes/r_edit_profile.js');
 const resetPasswordRoute = require('./routes/r_reset_password.js');
 const deleteCancelEventsRoute = require('./routes/r_delete_cancelEvent.js');
+const profilePictureRoute = require('./routes/r_pfp.js');
 
 // routes
 app.use('/', loginRoute); 
@@ -96,6 +97,7 @@ app.use('/', pastEventsRoute);
 app.use('/', editEventRoute);
 app.use('/', deleteCancelEventsRoute);
 app.use('/', editEventRoute);
+app.use('/', profilePictureRoute);
 
 // start server
 const PORT = process.env.PORT || 3000;
