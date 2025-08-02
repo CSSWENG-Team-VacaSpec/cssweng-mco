@@ -49,13 +49,12 @@ exports.getEventListPage = async (req, res) => {
           .limit(DOCUMENTS_PER_PAGE);
 
         // document count per page;
-        const TOTAL_EVENTS = events.length;
-        const PAGES = Math.ceil(TOTAL_EVENTS / DOCUMENTS_PER_PAGE);
+        const totalEvents = await Event.countDocuments({
+            _id: { $in: poNumbers },
+            status: { $in: ['planning', 'in progress', 'postponed'] }
+        });
 
-        // Debug logs
-        console.log("PO Numbers:", poNumbers);
-        console.log("Events fetched from MongoDB:", events.length);
-        console.log(" Connected DB:", mongoose.connection.name);
+        const pages = Math.ceil(totalEvents / DOCUMENTS_PER_PAGE);
 
         res.render('eventList', {
             layout: 'main',
@@ -79,7 +78,7 @@ exports.getEventListPage = async (req, res) => {
             })),
             showCreateButton,
             page: 'upcoming-events',
-            pageCount: PAGES,
+            pageCount: pages,
             currentPageNumber: pageNum
     });
 

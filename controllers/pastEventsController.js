@@ -9,6 +9,10 @@ exports.getPastEventsPage = async (req, res) => {
             return res.redirect('/login');
         }
 
+        // handle pagination.
+        const pageNum = parseInt(req.query.page) || 1;
+        const DOCUMENTS_PER_PAGE = 10;
+
         const userId = req.session.user._id || req.session.user;
         const role = req.session.user.role?.trim();
 
@@ -41,12 +45,16 @@ exports.getPastEventsPage = async (req, res) => {
         const events = await Event.find({ 
             _id: { $in: poNumbers },
             status: { $in: ['completed', 'cancelled'] }
+        }).skip((pageNum - 1) * DOCUMENTS_PER_PAGE)
+          .limit(DOCUMENTS_PER_PAGE);
+
+        // document count per page;
+        const totalEvents = await Event.countDocuments({
+            _id: { $in: poNumbers },
+            status: { $in: ['completed', 'cancelled'] }
         });
 
-        // Debug logs
-        console.log("PO Numbers:", poNumbers);
-        console.log("Events fetched from MongoDB:", events.length);
-        console.log(" Connected DB:", mongoose.connection.name);
+        const pages = Math.ceil(totalEvents / DOCUMENTS_PER_PAGE);
 
         res.render('pastEvents', {
         layout: 'main',
@@ -69,7 +77,9 @@ exports.getPastEventsPage = async (req, res) => {
             CPContactNo: event.CPContactNo
         })),
         showCreateButton,
-        page: 'past-events'
+        page: 'past-events',
+        pageCount: pages,
+        currentPageNumber: pageNum
     });
 
     } catch (error) {
