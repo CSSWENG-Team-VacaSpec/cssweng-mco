@@ -88,11 +88,11 @@
                 <div class="grid-container">
                     <h1 class="secondary-header">Added team members</h1>
                     <div class="team-mini-grid" id="addedMembers">
-                        {{#each addedMembers}}
+                        {{!-- {{#each currentTeamMembers}}
                             {{>teamMemberMini this}}
                         {{else}}
                             <p>No members added yet</p>
-                        {{/each}}
+                        {{/each}} --}}
                     </div>
                 </div>
             </div>
@@ -114,7 +114,13 @@
                 </div>
                 <div class="grid-container">
                     <h1 class="secondary-header">Added suppliers</h1>
-                    <div class="team-mini-grid" id="addedSuppliers"></div>
+                    <div class="team-mini-grid" id="addedSuppliers">
+                        {{!-- {{#each currentSuppliers}}
+                            {{>supplierMini this}}
+                        {{else}}
+                            <p>No suppliers added</p>
+                        {{/each}} --}}
+                    </div>
                 </div>
             </div>
         </div>
@@ -142,3 +148,31 @@
         <input type="hidden" id="added-suppliers-input" name="addedSuppliers">
     </form>
 </DIV>
+
+<script>
+const currentTeamMembers = [
+    {{#each currentTeamMembers}} {
+        _id: "{{this._id}}",
+        firstName: "{{this.firstName}}",
+        lastName: "{{this.lastName}}",
+        role: "{{this.role}}",
+        pfp: "{{this.pfp}}",
+        email: "{{this.email}}",
+        bio: "{{this.bio}}"
+    }{{#unless @last}},{{/unless}}
+    {{/each}}
+];
+
+const currentSuppliers = [
+    {{#each currentSuppliers}} {
+        _id: "{{this._id}}",
+        name: "{{this.name}}",
+        contactNames: "{{this.contactNames}}",
+        contactNumbers: "{{this.contactNumbers}}"
+    }{{#unless @last}},{{/unless}}
+    {{/each}}
+];
+
+let addedMembers = [{{#each currentTeamMembers}}"{{this._id}}"{{#unless @last}},{{/unless}}{{/each}}];
+let addedSuppliers = [{{#each currentSuppliers}}"{{this._id}}"{{#unless @last}},{{/unless}}{{/each}}];
+</script>
