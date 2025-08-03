@@ -125,7 +125,7 @@
                 <a class="nav-link-wrapper" href="/profile/{{user._id}}">
                     <li class="nav-link accounts-page-link">
                         <div class="link-name">
-                            <img class="profile-picture image" src="/edit/pfp" alt="Profile Picture" />
+                            <img class="profile-picture image" src="/api/avatar/{{user._id}}" alt="Profile Picture" />
                             <div class="profile-info">
                                 <p class="username">{{user.firstName}} {{user.lastName}}</p>
                                 <p class="user-role">{{user.role}}</p>
