@@ -49,7 +49,6 @@ exports.getEventDetailsPage = async (req, res) => {
             team,
             event,
             supplierList
-    
         });
     }   catch (error) {
         console.error("Error opening event:", error);
