@@ -34,6 +34,7 @@
 #profile-picture {
     width: 5rem;
     aspect-ratio: 1;
+    object-fit: cover;
     background-color: var(--secondary-fg);
     border-radius: var(--circle-radius);
 }

@@ -116,7 +116,7 @@ document.addEventListener('DOMContentLoaded', function() {
                         if (member._id === currentUserId) {
                             el.classList.add('team-member-self');
                         }
-
+                      
                         el.innerHTML = `
                             <div class="team-member-mini-picture" style="background-image: url('${member.pfp || ''}');"></div>
                             <span id="full-name">${member.firstName} ${member.lastName}</span>

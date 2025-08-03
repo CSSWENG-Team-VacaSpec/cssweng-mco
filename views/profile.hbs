@@ -24,7 +24,7 @@
 {{/if}}
 <div class="profile-content">
     <div class="card" id="personalInfo">
-        <div id="profile-picture"></div>
+        <img id="profile-picture" src="/api/avatar/{{profile._id}}" alt="Profile Picture" />
         <div class="personal-info-content">
             <h2>{{profile.firstName}} {{profile.lastName}}</h2>
             <p>{{profile.role}}</p>

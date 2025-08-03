@@ -28,18 +28,6 @@ exports.getTeamPage = async (req, res) => {
             { status: 'active'}
         ).lean();
 
-        // Convert pfp buffer to base64
-        employees.forEach(emp => {
-            if (emp.pfp?.data && emp.pfp?.contentType) {
-                emp.pfp = `data:${emp.pfp.contentType};base64,${emp.pfp.data.toString('base64')}`;
-            } else {
-                emp.pfp = null;
-            }
-
-            // Normalize role here
-            emp.role = emp.role?.trim();
-        });
-
         // if searching, filter employees using fuzzy search
         if (searchQuery && searchQuery !== '') {
             employees = searchEmployees(employees, searchQuery);

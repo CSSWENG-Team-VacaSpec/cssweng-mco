@@ -3,13 +3,12 @@
     data-bio="{{bio}}"
     data-role="{{role}}"
     data-id="{{_id}}"
-    data-pfp="{{pfp}}"
     data-firstName="{{firstName}}"
     data-lastName="{{lastName}}"
     data-status="{{status}}"
     type="button"
 >
-    <div class="team-member-mini-picture" style="background-image: url('{{pfp}}');"></div>
+    <img class="team-member-mini-picture" src="/api/avatar/{{_id}}"></img>
     <span id="full-name">{{firstName}} {{lastName}}</span>
     <span id="role">{{role}}</span>
     <i id="teamMiniAddButton" class="lni lni-plus"></i>
