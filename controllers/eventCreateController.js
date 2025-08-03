@@ -7,18 +7,15 @@ const { v4: uuidv4 } = require('uuid');
 
 exports.renderPage = async (req, res) => {
     try {
+        const userId = req.session.user
+        const user = await EmployeeAccount.findById(userId).lean();
+        
+        if (!user || user.role !== 'Manager') {
+            return res.status(403).send('Access denied: Managers only.'); 
+        }
 
-    const userId = req.session.user
-    const user = await EmployeeAccount.findById(userId).lean();
-    
-    if (!user || user.role !== 'Manager') {
-
-         return res.status(403).send('Access denied: Managers only.'); 
-    }
-    
-
-    const members = await EmployeeAccount.find({ status: 'active' }).lean();
-    const suppliers = await Suppliers.find({ status: 'active' }).lean();
+        const members = await EmployeeAccount.find({ status: 'active' }).lean();
+        const suppliers = await Suppliers.find({ status: 'active' }).lean();
 
         res.render('eventCreate', {
             layout: 'form',
@@ -31,7 +28,8 @@ exports.renderPage = async (req, res) => {
             suppliers
         });
     } catch (error) {
-
+        console.error('Could not load event creation page.');
+        return res.status(500).send('Could not load event creation page.');
     }
 }
 
@@ -43,7 +41,6 @@ exports.createEvent = async (req, res) => {
     const user = await EmployeeAccount.findById(userId).lean();
     
     if (!user || user.role !== 'Manager') {
-
          return res.status(403).send('Access denied: Managers only.'); 
     }
         const { 
