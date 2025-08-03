@@ -3,6 +3,8 @@ const Team = require('../models/teams');
 const Suppliers = require('../models/suppliers');
 const Event = require('../models/events');
 const User = require('../models/employeeAccounts');
+const Notification = require('../models/notifications');
+const { v4: uuidv4 } = require('uuid');
 
 
 exports.getEditEventPage = async (req, res) => {
@@ -130,10 +132,37 @@ exports.editEvent = async (req, res) => {
         const clientLastName = clientLastNameParts.join(' ');
 
         const eventId = req.query.id;
-      
+        const team = await Team.findById(eventId).lean();
+            if (!team) {
+                return res.status(404).send('Team not found');
+            }
+
+        const memberList = team.teamMemberList;
+
+        const currentTeamMembers = await EmployeeAccount.find({
+                _id: { $in: memberList || [] }
+            }).lean();
 
         const parsedMembers = addedMembers ? JSON.parse(addedMembers) : [];
         const parsedSuppliers = addedSuppliers ? JSON.parse(addedSuppliers) : [];
+
+        // Compare and find removed ones
+        const removedMemberIds = currentTeamMembers.filter(id =>
+            !parsedMembers.includes(id.toString())
+        );
+
+        const removedMemberNotifications = removedMemberIds.map(memberId => ({
+            _id: uuidv4(),
+            sender: userId, 
+            receiver: 'Team Members',
+            receiverID: memberId,
+            message: `You have been removed from ${eventName}.`,
+            date: new Date(),
+            hideFrom: []
+        }));
+
+        await Notification.insertMany(removedMemberNotifications);
+        console.log("Removed Member Notifications:", removedMemberNotifications);
 
         const updatedEvent = await Event.findByIdAndUpdate(
             eventId,
@@ -147,9 +176,7 @@ exports.editEvent = async (req, res) => {
                 clientLastName,
                 CPFirstName,
                 CPLastName,
-                CPContactNo: phoneNumber,
-                members: parsedMembers,
-                suppliers: parsedSuppliers
+                CPContactNo: phoneNumber
             },
             { new: true } 
         );
