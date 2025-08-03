@@ -4,6 +4,7 @@ const Suppliers = require('../models/suppliers');
 const Event = require('../models/events');
 const User = require('../models/employeeAccounts');
 const Notification = require('../models/notifications');
+const Invite = require('../models/eventInvitations');
 const { v4: uuidv4 } = require('uuid');
 
 
@@ -159,8 +160,6 @@ exports.editEvent = async (req, res) => {
 
         const parsedMembers = addedMembers ? JSON.parse(addedMembers) : [];
         const parsedSuppliers = addedSuppliers ? JSON.parse(addedSuppliers) : [];
-        console.log("Current Members:", currentTeamMembers.map(m => m._id.toString()));
-        console.log("Parsed Members:", parsedMembers);
 
         // Compare and find removed ones
         const removedMemberIds = currentTeamMembers
@@ -179,7 +178,24 @@ exports.editEvent = async (req, res) => {
         }));
 
         await Notification.insertMany(removedMemberNotifications);
-        console.log("Removed Member Notifications:", removedMemberNotifications);
+
+        const newlyAddedMembers = parsedMembers.filter(memberId =>
+            !currentTeamMembers.some(member => member._id.toString() === memberId)
+        );
+
+        const invitesToCreate = newlyAddedMembers.map(member => ({
+            _id: uuidv4(),
+            event: eventId,
+            employeeCN: member, 
+            role: member.role || 'member',   
+            inviteDate: new Date(),
+            inviteEndDate: new Date(Date.now() + 24 * 60 * 60 * 1000),
+            response: 'pending'
+        }));
+
+        if (invitesToCreate.length > 0) {
+            await Invite.insertMany(invitesToCreate);
+        }
 
         const updatedEvent = await Event.findByIdAndUpdate(
             eventId,
@@ -205,11 +221,17 @@ exports.editEvent = async (req, res) => {
             return res.status(404).send('Event not found');
         }
 
+        const currentMemberIds = team.teamMemberList.map(id => id.toString());
+        const currentSupplierIds = team.supplierList.map(id => id.toString());
+
+        const updatedMemberList = currentMemberIds.filter(id => parsedMembers.includes(id));
+        const updatedSupplierList = currentSupplierIds.filter(id => parsedSuppliers.includes(id));
+
         const updatedTeam = await Team.findByIdAndUpdate(
             eventId,
             {
-                teamMemberList: parsedMembers,
-                supplierList: parsedSuppliers
+                teamMemberList: updatedMemberList,
+                supplierList: updatedSupplierList
             },
             { new: true }
         );
