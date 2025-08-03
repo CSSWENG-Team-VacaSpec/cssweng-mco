@@ -17,7 +17,10 @@ exports.getEditEventPage = async (req, res) => {
             return res.status(403).send('Access denied: Managers only.'); 
         }
 
-        const members = await EmployeeAccount.find({ status: 'active' }).lean();
+        const members = await EmployeeAccount.find({ 
+            status: 'active',
+            _id: { $ne: userId }
+        }).lean();
         const suppliers = await Suppliers.find({ status: 'active' }).lean();
         const team = await Team.findOne({ _id: eventId }).lean();
         const event = await Event.findById(eventId).lean();
