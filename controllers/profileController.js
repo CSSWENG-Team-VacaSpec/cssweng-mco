@@ -18,7 +18,8 @@ exports.renderPage = async (req, res) => {
             profileType = 'other-profile'
         }
 
-        console.log('viewing profile page of type ' + profileType + '\nid in params: ' + req.params.id + '\nid in session: ' + req.session._id);
+        // Normalize role here
+        profile.role = profile.role?.trim();
 
         res.render('profile', {
             layout: 'main',

@@ -43,11 +43,11 @@ document.addEventListener('DOMContentLoaded', () => {
                 button.dataset.role = member.role || '';
                 button.dataset.firstName = member.firstName || '';
                 button.dataset.lastName = member.lastName || '';
-                button.dataset.pfp = member.pfp || '/img/default-avatar.png';
+                button.dataset.pfp = `/api/avatar/${member._id}`;
                 button.dataset.status = member.status || '';
 
                 button.innerHTML = `
-                    <div class="team-member-mini-picture" style="background-image: url('${member.pfp || '/img/default-avatar.png'}');"></div>
+                    <img class="team-member-mini-picture" src="/api/avatar/${member._id}" />
                     <span id="full-name">${member.firstName} ${member.lastName}</span>
                     <span id="role">${member.role}</span>
                     <i id="teamMiniAddButton" class="lni lni-plus"></i>
