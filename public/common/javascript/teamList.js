@@ -2,7 +2,6 @@ document.addEventListener('DOMContentLoaded', function() {
     document.querySelector('.team-members-container').addEventListener('click', function(e) {
         const teamMember = e.target.closest('.team-member');
         if (!teamMember) return;
-
     });
 
     const addDropdown = document.querySelectorAll('#addDropdown');
@@ -15,11 +14,11 @@ document.addEventListener('DOMContentLoaded', function() {
         if (!e.target.closest('#addDropdown')) {
             addDropdownOpen = false;
         }
-        
+
         if (!e.target.closest('#removeDropdown')) {
             removeDropdownOpen = false;
         }
-        
+
         updateDropdowns();
     });
 
@@ -30,7 +29,7 @@ document.addEventListener('DOMContentLoaded', function() {
             updateDropdowns();
         });
     });
-    
+
     removeDropdown.forEach(el => {
         el.addEventListener('click', () => {
             removeDropdownOpen = !removeDropdownOpen;
@@ -46,6 +45,34 @@ document.addEventListener('DOMContentLoaded', function() {
 
         removeDropdown.forEach(el => {
             el.classList.toggle('dropdown-open', removeDropdownOpen);
+        });
+    }
+
+    // --- LIVE SEARCH FIX (Issues #03 & #04) ---
+    const searchInput = document.querySelector('.search-bar input[name="q"]');
+    const searchForm = document.querySelector('.search-bar');
+
+    if (searchInput && searchForm) {
+        function debounce(func, delay) {
+            let timer;
+            return function (...args) {
+                clearTimeout(timer);
+                timer = setTimeout(() => func.apply(this, args), delay);
+            };
+        }
+
+        const handleSearch = debounce(() => {
+            searchForm.submit();
+        }, 300);
+
+        searchInput.addEventListener('input', () => {
+            // Submit form when typing stops
+            handleSearch();
+
+            // Immediately submit if field becomes empty (e.g., CTRL+Delete)
+            if (searchInput.value.trim() === '') {
+                searchForm.submit();
+            }
         });
     }
 });
