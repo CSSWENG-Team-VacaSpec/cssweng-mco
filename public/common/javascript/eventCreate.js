@@ -20,6 +20,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const startDateInput = document.getElementById('start-date');
     const endDateInput = document.getElementById('end-date');
+    const memberSearchInput = document.getElementById('memberSearchInput');
+    const supplierSearchInput = document.getElementById('supplierSearchInput');
 
     // needed for ios.
     function getLocalDateString(date) {
@@ -45,6 +47,99 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const addedSuppliersContainer = document.getElementById('addedSuppliers');
     let addedSuppliers = [];
+
+//     function debounce(fn, delay) {
+//     let timeout;
+//     return function (...args) {
+//         clearTimeout(timeout);
+//         timeout = setTimeout(() => fn.apply(this, args), delay);
+//     };
+// }
+//     async function fetchFilteredMembers(query) {
+//         const eventId = sessionStorage.getItem('currentEvent')
+//             ? JSON.parse(sessionStorage.getItem('currentEvent'))._id
+//             : null;
+
+//         if (!eventId || !query.trim()) return;
+
+//         try {
+//             const res = await fetch(`/searchEmployees?q=${encodeURIComponent(query)}`);
+//             const data = await res.json();
+
+//             membersContainer.innerHTML = '';
+
+//             if (data.members.length === 0) {
+//                 membersContainer.innerHTML = '<p>No matching members found.</p>';
+//             } else {
+//                 data.members.forEach(member => {
+//                     if (addedMembers.includes(member._id)) return;
+
+//                     const el = document.createElement('div');
+//                     el.className = 'team-member-mini-card';
+//                     el.setAttribute('data-id', member._id);
+//                     el.setAttribute('data-firstName', member.firstName);
+//                     el.setAttribute('data-lastName', member.lastName);
+//                     el.setAttribute('data-email', member.email);
+//                     el.setAttribute('data-role', member.role);
+//                     el.setAttribute('data-pfp', member.pfp || '');
+//                     el.setAttribute('data-status', member.status || '');
+
+//                     el.innerHTML = `
+//                         <div class="team-member-mini-picture" style="background-image: url('${member.pfp || ''}');"></div>
+//                         <span id="full-name">${member.firstName} ${member.lastName}</span>
+//                         <span id="role">${member.role}</span>
+//                         <i id="teamMiniAddButton" class="lni lni-plus"></i>
+//                         <i id="teamMiniRemoveButton" class="lni lni-xmark"></i>
+//                     `;
+
+//                     membersContainer.appendChild(el);
+//                 });
+//             }
+//         } catch (err) {
+//             console.error('Member search failed:', err);
+//         }
+//     }
+
+//     async function fetchFilteredSuppliers(query) {
+//         const eventId = sessionStorage.getItem('currentEvent')
+//             ? JSON.parse(sessionStorage.getItem('currentEvent'))._id
+//             : null;
+
+//         if (!eventId || !query.trim()) return;
+
+//         try {
+//             const res = await fetch(`/search/suppliers?q=${encodeURIComponent(query)}`);
+//             const data = await res.json();
+
+//             suppliersContainer.innerHTML = '';
+
+//             if (data.suppliers.length === 0) {
+//                 suppliersContainer.innerHTML = '<p>No matching suppliers found.</p>';
+//             } else {
+//                 data.suppliers.forEach(supplier => {
+//                     if (addedSuppliers.includes(supplier._id)) return;
+
+//                     const el = document.createElement('button');
+//                     el.className = 'team-member-mini-card';
+//                     el.setAttribute('data-id', supplier._id);
+//                     el.setAttribute('data-company', supplier.companyName);
+//                     el.setAttribute('data-status', supplier.status || '');
+//                     el.setAttribute('type', 'button');
+
+//                     el.innerHTML = `
+//                         <span id="full-name">${supplier.companyName}</span>
+//                         <i id="teamMiniAddButton" class="lni lni-plus"></i>
+//                         <i id="teamMiniRemoveButton" class="lni lni-xmark"></i>
+//                     `;
+
+//                     suppliersContainer.appendChild(el);
+//                 });
+//             }
+//         } catch (err) {
+//             console.error('Supplier search failed:', err);
+//         }
+//     }
+
 
     nextButton.addEventListener('click', () => {
         if (page < MAX_PAGE) {
@@ -222,6 +317,15 @@ document.addEventListener('DOMContentLoaded', () => {
         membersInput.value = JSON.stringify(addedMembers);
         suppliersInput.value = JSON.stringify(addedSuppliers);
     });
+
+    memberSearchInput.addEventListener('input', debounce((e) => {
+        fetchFilteredMembers(e.target.value);
+    }, 300));
+
+    supplierSearchInput.addEventListener('input', debounce((e) => {
+        fetchFilteredSuppliers(e.target.value);
+    }, 300));
+
 
     updatePage();
 });

@@ -3,6 +3,9 @@ const Event = require('../models/events');
 const Invite = require('../models/eventInvitations');
 const Suppliers = require('../models/suppliers');
 const Team = require('../models/teams');
+const searchEmployees = require('../utils/searchEmployees');
+const searchSuppliers = require('../utils/searchSuppliers');
+
 const { v4: uuidv4 } = require('uuid');
 
 exports.renderPage = async (req, res) => {
@@ -114,3 +117,30 @@ exports.createEvent = async (req, res) => {
         res.status(500).send('Failed to create event');
     }
 };
+
+// exports.searchEmployees = async (req, res) => {
+//     try {
+//         const { q, id } = req.query;
+//         if (!q || !id) return res.status(400).json({ members: []});
+
+//         const results = await searchEmployees(EmployeeAccount, q);
+//         res.json(results);
+
+//     } catch (err) {
+//         console.error('Search error:', err);
+//         res.status(500).json({ members: []});
+//     }
+// };
+
+// exports.searchSuppliers= async (req, res) => {
+//     try {
+//         const { q, id } = req.query;
+//         if (!q || !id) return res.status(400).json({suppliers: [] });
+
+//         const results = await searchSuppliers(Suppliers, q);
+//         res.json(results);
+//     } catch (err) {
+//         console.error('Search error:', err);
+//         res.status(500).json({suppliers: [] });
+//     }
+// };
