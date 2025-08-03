@@ -20,7 +20,7 @@
                         <a class="dropdown-item" data-status="postponed">
                             Postponed
                         </a>
-                        <a class="dropdown-item" data-status="cancelled">
+                        <a class="dropdown-item" data-status="completed">
                             Completed
                         </a>
                     </div>
@@ -168,7 +168,7 @@ const currentSuppliers = [
         _id: "{{this._id}}",
         name: "{{this.name}}",
         contactNames: "{{this.contactNames}}",
-        contactNumbers: "{{this.contactNumbers}}"
+        contactNumbers: "{{this.contactNumbers}}",
     }{{#unless @last}},{{/unless}}
     {{/each}}
 ];

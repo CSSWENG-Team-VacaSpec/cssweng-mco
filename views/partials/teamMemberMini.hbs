@@ -1,4 +1,4 @@
-<button class="team-member-mini-card"
+<button class="team-member-mini-card {{#if isSelf}} team-member-self{{/if}}"
     data-email="{{email}}"
     data-bio="{{bio}}"
     data-role="{{role}}"
@@ -6,6 +6,7 @@
     data-pfp="{{pfp}}"
     data-firstName="{{firstName}}"
     data-lastName="{{lastName}}"
+    data-status="{{status}}"
     type="button"
 >
     <div class="team-member-mini-picture" style="background-image: url('{{pfp}}');"></div>
