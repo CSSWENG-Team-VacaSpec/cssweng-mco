@@ -196,7 +196,8 @@ exports.editEvent = async (req, res) => {
                 members: parsedMembers,
                 suppliers: parsedSuppliers,
                 eventDate: new Date(startDate).toISOString().split('T')[0],
-                eventEndDate: finalEndDate ? new Date(finalEndDate).toISOString().split('T')[0] : null
+                eventEndDate: finalEndDate ? new Date(finalEndDate).toISOString().split('T')[0] : null,
+                status: status
             },
             { new: true } 
         );

@@ -42,11 +42,15 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('added-members-input').value = JSON.stringify(addedMembers);
     document.getElementById('added-suppliers-input').value = JSON.stringify(addedSuppliers);
 
-    const statusInput = document.createElement('input');
-    statusInput.type = 'hidden';
-    statusInput.name = 'status';
-    statusInput.value = statusElement.textContent;
-    statusDropdown.appendChild(statusInput);
+    let statusInput = document.querySelector('input[name="status"]');
+    if (!statusInput) {
+        statusInput = document.createElement('input');
+        statusInput.type = 'hidden';
+        statusInput.name = 'status';
+        statusInput.value = statusElement.textContent.trim();
+        statusDropdown.appendChild(statusInput);
+    }
+
 
     const dropdownItems = statusDropdown.querySelectorAll('.dropdown-item');
     dropdownItems.forEach(item => {
@@ -55,15 +59,9 @@ document.addEventListener('DOMContentLoaded', () => {
             statusElement.textContent = newStatus;
             statusInput.value = newStatus;
             statusDropdownOpen = false;
+
             updateDropdowns();
         });
-    });
-
-    document.addEventListener('click', (e) => {
-        if (!e.target.closest('#status-dropdown')) {
-            statusDropdownOpen = false;
-            updateDropdowns();
-        }
     });
 
     document.addEventListener('click', (e) => {
@@ -230,6 +228,10 @@ document.addEventListener('DOMContentLoaded', () => {
     submitButton.addEventListener('click', () => {
         document.getElementById('added-members-input').value = JSON.stringify(addedMembers);
         document.getElementById('added-suppliers-input').value = JSON.stringify(addedSuppliers);
+
+        if (Array.isArray(statusInput.value)) {
+            statusInput.value = statusInput.value[0];
+        }
     });
 
     startDateInput.addEventListener('change', () => {
@@ -250,13 +252,29 @@ document.addEventListener('DOMContentLoaded', () => {
         0: [
             eventName, clientName, description,
             locationInput, startDateInput, endDateInput,
-            contactName, contactPhoneNumber,
+            contactName, contactPhoneNumber
         ]
     };
 
     function validatePage(page) {
         return validators[page]?.() ?? false;
     }
+
+    function updateSubmitButton() {
+        const showSubmit = validatePage(page);
+
+        submitButton.disabled = !showSubmit;
+        submitButton.classList.toggle('disabled-button', !showSubmit);
+        submitButton.classList.toggle('submit-button', showSubmit);
+    }
+
+    Object.values(pageInputs).flat().forEach(input => {
+        input.addEventListener('input', (e) => {
+            e.preventDefault();
+            updateNavigationButtons();
+            updateSubmitButton();
+        });
+    });
 
     updateNavigationButtons();
     initializeAddedItems();
