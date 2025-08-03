@@ -25,6 +25,13 @@ document.addEventListener('DOMContentLoaded', () => {
     let startDate = new Date();
     let formattedStartDate = startDate.toISOString().split('T')[0];
 
+    const eventName = document.getElementById('event-name');
+    const clientName = document.getElementById('client-name');
+    const description = document.getElementById('description');
+    const locationInput = document.getElementById('location');
+    const contactName = document.getElementById('contact-name');
+    const contactPhoneNumber = document.getElementById('phone-number');
+
     // set minimum date to today for both on page load.
     // startDateInput.setAttribute('min', formattedStartDate);
     // endDateInput.setAttribute('min', formattedStartDate);
@@ -35,11 +42,15 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('added-members-input').value = JSON.stringify(addedMembers);
     document.getElementById('added-suppliers-input').value = JSON.stringify(addedSuppliers);
 
-    const statusInput = document.createElement('input');
-    statusInput.type = 'hidden';
-    statusInput.name = 'status';
-    statusInput.value = statusElement.textContent;
-    statusDropdown.appendChild(statusInput);
+    let statusInput = document.querySelector('input[name="status"]');
+    if (!statusInput) {
+        statusInput = document.createElement('input');
+        statusInput.type = 'hidden';
+        statusInput.name = 'status';
+        statusInput.value = statusElement.textContent.trim();
+        statusDropdown.appendChild(statusInput);
+    }
+
 
     const dropdownItems = statusDropdown.querySelectorAll('.dropdown-item');
     dropdownItems.forEach(item => {
@@ -48,15 +59,9 @@ document.addEventListener('DOMContentLoaded', () => {
             statusElement.textContent = newStatus;
             statusInput.value = newStatus;
             statusDropdownOpen = false;
+
             updateDropdowns();
         });
-    });
-
-    document.addEventListener('click', (e) => {
-        if (!e.target.closest('#status-dropdown')) {
-            statusDropdownOpen = false;
-            updateDropdowns();
-        }
     });
 
     document.addEventListener('click', (e) => {
@@ -181,7 +186,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 if (!addedSuppliers.includes(supplier._id)) {
                 addedSuppliers.push(supplier._id);
-              }
+            }
 
                 original._cloneRef = clone;
 
@@ -195,7 +200,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 });
             }
         });
-         document.getElementById('added-members-input').value = JSON.stringify(addedMembers);
+        document.getElementById('added-members-input').value = JSON.stringify(addedMembers);
         document.getElementById('added-suppliers-input').value = JSON.stringify(addedSuppliers);
     }
 
@@ -208,8 +213,8 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function updateNavigationButtons() {
-        backButton.disabled = page <= 0;
         nextButton.disabled = page >= MAX_PAGE;
+        backButton.disabled = page <= 0;
 
         backButton.classList.toggle('disabled-button', backButton.disabled);
         backButton.classList.toggle('bg-button', !backButton.disabled);
@@ -223,6 +228,10 @@ document.addEventListener('DOMContentLoaded', () => {
     submitButton.addEventListener('click', () => {
         document.getElementById('added-members-input').value = JSON.stringify(addedMembers);
         document.getElementById('added-suppliers-input').value = JSON.stringify(addedSuppliers);
+
+        if (Array.isArray(statusInput.value)) {
+            statusInput.value = statusInput.value[0];
+        }
     });
 
     startDateInput.addEventListener('change', () => {
@@ -230,6 +239,54 @@ document.addEventListener('DOMContentLoaded', () => {
         endDateInput.setAttribute('min', startDate);
     });
     
+    // const validPhoneNumber = /^\d{4} ?\d{3} ?\d{4}|\+\d{2} ?\d{3} ?\d{3} ?\d{4}$/;
+
+    // const validators = {
+    //     0: () => pageInputs[0].every(input => input.value.trim() !== '') &&
+    //              pageInputs[0][7].value.match(validPhoneNumber), // check for valid phone number.
+    //     1: () => addedMembers.length > 0,
+    //     2: () => true
+    // };
+
+    // const pageInputs = {
+    //     0: [
+    //         eventName, clientName, description,
+    //         locationInput, startDateInput, endDateInput,
+    //         contactName, contactPhoneNumber
+    //     ]
+    // };
+
+    // function validatePage(page) {
+    //     return validators[page]?.() ?? false;
+    // }
+
+    // function updateSubmitButton() {
+    //     const showSubmit = validatePage(page);
+
+    //     submitButton.disabled = !showSubmit;
+    //     submitButton.classList.toggle('disabled-button', !showSubmit);
+    //     submitButton.classList.toggle('submit-button', showSubmit);
+    // }
+
+    // Object.values(pageInputs).flat().forEach(input => {
+    //     input.addEventListener('input', (e) => {
+    //         e.preventDefault();
+    //         updateNavigationButtons();
+    //         updateSubmitButton();
+    //     });
+    // });
+
+    const form = document.querySelector('.form');
+    form.addEventListener('keydown', (e) => {
+        const isEnter = e.key === 'Enter';
+        const isTextInput = ['input', 'textarea'].includes(e.target.tagName) &&
+                            e.target.type !== 'textarea'; // allow enter in textarea
+
+        if (isEnter && isTextInput) {
+            e.preventDefault(); // block enter key from submitting
+        }
+    });
+
     updateNavigationButtons();
     initializeAddedItems();
 });
