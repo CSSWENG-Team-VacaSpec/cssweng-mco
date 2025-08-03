@@ -145,11 +145,14 @@ exports.editEvent = async (req, res) => {
 
         const parsedMembers = addedMembers ? JSON.parse(addedMembers) : [];
         const parsedSuppliers = addedSuppliers ? JSON.parse(addedSuppliers) : [];
+        console.log("Current Members:", currentTeamMembers.map(m => m._id.toString()));
+        console.log("Parsed Members:", parsedMembers);
 
         // Compare and find removed ones
-        const removedMemberIds = currentTeamMembers.filter(id =>
-            !parsedMembers.includes(id.toString())
-        );
+        const removedMemberIds = currentTeamMembers
+        .map(member => member._id.toString()) // get string IDs
+        .filter(id => !parsedMembers.includes(id));
+
 
         const removedMemberNotifications = removedMemberIds.map(memberId => ({
             _id: uuidv4(),
