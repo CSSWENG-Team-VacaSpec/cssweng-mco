@@ -3,6 +3,8 @@ const Team = require('../models/teams');
 const Suppliers = require('../models/suppliers');
 const Event = require('../models/events');
 const User = require('../models/employeeAccounts');
+const Notification = require('../models/notifications');
+const { v4: uuidv4 } = require('uuid');
 
 
 exports.getEditEventPage = async (req, res) => {
@@ -144,10 +146,40 @@ exports.editEvent = async (req, res) => {
         const clientLastName = clientLastNameParts.join(' ');
 
         const eventId = req.query.id;
-      
+        const team = await Team.findById(eventId).lean();
+            if (!team) {
+                return res.status(404).send('Team not found');
+            }
+
+        const memberList = team.teamMemberList;
+
+        const currentTeamMembers = await EmployeeAccount.find({
+                _id: { $in: memberList || [] }
+            }).lean();
 
         const parsedMembers = addedMembers ? JSON.parse(addedMembers) : [];
         const parsedSuppliers = addedSuppliers ? JSON.parse(addedSuppliers) : [];
+        console.log("Current Members:", currentTeamMembers.map(m => m._id.toString()));
+        console.log("Parsed Members:", parsedMembers);
+
+        // Compare and find removed ones
+        const removedMemberIds = currentTeamMembers
+        .map(member => member._id.toString()) // get string IDs
+        .filter(id => !parsedMembers.includes(id));
+
+
+        const removedMemberNotifications = removedMemberIds.map(memberId => ({
+            _id: uuidv4(),
+            sender: userId, 
+            receiver: 'Team Members',
+            receiverID: memberId,
+            message: `You have been removed from ${eventName}.`,
+            date: new Date(),
+            hideFrom: []
+        }));
+
+        await Notification.insertMany(removedMemberNotifications);
+        console.log("Removed Member Notifications:", removedMemberNotifications);
 
         const updatedEvent = await Event.findByIdAndUpdate(
             eventId,
@@ -173,6 +205,19 @@ exports.editEvent = async (req, res) => {
             return res.status(404).send('Event not found');
         }
 
+        const updatedTeam = await Team.findByIdAndUpdate(
+            eventId,
+            {
+                teamMemberList: parsedMembers,
+                supplierList: parsedSuppliers
+            },
+            { new: true }
+        );
+
+        if (!updatedTeam) {
+            return res.status(404).send('Team not found');
+        }
+        
         res.redirect(`/event-details?id=${eventId}&_=${Date.now()}`); //creates a new req 
     } catch (err) {
         console.error('Error updating event:', err);

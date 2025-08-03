@@ -115,7 +115,7 @@ document.addEventListener('DOMContentLoaded', () => {
             // remove clone if exists when deselecting
             if (member._cloneRef && addedMembersContainer.contains(member._cloneRef)) {
                 addedMembersContainer.removeChild(member._cloneRef);
-                addedMembers.pop(member.dataset.id);
+                addedMembers = addedMembers.filter(id => id !== member.dataset.id);
                 member._cloneRef = null;
             }
         }
@@ -143,7 +143,7 @@ document.addEventListener('DOMContentLoaded', () => {
             // remove clone if exists when deselecting
             if (supplier._cloneRef && addedSuppliersContainer.contains(supplier._cloneRef)) {
                 addedSuppliersContainer.removeChild(supplier._cloneRef);
-                addedSuppliers.pop(supplier.dataset.id);
+                addedSuppliers = addedSuppliers.filter(id => id !== supplier.dataset.id);
                 supplier._cloneRef = null;
             }
         }
@@ -155,7 +155,6 @@ document.addEventListener('DOMContentLoaded', () => {
             if (original) {
                 original.classList.add('selected-team-member');
                 const clone = original.cloneNode(true);
-                addedMembers.push(original.dataset.id);
 
                 if (!addedMembers.includes(member._id)) {
                     addedMembers.push(member._id);
@@ -168,6 +167,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 clone.addEventListener('click', function() {
                     addedMembersContainer.removeChild(clone);
                     original.classList.remove('selected-team-member');
+                    addedMembers = addedMembers.filter(id => id !== member._id);
+                    document.getElementById('added-members-input').value = JSON.stringify(addedMembers); // live update
                 });
             }
         });
@@ -177,7 +178,10 @@ document.addEventListener('DOMContentLoaded', () => {
             if (original) {
                 original.classList.add('selected-team-member');
                 const clone = original.cloneNode(true);
-                addedSuppliers.push(original.dataset.id);
+
+                if (!addedSuppliers.includes(supplier._id)) {
+                addedSuppliers.push(supplier._id);
+              }
 
                 original._cloneRef = clone;
 
@@ -186,9 +190,13 @@ document.addEventListener('DOMContentLoaded', () => {
                 clone.addEventListener('click', function() {
                     addedSuppliersContainer.removeChild(clone);
                     original.classList.remove('selected-team-member');
+                    addedSuppliers = addedSuppliers.filter(id => id !== supplier._id);
+                    document.getElementById('added-suppliers-input').value = JSON.stringify(addedSuppliers); // live update
                 });
             }
         });
+         document.getElementById('added-members-input').value = JSON.stringify(addedMembers);
+        document.getElementById('added-suppliers-input').value = JSON.stringify(addedSuppliers);
     }
 
     function updatePage() {
@@ -213,7 +221,8 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     submitButton.addEventListener('click', () => {
-        
+        document.getElementById('added-members-input').value = JSON.stringify(addedMembers);
+        document.getElementById('added-suppliers-input').value = JSON.stringify(addedSuppliers);
     });
 
     startDateInput.addEventListener('change', () => {
