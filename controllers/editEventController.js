@@ -58,7 +58,7 @@ exports.getEditEventPage = async (req, res) => {
         //     }
         // }
 
-        const currentSuppliers = await EmployeeAccount.find({
+        const currentSuppliers = await Suppliers.find({
             _id: { $in: supplierList || [] }
         }).lean();
 
@@ -72,6 +72,7 @@ exports.getEditEventPage = async (req, res) => {
         console.log("Team Members List:", memberList);
         console.log("Supplier List:", supplierList);
         console.log("Current Team Members:", currentTeamMembers);
+        console.log("Current Suppliers:", currentSuppliers);
         res.render('editEvent', {
         user: req.session.user,
         layout: 'form',
