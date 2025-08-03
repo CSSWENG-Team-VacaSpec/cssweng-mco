@@ -19,6 +19,16 @@ document.addEventListener('DOMContentLoaded', () => {
     const statusElement = document.getElementById('event-status');
     let statusDropdownOpen = false;
 
+    const startDateInput = document.getElementById('start-date');
+    const endDateInput = document.getElementById('end-date');
+
+    let startDate = new Date();
+    let formattedStartDate = startDate.toISOString().split('T')[0];
+
+    // set minimum date to today for both on page load.
+    startDateInput.setAttribute('min', formattedStartDate);
+    endDateInput.setAttribute('min', formattedStartDate);
+
     // addedMembers = currentMembers.map(m => m._id);
     // addedSuppliers = currentSuppliers.map(s => s._id);
 
@@ -204,6 +214,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
     submitButton.addEventListener('click', () => {
         
+    });
+
+    startDateInput.addEventListener('change', () => {
+        startDate = startDateInput.value;
+        endDateInput.setAttribute('min', startDate);
     });
     
     updateNavigationButtons();
