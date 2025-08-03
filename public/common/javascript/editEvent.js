@@ -186,7 +186,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 if (!addedSuppliers.includes(supplier._id)) {
                 addedSuppliers.push(supplier._id);
-              }
+            }
 
                 original._cloneRef = clone;
 
@@ -213,16 +213,16 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function updateNavigationButtons() {
-        const valid = validatePage(page);
-        nextButton.disabled = page >= MAX_PAGE || !valid;
+        nextButton.disabled = page >= MAX_PAGE;
         backButton.disabled = page <= 0;
-
-        nextButton.classList.toggle('disabled-button', nextButton.disabled);
-        nextButton.classList.toggle('form-hidden-button', page >= MAX_PAGE);
-        nextButton.classList.toggle('fg-button', !nextButton.disabled);
 
         backButton.classList.toggle('disabled-button', backButton.disabled);
         backButton.classList.toggle('bg-button', !backButton.disabled);
+        
+        nextButton.classList.toggle('disabled-button', nextButton.disabled);
+        nextButton.classList.toggle('fg-button', !nextButton.disabled);
+        
+        nextButton.classList.toggle('form-hidden-button', page >= MAX_PAGE);
     }
 
     submitButton.addEventListener('click', () => {
@@ -239,41 +239,52 @@ document.addEventListener('DOMContentLoaded', () => {
         endDateInput.setAttribute('min', startDate);
     });
     
-    const validPhoneNumber = /^\d{4} ?\d{3} ?\d{4}|\+\d{2} ?\d{3} ?\d{3} ?\d{4}$/;
+    // const validPhoneNumber = /^\d{4} ?\d{3} ?\d{4}|\+\d{2} ?\d{3} ?\d{3} ?\d{4}$/;
 
-    const validators = {
-        0: () => pageInputs[0].every(input => input.value.trim() !== '') &&
-                 pageInputs[0][7].value.match(validPhoneNumber), // check for valid phone number.
-        1: () => addedMembers.length > 0,
-        2: () => true
-    };
+    // const validators = {
+    //     0: () => pageInputs[0].every(input => input.value.trim() !== '') &&
+    //              pageInputs[0][7].value.match(validPhoneNumber), // check for valid phone number.
+    //     1: () => addedMembers.length > 0,
+    //     2: () => true
+    // };
 
-    const pageInputs = {
-        0: [
-            eventName, clientName, description,
-            locationInput, startDateInput, endDateInput,
-            contactName, contactPhoneNumber
-        ]
-    };
+    // const pageInputs = {
+    //     0: [
+    //         eventName, clientName, description,
+    //         locationInput, startDateInput, endDateInput,
+    //         contactName, contactPhoneNumber
+    //     ]
+    // };
 
-    function validatePage(page) {
-        return validators[page]?.() ?? false;
-    }
+    // function validatePage(page) {
+    //     return validators[page]?.() ?? false;
+    // }
 
-    function updateSubmitButton() {
-        const showSubmit = validatePage(page);
+    // function updateSubmitButton() {
+    //     const showSubmit = validatePage(page);
 
-        submitButton.disabled = !showSubmit;
-        submitButton.classList.toggle('disabled-button', !showSubmit);
-        submitButton.classList.toggle('submit-button', showSubmit);
-    }
+    //     submitButton.disabled = !showSubmit;
+    //     submitButton.classList.toggle('disabled-button', !showSubmit);
+    //     submitButton.classList.toggle('submit-button', showSubmit);
+    // }
 
-    Object.values(pageInputs).flat().forEach(input => {
-        input.addEventListener('input', (e) => {
-            e.preventDefault();
-            updateNavigationButtons();
-            updateSubmitButton();
-        });
+    // Object.values(pageInputs).flat().forEach(input => {
+    //     input.addEventListener('input', (e) => {
+    //         e.preventDefault();
+    //         updateNavigationButtons();
+    //         updateSubmitButton();
+    //     });
+    // });
+
+    const form = document.querySelector('.form');
+    form.addEventListener('keydown', (e) => {
+        const isEnter = e.key === 'Enter';
+        const isTextInput = ['input', 'textarea'].includes(e.target.tagName) &&
+                            e.target.type !== 'textarea'; // allow enter in textarea
+
+        if (isEnter && isTextInput) {
+            e.preventDefault(); // block enter key from submitting
+        }
     });
 
     updateNavigationButtons();
