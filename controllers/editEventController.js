@@ -157,6 +157,19 @@ exports.editEvent = async (req, res) => {
             return res.status(404).send('Event not found');
         }
 
+        const updatedTeam = await Team.findByIdAndUpdate(
+            eventId,
+            {
+                teamMemberList: parsedMembers,
+                supplierList: parsedSuppliers
+            },
+            { new: true }
+        );
+
+        if (!updatedTeam) {
+            return res.status(404).send('Team not found');
+        }
+        
         res.redirect(`/event-details?id=${eventId}&_=${Date.now()}`); //creates a new req 
     } catch (err) {
         console.error('Error updating event:', err);
