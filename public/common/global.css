@@ -114,11 +114,15 @@ textarea {
 }
 
 .logo-image {
-    width: 5rem;
-    height: 2rem;
+    aspect-ratio: 1;
+    height: 3rem;
     padding: var(--medium-gap);
     box-sizing: border-box;
     background-color: var(--sidebar-fg);
+    background-image: url('../common/logo.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center center;
     border-radius: var(--button-radius);
 }
 
