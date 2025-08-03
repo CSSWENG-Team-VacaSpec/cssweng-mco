@@ -6,8 +6,16 @@ document.addEventListener('DOMContentLoaded', () => {
     const deleteButton = document.getElementById('deleteSuppliersButton');
     const suppliersContainer = document.getElementById('supplierSearchResults');
     const addedSuppliersContainer = document.getElementById('addedSuppliers');
+    const searchInput = document.getElementById('supplierSearchInput');
     const form = deleteButton.closest('form');
     let addedSuppliers = [];
+
+    // Prevent default form submit on Enter
+    searchInput.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') {
+            e.preventDefault();
+        }
+    });
 
     suppliersContainer.addEventListener('click', (event) => {
         const supplier = event.target.closest('.team-member-mini-card');
@@ -80,7 +88,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 button.dataset.company = supplier.companyName;
 
                 button.innerHTML = `
-                    <div class="team-member-mini-picture" style="background-image: url('/images/default-supplier.png');"></div>
                     <span id="full-name">${supplier.companyName}</span>
                     <i id="teamMiniAddButton" class="lni lni-plus"></i>
                     <i id="teamMiniRemoveButton" class="lni lni-xmark"></i>

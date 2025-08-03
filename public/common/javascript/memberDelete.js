@@ -7,12 +7,15 @@ document.addEventListener('DOMContentLoaded', () => {
     const membersContainer = document.getElementById('memberSearchResults');
     const addedMembersContainer = document.getElementById('addedMembers');
     const searchInput = document.getElementById('memberSearchInput');
-    const searchForm = document.getElementById('memberSearchForm');
     const deleteForm = deleteButton.closest('form');
     let addedMembers = [];
 
     // Prevent default form submit on Enter
-    searchForm.addEventListener('submit', (e) => e.preventDefault());
+    searchInput.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') {
+            e.preventDefault();
+        }
+    });
 
     searchInput.addEventListener('input', async () => {
         const query = searchInput.value.trim();
