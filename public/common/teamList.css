@@ -26,3 +26,28 @@
     box-shadow: var(--card-shadow-hover);
     transition: box-shadow 0.25s ease;
 }
+
+.dropdowns-container {
+    display: flex;
+    flex-direction: row;
+    gap: var(--small-gap);
+}
+
+.mobile-dropdowns-container {
+    display: none;
+}
+
+@media screen and (max-width: 800px) {
+    .dropdowns-container {
+        display: none;
+    }
+
+    .mobile-dropdowns-container {
+        display: flex;
+        gap: var(--small-gap);
+    }
+
+    .mobile-dropdowns-container .dropdown {
+        flex-grow: 1;
+    }
+}

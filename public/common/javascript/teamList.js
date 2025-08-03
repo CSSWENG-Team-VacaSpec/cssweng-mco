@@ -5,8 +5,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
     });
 
-    const addDropdown = document.getElementById('addDropdown');
-    const removeDropdown = document.getElementById('removeDropdown');
+    const addDropdown = document.querySelectorAll('#addDropdown');
+    const removeDropdown = document.querySelectorAll('#removeDropdown');
 
     let addDropdownOpen = false;
     let removeDropdownOpen = false;
@@ -23,20 +23,29 @@ document.addEventListener('DOMContentLoaded', function() {
         updateDropdowns();
     });
 
-    addDropdown.addEventListener('click', () => {
-        addDropdownOpen = !addDropdownOpen;
-        removeDropdownOpen = false;
-        updateDropdowns();
+    addDropdown.forEach(el => {
+        el.addEventListener('click', () => {
+            addDropdownOpen = !addDropdownOpen;
+            removeDropdownOpen = false;
+            updateDropdowns();
+        });
     });
     
-    removeDropdown.addEventListener('click', () => {
-        removeDropdownOpen = !removeDropdownOpen;
-        addDropdownOpen = false;
-        updateDropdowns();
+    removeDropdown.forEach(el => {
+        el.addEventListener('click', () => {
+            removeDropdownOpen = !removeDropdownOpen;
+            addDropdownOpen = false;
+            updateDropdowns();
+        });
     });
 
     function updateDropdowns() {
-        addDropdown.classList.toggle('dropdown-open', addDropdownOpen);
-        removeDropdown.classList.toggle('dropdown-open', removeDropdownOpen);
+        addDropdown.forEach(el => {
+            el.classList.toggle('dropdown-open', addDropdownOpen);
+        });
+
+        removeDropdown.forEach(el => {
+            el.classList.toggle('dropdown-open', removeDropdownOpen);
+        });
     }
 });
