@@ -95,12 +95,14 @@
             <span class="card-header card-secondary">Location</span>
             <a href="https://www.google.com/maps/search/?api=1&query={{event.location}}" id="location">{{event.location}}</a>
         </div>
-        <div class="card-description-item">
-            <i class="lni lni-phone"></i>
-            <span class="card-header card-secondary">Contact Person</span>
-            <span id="contact-name">{{event.CPFirstName}} {{event.CPLastName}}</span>
-            <a href="tel:{{event.CPContactNo}}" id="contact-info">{{event.CPContactNo}}</a>
-        </div>
+        {{#if showButtons}}
+            <div class="card-description-item">
+                <i class="lni lni-phone"></i>
+                <span class="card-header card-secondary">Contact Person</span>
+                <span id="contact-name">{{event.CPFirstName}} {{event.CPLastName}}</span>
+                <a href="tel:{{event.CPContactNo}}" id="contact-info">{{event.CPContactNo}}</a>
+            </div>
+        {{/if}}
         <span id="description-span">
             <div class="card-description-item">
                 <i class="lni lni-pen-to-square"></i>
