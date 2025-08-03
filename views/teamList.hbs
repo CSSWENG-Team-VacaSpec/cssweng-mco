@@ -11,38 +11,75 @@
             <input type="search" name="q" placeholder="Search..." value="{{searchQuery}}">
         </form>
         {{#if isManager}}
-        <div id="addDropdown" class="dropdown">
-            <i class="lni lni-plus"></i>
-            <p>Add</p>
-            <i class="lni lni-chevron-down dropdown-chevron"></i>
-            <div class="dropdown-content">
-                <a href="/create/member" class="dropdown-item">
-                    <i class="lni lni-user-4"></i>
-                    Team member
-                </a>
-                <a href="/create/supplier" class="dropdown-item">
-                    <i class="lni lni-truck-delivery-1"></i>
-                    Supplier
-                </a>
+        <div class="dropdowns-container">
+            <div id="addDropdown" class="dropdown">
+                <i class="lni lni-plus"></i>
+                <p>Add</p>
+                <i class="lni lni-chevron-down dropdown-chevron"></i>
+                <div class="dropdown-content">
+                    <a href="/create/member" class="dropdown-item">
+                        <i class="lni lni-user-4"></i>
+                        Team member
+                    </a>
+                    <a href="/create/supplier" class="dropdown-item">
+                        <i class="lni lni-truck-delivery-1"></i>
+                        Supplier
+                    </a>
+                </div>
             </div>
-        </div>
-        <div id="removeDropdown" class="dropdown">
-            <i class="lni lni-trash-3"></i>
-            <p>Remove</p>
-            <i class="lni lni-chevron-down dropdown-chevron"></i>
-            <div class="dropdown-content">
-                <a href="/delete/user" class="dropdown-item">
-                    <i class="lni lni-user-4"></i>
-                    Team member
-                </a>
-                <a href="/delete/supplier" class="dropdown-item">
-                    <i class="lni lni-truck-delivery-1"></i>
-                    Supplier
-                </a>
+            <div id="removeDropdown" class="dropdown">
+                <i class="lni lni-trash-3"></i>
+                <p>Remove</p>
+                <i class="lni lni-chevron-down dropdown-chevron"></i>
+                <div class="dropdown-content">
+                    <a href="/delete/user" class="dropdown-item">
+                        <i class="lni lni-user-4"></i>
+                        Team member
+                    </a>
+                    <a href="/delete/supplier" class="dropdown-item">
+                        <i class="lni lni-truck-delivery-1"></i>
+                        Supplier
+                    </a>
+                </div>
             </div>
         </div>
         {{/if}}
     </div>
+
+    {{#if isManager}}
+        <div class="mobile-dropdowns-container">
+            <div id="addDropdown" class="dropdown">
+                <i class="lni lni-plus"></i>
+                <p>Add</p>
+                <i class="lni lni-chevron-down dropdown-chevron"></i>
+                <div class="dropdown-content">
+                    <a href="/create/member" class="dropdown-item">
+                        <i class="lni lni-user-4"></i>
+                        Team member
+                    </a>
+                    <a href="/create/supplier" class="dropdown-item">
+                        <i class="lni lni-truck-delivery-1"></i>
+                        Supplier
+                    </a>
+                </div>
+            </div>
+            <div id="removeDropdown" class="dropdown">
+                <i class="lni lni-trash-3"></i>
+                <p>Remove</p>
+                <i class="lni lni-chevron-down dropdown-chevron"></i>
+                <div class="dropdown-content">
+                    <a href="/delete/user" class="dropdown-item">
+                        <i class="lni lni-user-4"></i>
+                        Team member
+                    </a>
+                    <a href="/delete/supplier" class="dropdown-item">
+                        <i class="lni lni-truck-delivery-1"></i>
+                        Supplier
+                    </a>
+                </div>
+            </div>
+        </div>
+    {{/if}}
 
     <div class="team-members-container">
         <section class="team-member-types">
