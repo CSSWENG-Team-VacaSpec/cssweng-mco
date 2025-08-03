@@ -25,6 +25,13 @@ document.addEventListener('DOMContentLoaded', () => {
     let startDate = new Date();
     let formattedStartDate = startDate.toISOString().split('T')[0];
 
+    const eventName = document.getElementById('event-name');
+    const clientName = document.getElementById('client-name');
+    const description = document.getElementById('description');
+    const locationInput = document.getElementById('location');
+    const contactName = document.getElementById('contact-name');
+    const contactPhoneNumber = document.getElementById('phone-number');
+
     // set minimum date to today for both on page load.
     // startDateInput.setAttribute('min', formattedStartDate);
     // endDateInput.setAttribute('min', formattedStartDate);
@@ -195,7 +202,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 });
             }
         });
-         document.getElementById('added-members-input').value = JSON.stringify(addedMembers);
+        document.getElementById('added-members-input').value = JSON.stringify(addedMembers);
         document.getElementById('added-suppliers-input').value = JSON.stringify(addedSuppliers);
     }
 
@@ -208,16 +215,16 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function updateNavigationButtons() {
+        const valid = validatePage(page);
+        nextButton.disabled = page >= MAX_PAGE || !valid;
         backButton.disabled = page <= 0;
-        nextButton.disabled = page >= MAX_PAGE;
+
+        nextButton.classList.toggle('disabled-button', nextButton.disabled);
+        nextButton.classList.toggle('form-hidden-button', page >= MAX_PAGE);
+        nextButton.classList.toggle('fg-button', !nextButton.disabled);
 
         backButton.classList.toggle('disabled-button', backButton.disabled);
         backButton.classList.toggle('bg-button', !backButton.disabled);
-        
-        nextButton.classList.toggle('disabled-button', nextButton.disabled);
-        nextButton.classList.toggle('fg-button', !nextButton.disabled);
-        
-        nextButton.classList.toggle('form-hidden-button', page >= MAX_PAGE);
     }
 
     submitButton.addEventListener('click', () => {
@@ -230,6 +237,27 @@ document.addEventListener('DOMContentLoaded', () => {
         endDateInput.setAttribute('min', startDate);
     });
     
+    const validPhoneNumber = /^\d{4} ?\d{3} ?\d{4}|\+\d{2} ?\d{3} ?\d{3} ?\d{4}$/;
+
+    const validators = {
+        0: () => pageInputs[0].every(input => input.value.trim() !== '') &&
+                 pageInputs[0][7].value.match(validPhoneNumber), // check for valid phone number.
+        1: () => addedMembers.length > 0,
+        2: () => true
+    };
+
+    const pageInputs = {
+        0: [
+            eventName, clientName, description,
+            locationInput, startDateInput, endDateInput,
+            contactName, contactPhoneNumber,
+        ]
+    };
+
+    function validatePage(page) {
+        return validators[page]?.() ?? false;
+    }
+
     updateNavigationButtons();
     initializeAddedItems();
 });
