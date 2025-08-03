@@ -6,6 +6,7 @@ exports.renderPage = async (req, res) => {
             return res.redirect('/login'); 
         }
         const members = await EmployeeAccount.find({ status: 'active' }).lean();
+        
         res.render('memberDelete', {
             layout: 'form',
             script: 'memberDelete',

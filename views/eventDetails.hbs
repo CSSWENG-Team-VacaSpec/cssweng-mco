@@ -219,10 +219,9 @@
                     button.setAttribute('data-email', participant.email || '');
                     button.setAttribute('data-role', participant.role || 'Team Member');
                     button.setAttribute('data-bio', participant.bio || '');
-                    button.setAttribute('data-pfp', participant.pfp || '');
 
                     button.innerHTML = `
-                        <div class="team-member-mini-picture" style="background-image: url('${participant.pfp || ''}');"></div>
+                        <img class="team-member-mini-picture" src="/api/avatar/${member._id}" />
                         <span id="full-name">${participant.firstName ?? ''} ${participant.lastName ?? ''}</span>
                         <span id="role">${participant.role || 'Team Member'}</span>
                         <i id="teamMiniAddButton" class="lni lni-plus"></i>

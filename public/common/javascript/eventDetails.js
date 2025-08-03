@@ -110,7 +110,6 @@ document.addEventListener('DOMContentLoaded', function() {
                         el.setAttribute('data-lastName', member.lastName);
                         el.setAttribute('data-email', member.email);
                         el.setAttribute('data-role', member.role);
-                        el.setAttribute('data-pfp', member.pfp || '');
 
                         el.innerHTML = `
                             <div class="team-member-mini-picture" style="background-image: url('${member.pfp || ''}');"></div>
