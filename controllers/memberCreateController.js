@@ -8,7 +8,7 @@ exports.renderPage = async (req, res) => {
         }
         res.render('memberCreate', {
             layout: 'form',
-            script: 'memberSupplierCreate',
+            script: 'memberCreate',
             title: 'Add team member',
             page: 'member-create',
             user: req.session.user,
