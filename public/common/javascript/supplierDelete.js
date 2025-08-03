@@ -81,11 +81,11 @@ document.addEventListener('DOMContentLoaded', () => {
                 button.dataset.status = supplier.status;
 
                 button.innerHTML = `
-                    <div class="team-member-mini-picture" style="background-image: url('/images/default-supplier.png');"></div>
                     <span id="full-name">${supplier.companyName}</span>
                     <i id="teamMiniAddButton" class="lni lni-plus"></i>
                     <i id="teamMiniRemoveButton" class="lni lni-xmark"></i>
                 `;
+
 
                 suppliersContainer.appendChild(button);
             });
