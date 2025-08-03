@@ -114,7 +114,7 @@ textarea {
 }
 
 .logo-image {
-    aspect-ratio: 1;
+    aspect-ratio: 1.5;
     height: 3rem;
     padding: var(--medium-gap);
     box-sizing: border-box;
