@@ -43,10 +43,24 @@ exports.editProfileDescription = async (req, res) => {
             bio: bio?.trim()
         };
 
-        await EmployeeAccount.findByIdAndUpdate(userId, updateFields);
+        // await EmployeeAccount.findByIdAndUpdate(userId, updateFields);
         
 
-        res.redirect(`/profile/${userId}`);
+        // res.redirect(`/profile/${userId}`);
+
+        const updatedUser = await EmployeeAccount.findByIdAndUpdate(
+            userId, 
+            updateFields,
+            { new: true }
+        ).lean();
+
+        req.session.user.firstName = updatedUser.firstName;
+        req.session.user.lastName = updatedUser.lastName;
+        req.session.user.email = updatedUser.email;
+        
+        req.session.save(() => {
+            res.redirect(`/profile/${userId}`);
+        });
 
     } catch (err) {
         console.error(err);
