@@ -122,7 +122,7 @@ exports.editEvent = async (req, res) => {
             'client-name': clientName,
             'event-description': description,
             location,
-            'start-date': eventDate,
+            'start-date': startDate,
             'end-date': endDate,
             'contact-name': contactName,
             'phone-number': phoneNumber,
@@ -130,6 +130,8 @@ exports.editEvent = async (req, res) => {
             addedSuppliers,
             status
         } = req.body;
+
+        const finalEndDate = endDate || startDate;
 
         const [CPFirstName, ...CPLastNameParts] = contactName.trim().split(' ');
         const CPLastName = CPLastNameParts.join(' ');
@@ -150,14 +152,15 @@ exports.editEvent = async (req, res) => {
                 clientName,
                 description,
                 location,
-                eventDate,
                 clientFirstName,
                 clientLastName,
                 CPFirstName,
                 CPLastName,
                 CPContactNo: phoneNumber,
                 members: parsedMembers,
-                suppliers: parsedSuppliers
+                suppliers: parsedSuppliers,
+                eventDate: new Date(startDate).toISOString().split('T')[0],
+                eventEndDate: finalEndDate ? new Date(finalEndDate).toISOString().split('T')[0] : null
             },
             { new: true } 
         );
