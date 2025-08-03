@@ -44,6 +44,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 button.dataset.firstName = member.firstName || '';
                 button.dataset.lastName = member.lastName || '';
                 button.dataset.pfp = `/api/avatar/${member._id}`;
+                button.dataset.status = member.status || '';
 
                 button.innerHTML = `
                     <img class="team-member-mini-picture" src="/api/avatar/${member._id}" />

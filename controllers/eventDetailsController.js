@@ -3,6 +3,7 @@ const Event = require('../models/events');
 const User = require('../models/employeeAccounts');
 const searchEventParticipants = require('../utils/searchEventParticipants');
 const Suppliers = require('../models/suppliers');
+const EmployeeAccount = require('../models/employeeAccounts');
 
 exports.getEventDetailsPage = async (req, res) => {
     try {
@@ -38,11 +39,15 @@ exports.getEventDetailsPage = async (req, res) => {
             ...team.teamMemberList
         ];
 
-        const users = await User.find({ _id: { $in: userIds } }).lean();
+        const users = (await User.find({ _id: { $in: userIds } }).lean()).map(user => ({
+            ...user,
+            isSelf: String(user._id) === String(userId)
+            }));
         const supplierList = await Suppliers.find({_id: { $in: team.supplierList }}).lean();
         
         res.render('eventDetails', {
             user: req.session.user,
+            currentUserId: userId,
             layout: 'main',
             stylesheet: 'eventDetails',
             script: 'eventDetails',

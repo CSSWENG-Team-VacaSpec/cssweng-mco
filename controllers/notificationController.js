@@ -47,11 +47,21 @@ exports.getManagerNotifications = async (req, res) => {
       ...inviteResponses.map(resp => ({ type: 'event_invite_response', data: resp })) 
     ];
 
+    // handle pagination.
+    const pageNum = parseInt(req.query.page) || 1;
+    const DOCUMENTS_PER_PAGE = 10;
+
     // Fuzzy search if a query is provided
     const filteredNotifications = searchQuery
-      ? searchNotifications(allNotifications, searchQuery)
-      : allNotifications;
+    ? searchNotifications(allNotifications, searchQuery)
+    : allNotifications;
 
+    console.log(filteredNotifications);
+    
+    // document count per page;
+    const totalNotifications = filteredNotifications.length;
+    const pages = Math.ceil(totalNotifications / DOCUMENTS_PER_PAGE);
+    
     // Sort by date descending if they all contain date
     filteredNotifications.sort((a, b) => new Date(b.data.date) - new Date(a.data.date));
 
@@ -61,8 +71,10 @@ exports.getManagerNotifications = async (req, res) => {
       stylesheet: 'notifications',
       title: 'Notifications',
       user,
-      notifications: filteredNotifications,
-      searchQuery
+      notifications: filteredNotifications.slice((pageNum - 1) * DOCUMENTS_PER_PAGE, pageNum * DOCUMENTS_PER_PAGE),
+      searchQuery,
+      pageCount: pages,
+      currentPageNumber: pageNum
     });
   } catch (error) {
     console.error('Manager Notification Error:', error);

@@ -65,7 +65,7 @@
         <input type="number" min="1" max="{{subtract pageCount 1}}" name="page" class="pagination-form-input" id="currentPage" size="2" value="{{currentPageNumber}}">
     </form>
     {{/if}}
-    {{#if (lt currentPageNumber (subtract pageCount 1))}}
+    {{#if (lt currentPageNumber pageCount)}}
     <a href="/eventList?page={{add currentPageNumber 1}}" class="pagination-control" id="pagination-next-button">
         <i class="lni lni-arrow-right"></i>
     </a>

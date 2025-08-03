@@ -1,10 +1,11 @@
-<button class="team-member-mini-card"
+<button class="team-member-mini-card {{#if isSelf}} team-member-self{{/if}}"
     data-email="{{email}}"
     data-bio="{{bio}}"
     data-role="{{role}}"
     data-id="{{_id}}"
     data-firstName="{{firstName}}"
     data-lastName="{{lastName}}"
+    data-status="{{status}}"
     type="button"
 >
     <img class="team-member-mini-picture" src="/api/avatar/{{_id}}"></img>

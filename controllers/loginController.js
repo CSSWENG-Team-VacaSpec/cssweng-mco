@@ -80,18 +80,25 @@ exports.authenticateEmployee = async (req, res) => {
         }
 
         req.session.user = {
-            _id: employee._id,
-            email: employee.email,
-            firstName: employee.firstName,
-            lastName: employee.lastName,
-            role: employee.role,
-            userType: "employee"
-        };
+        _id: employee._id,
+        email: employee.email,
+        firstName: employee.firstName,
+        lastName: employee.lastName,
+        role: employee.role,
+        userType: "employee"
+    };
 
-        
-
-        return res.redirect('/eventlist');
-        
+    // Save session explicitly before redirecting
+    req.session.save(err => {
+        if (err) {
+            console.error("Session save error:", err);
+            return res.render('login', {
+                layout: 'login',
+                error: "Session error. Please try again."
+            });
+        }
+        res.redirect('/eventlist');
+    });
 
     } catch (error) {
         console.error("Authentication error:", error);
@@ -227,7 +234,7 @@ exports.logout = (req, res) => {
         console.error("Logout error:", err);
         return res.status(500).json({ error: "Logout failed" });
       }
-
+      res.clearCookie('connect.sid');
       res.redirect('/');
     });
     };

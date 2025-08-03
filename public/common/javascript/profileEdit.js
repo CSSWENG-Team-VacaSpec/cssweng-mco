@@ -53,7 +53,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     let firstNameFilled = false;
     let lastNameFilled = false;
-    let mobileNumberFilled = false;
 
     firstName.addEventListener('input', () => {
         firstNameFilled = firstName.value !== '';
@@ -84,7 +83,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const editPfpButton = document.getElementById('editPfpButton');
 
     pfpUpload.addEventListener('input', () => {
-        editPfpButton.classList.toggle('disabled-button', pfpUpload.value === '');
+        editPfpButton.disabled = pfpUpload.value === '';
+        editPfpButton.classList.toggle('disabled-button', editPfpButton.disabled);
     })
 
     initializeInputStates();

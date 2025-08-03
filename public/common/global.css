@@ -280,6 +280,16 @@ textarea {
     display: none;
 }
 
+.team-member-mini-card[data-status="terminated"],
+.team-member-mini-card[data-status="unactivated"],
+.team-member-mini-card:not([data-status="active"]) {
+    opacity: 50%;
+}
+
+.team-member-self {
+    background-color: var(--accent-light);
+}
+
 .header {
     font-family: var(--main-font);
     letter-spacing: -1px;

@@ -15,3 +15,32 @@
         <p>No notifications available.</p>
     {{/each}}
 </div>
+<div class="pagination-controls-container">
+    {{#if (gt currentPageNumber 1)}}
+    <a href="/notifications?page={{subtract currentPageNumber 1}}" class="pagination-control" id="pagination-previous-button">
+        <i class="lni lni-arrow-left"></i>
+    </a>
+    {{else}}
+    <a class="disabled-link pagination-control" id="pagination-previous-button">
+        <i class="lni lni-arrow-left"></i>
+    </a>
+    {{/if}}
+    {{#if (eq pageCount 1)}}
+    <form class="pagination-form" method="get">
+        <input type="text" min="1" max="{{subtract pageCount 1}}" name="page" class="disabled-field pagination-form-input" id="currentPage" size="2" value="{{currentPageNumber}}">
+    </form>
+    {{else}}
+    <form class="pagination-form" method="get">
+        <input type="number" min="1" max="{{subtract pageCount 1}}" name="page" class="pagination-form-input" id="currentPage" size="2" value="{{currentPageNumber}}">
+    </form>
+    {{/if}}
+    {{#if (lt currentPageNumber (subtract pageCount 1))}}
+    <a href="/notifications?page={{add currentPageNumber 1}}" class="pagination-control" id="pagination-next-button">
+        <i class="lni lni-arrow-right"></i>
+    </a>
+    {{else}}
+    <a class="disabled-link pagination-control" id="pagination-next-button">
+        <i class="lni lni-arrow-right"></i>
+    </a>
+    {{/if}}
+</div>

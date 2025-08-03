@@ -1,5 +1,6 @@
-
+const EmployeeAccount = require('../models/employeeAccounts');
 const Team = require('../models/teams');
+const Suppliers = require('../models/suppliers');
 const Event = require('../models/events');
 const User = require('../models/employeeAccounts');
 
@@ -11,46 +12,67 @@ exports.getEditEventPage = async (req, res) => {
         const eventId = req.query.id;
         const user = await User.findById(userId).lean();
     
-         if (!user || user.role !== 'Manager') {
+        if (!user || user.role !== 'Manager') {
 
-         return res.status(403).send('Access denied: Managers only.'); 
+            return res.status(403).send('Access denied: Managers only.'); 
         }
 
-        const team = await Team.findById(eventId).lean();
-        const event = await Event.findById(eventId).lean(); 
-        let isManager = false;
-        let isProgramLead = false;
+        const members = await EmployeeAccount.find({ status: 'active' }).lean();
+        const suppliers = await Suppliers.find({ status: 'active' }).lean();
+        const team = await Team.findOne({ _id: eventId }).lean();
+        const event = await Event.findById(eventId).lean();
 
-        if (String (team.manager) === String (userId) ) {
-            isManager = true;
-        }
+        const memberList = team.teamMemberList;
+        const supplierList = team.supplierList;
 
-        if (String (team.programLead) === String (userId) ) {
-            isProgramLead = true;
-        }
+        // const currentTeamMembers = [];
+        // for (const memberId of memberList || []) {
+        //     const member = members.find(m => m._id.toString() === memberId.toString());
+        //     if (member) {
+        //         currentTeamMembers.push({
+        //             _id: member._id,
+        //             firstName: member.firstName,
+        //             lastName: member.lastName,
+        //             role: member.role,
+        //             pfp: member.pfp,
+        //             email: member.email,
+        //             bio: member.bio
+        //         });
+        //     }
+        // }
 
-        const showButtons = isManager || isProgramLead
+        const currentTeamMembers = await EmployeeAccount.find({
+            _id: { $in: memberList || [] }
+        }).lean();
 
-        const userIds = [
-            team.manager,
-            team.programLead,
-            ...team.teamMemberList
-        ];
+        // const currentSuppliers = [];
+        // for (const supplierId of supplierList || []) {
+        //     const supplier = suppliers.find(m => m._id.toString() === supplierId.toString());
+        //     if (supplier) {
+        //         currentSuppliers.push({
+        //             _id: supplier._id,
+        //             name: supplier.companyName,
+        //             contactNames: supplier.contactNames,
+        //             contactNumbers: supplier.contactNumbers,
+        //         });
+        //     }
+        // }
 
-        const users = await User.find({ _id: { $in: userIds } }).lean();
+        const currentSuppliers = await Suppliers.find({
+            _id: { $in: supplierList || [] }
+        }).lean();
 
-        const allMembers = await User.find({}).lean();
-
-        const currentTeamMembers = event.members || [];
-        const currentSuppliers = event.suppliers || [];
-
-        const addedMembers = allMembers.filter(m =>
-            currentTeamMembers.some(id => id.equals(m._id))
+        const otherMembers = members.filter(member => 
+            !team.teamMemberList?.some(id => id.toString() === member._id.toString())
         );
-        const availableMembers = allMembers.filter(m =>
-            !currentTeamMembers.some(id => id.equals(m._id))
+        const otherSuppliers = suppliers.filter(supplier => 
+            !team.supplierList?.some(id => id.toString() === supplier._id.toString())
         );
 
+        console.log("Team Members List:", memberList);
+        console.log("Supplier List:", supplierList);
+        console.log("Current Team Members:", currentTeamMembers);
+        console.log("Current Suppliers:", currentSuppliers);
         res.render('editEvent', {
         user: req.session.user,
         layout: 'form',
@@ -59,12 +81,13 @@ exports.getEditEventPage = async (req, res) => {
         title: 'Edit Event',
         page: 'edit-event',
         clientName: `${event.clientFirstName} ${event.clientLastName}`,
-        showButtons,
-        members: availableMembers,
-        addedMembers: addedMembers,
-        event: {
-            ...event,
-            teamMembers: currentTeamMembers        }
+        event,
+        currentTeamMembers,
+        currentSuppliers,
+        otherMembers,
+        otherSuppliers,
+        members,
+        suppliers
     });
 
     }   catch (error) {
