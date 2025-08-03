@@ -55,15 +55,22 @@
     <div class="event-details card">
         {{#if showButtons}}
         <div class="event-controls">
+            <button class="bg-button button" id="attendance-check-button">
+                <a class="button-wrapper" href="/eventAttendance?id={{event._id}}">
+                    <i class="lni lni-clipboard"></i>
+                    <p>Attendance</p>
+                </a>
+            </button>
+
             <button class="bg-button button" id="details-edit-button">
-                <a class="bg-button-wrapper button-wrapper" href="/editEvent?id={{event._id}}">
+                <a class="button-wrapper" href="/editEvent?id={{event._id}}">
                     <i class="lni lni-pencil-1"></i>
                     <p>Edit</p>
                 </a>
             </button>
             
             <button type="button" class="destructive-button button" id="details-delete-button" data-event-id="{{event._id}}">
-                <span class="bg-button-wrapper button-wrapper">
+                <span class="button-wrapper">
                     <i class="lni lni-trash-3"></i>
                     <p>Delete</p>
                 </span>
@@ -72,62 +79,38 @@
         {{/if}}
 
     <div class="event-box-top" id="details-top-box">
-        <span id="event-name"></span>
-        <span id="client-name"></span>
+        <span id="event-name">{{event.eventName}}</span>
+        <span id="status">{{event.status}}</span>
     </div>
+    <span id="client-name">{{event.clientFirstName}} {{event.clientLastName}}</span>
 
     <div class="event-box-bottom" id="details-box">
-        <span id="date-loc">
-            <span id="date"></span>
-            <span id="location"></span>
-        </span>
-        <span id="contact">
-            <span>Contact Person</span>
-            <span id="contact-name"></span>
-            <span id="contact-info"></span>
-        </span>
-        <span id="description-span">
-            <span>Description</span>
-            <span id="description"></span>
-        </span>
-    </div>
-
-    <div class="event-box-bottom">
-        <span id="status"></span>
-
-    </div>
-    
-        <div class="choice-buttons" id="details-choices">
-            {{#if showButtons}}
-            <button type="submit" class="bg-button button" id="cancel-button">
-                <span class="bg-button-wrapper button-wrapper">
-                <i class="lni lni-xmark"></i>
-                <p>Cancel</p>
-            </span>
-            </button>
-            <button class="fg-button button" id="mark-done-button">
-                <a class="fg-button-wrapper button-wrapper" href="#">
-                    <i class="lni lni-check"></i>
-                    <p>Mark as done</p>
-                </a>
-            </button>
-            {{/if}}
+        <div class="card-description-item">
+            <i class="lni lni-calendar-days card-secondary"></i>
+            <span class="card-header card-secondary">Date</span>
+            <span id="date">{{event.eventDate}}</span>
         </div>
-
-        {{!-- displays the team members lang 
-        <div class="members-box">
-            {{#if teamMembers.length}}
-                <ul>
-                {{#each teamMembers}}
-                <li>{{firstName}} {{lastName}}</li>
-            {{/each}}
-                </ul>
-                {{else}}
-                <p>Currently no members in this event.</p>
-            {{/if}}
-            </div> --}}
-        
-
+        <div class="card-description-item">
+            <i class="lni lni-map-pin-5 card-secondary"></i>
+            <span class="card-header card-secondary">Location</span>
+            <a href="https://www.google.com/maps/search/?api=1&query={{event.location}}" id="location">{{event.location}}</a>
+        </div>
+        <div class="card-description-item">
+            <i class="lni lni-phone"></i>
+            <span class="card-header card-secondary">Contact Person</span>
+            <span id="contact-name">{{event.CPFirstName}} {{event.CPLastName}}</span>
+            <a href="tel:{{event.CPContactNo}}" id="contact-info">{{event.CPContactNo}}</a>
+        </div>
+        <span id="description-span">
+            <div class="card-description-item">
+                <i class="lni lni-pen-to-square"></i>
+                <span class="card-header card-secondary">Description</span>
+            </div>
+            <div class="card-description-item">
+                <span id="description">{{event.description}}</span>
+            </div>
+        </span>
+    </div>
     <div class="team-members">
         <div class="grid-container">
             <form role="search" class="search-bar" onsubmit="return false;">
@@ -158,15 +141,6 @@
                 {{/if}}
             </div>
         </div>
-
-        {{#if showButtons}}
-                <button class="fg-button button" id="attendance-check-button">
-                    <a class="fg-button-wrapper button-wrapper" href="/eventAttendance?id={{event._id}}">
-                        <i class="lni lni-user-multiple-4"></i>
-                        <p>Check attendance</p>
-                    </a>
-                </button>
-            {{/if}}
     <script>
     const teamId = '{{team._id}}';
     </script>
