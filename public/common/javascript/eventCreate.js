@@ -21,8 +21,16 @@ document.addEventListener('DOMContentLoaded', () => {
     const startDateInput = document.getElementById('start-date');
     const endDateInput = document.getElementById('end-date');
 
+    // needed for ios.
+    function getLocalDateString(date) {
+        const offset = date.getTimezoneOffset();
+        const local = new Date(date.getTime() - (offset * 60000));
+        return local.toISOString().split('T')[0];
+    }
+
     let startDate = new Date();
-    let formattedStartDate = startDate.toISOString().split('T')[0];
+    
+    let formattedStartDate = getLocalDateString(new Date());
 
     // set minimum date to today for both on page load.
     startDateInput.setAttribute('min', formattedStartDate);
