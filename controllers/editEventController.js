@@ -19,7 +19,8 @@ exports.getEditEventPage = async (req, res) => {
 
         const members = await EmployeeAccount.find({ 
             status: 'active',
-            _id: { $ne: userId }
+            _id: { $ne: userId },
+            role: { $ne: 'Manager'}
         }).lean();
         const suppliers = await Suppliers.find({ status: 'active' }).lean();
         const team = await Team.findOne({ _id: eventId }).lean();
