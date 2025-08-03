@@ -203,7 +203,8 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     submitButton.addEventListener('click', () => {
-        
+        document.getElementById('added-members-input').value = JSON.stringify(addedMembers);
+        document.getElementById('added-suppliers-input').value = JSON.stringify(addedSuppliers);
     });
     
     updateNavigationButtons();
