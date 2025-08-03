@@ -4,6 +4,7 @@
     --page-bg: #1f1f1f;
     --card-bg: #ffffff;
     --primary-fg: #3a3434;
+    --deemphasize-fg: #655e5e;
     --secondary-fg: #919191;
     --sidebar-fg: #ffffff;
     --sidebar-bg: #3a3434aa;
@@ -113,11 +114,15 @@ textarea {
 }
 
 .logo-image {
-    width: 5rem;
-    height: 2rem;
+    aspect-ratio: 1.5;
+    height: 3rem;
     padding: var(--medium-gap);
     box-sizing: border-box;
     background-color: var(--sidebar-fg);
+    background-image: url('../common/logo.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center center;
     border-radius: var(--button-radius);
 }
 
@@ -150,7 +155,7 @@ textarea {
     display: flex;
     align-items: center;
     gap: var(--small-gap);
-    font-weight: 500;
+    font-weight: 600;
 }
 
 .card-header i {
@@ -158,11 +163,12 @@ textarea {
 }
 
 .card-secondary {
-    color: var(--secondary-fg);
+    color: var(--deemphasize-fg);
 }
 
 .card-description-item {
     display: flex;
+    flex-direction: row;
     align-items: center;
     gap: var(--small-gap);
     flex-direction: row;
@@ -179,7 +185,12 @@ textarea {
 
 .card-description-item i {
     font-size: var(--icon-size);
+    color: var(--deemphasize-fg);
+}
+
+.card-description-item a {
     color: var(--secondary-fg);
+    text-decoration: underline;
 }
 
 .column-data-view {
@@ -537,30 +548,6 @@ button.form-hidden-button {
     font-weight: 400;
 }
 
-#details-box {
-    display: flex;
-    flex-direction: column;
-    gap: var(--medium-gap);
-    margin-bottom: 1rem;
-}
-
-#date-loc span {
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-}
-
-#contact span {
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-}
-
-#description-span span {
-    display: flex;
-    flex-direction: column;
-}
-
 .notif-controls {
     width: 100%;
     align-items: center;
@@ -614,6 +601,7 @@ button.form-hidden-button {
     gap: var(--small-gap);
     list-style-type: none;
     font-family: var(--main-font);
+    text-decoration: none;
 }
 
 .button-wrapper p {
@@ -781,6 +769,7 @@ button.disabled-button:hover .button-wrapper {
     pointer-events: none;
     opacity: 0;
     transition: opacity 0.15s, top 0.15s;
+    z-index: 100;
 }
 
 .dropdown-open .dropdown-content {
@@ -995,6 +984,7 @@ button.disabled-button:hover .button-wrapper {
 #status {
     border-radius: var(--button-radius);
     display: inline;
+    font-size: 0.9rem;
     padding: 0.1rem 0.5rem;
     text-transform: capitalize;
     font-weight: 400;
@@ -1276,6 +1266,10 @@ button.disabled-button:hover .button-wrapper {
 
     .attendance-box-text {
         display: none;
+    }
+
+    .dropdown-content {
+        width: 100%;
     }
 }
 

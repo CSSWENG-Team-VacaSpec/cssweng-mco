@@ -5,9 +5,15 @@ exports.renderPage = async (req, res) => {
         if (!req.session.user || req.session.user.role?.trim() !== 'Manager') {
             return res.redirect('/login'); 
         }
-        const members = await EmployeeAccount.find({ status: 'active' }).lean();
-        
-        res.render('memberDelete', {
+
+        const members = await EmployeeAccount.find({ 
+            status: 'active',
+            _id: {
+                $ne: req.session.user
+            }
+        }).lean();
+
+      res.render('memberDelete', {
             layout: 'form',
             script: 'memberDelete',
             title: 'Delete team members',
@@ -17,6 +23,7 @@ exports.renderPage = async (req, res) => {
         });
     } catch (error) {
         console.error('Could not load member deletion page.');
+        return res.status(500).send('Could not load member deletion page.');
     }
 }
 

@@ -5,7 +5,6 @@ const searchEventParticipants = require('../utils/searchEventParticipants');
 const Suppliers = require('../models/suppliers');
 const EmployeeAccount = require('../models/employeeAccounts');
 
-
 exports.getEventDetailsPage = async (req, res) => {
     try {
 
@@ -13,21 +12,27 @@ exports.getEventDetailsPage = async (req, res) => {
         const eventId = req.query.id;
         
         const team = await Team.findById(eventId).lean();
-        const event = await Event.findById(eventId).lean(); 
+        let event;
         let isManager = false;
         let isProgramLead = false;
-
+        
         if (String (team.manager) === String (userId) ) {
             isManager = true;
         }
-
+        
         if (String (team.programLead) === String (userId) ) {
             isProgramLead = true;
+        }
+        
+        if (isManager) {
+            event = await Event.findById(eventId).lean();
+        } else {
+            event = await Event.findById(eventId).select(['-CPContactNo', '-CPFirstName', '-CPLastName']).lean();
         }
 
         const isPastEvent = ['completed', 'cancelled'].includes(event.status?.toLowerCase());
         const showButtons = (isManager || isProgramLead) && !isPastEvent;
-
+        
         const userIds = [
             team.manager,
             team.programLead,
@@ -40,7 +45,6 @@ exports.getEventDetailsPage = async (req, res) => {
             }));
         const supplierList = await Suppliers.find({_id: { $in: team.supplierList }}).lean();
         
-        console.log(supplierList)
         res.render('eventDetails', {
             user: req.session.user,
             currentUserId: userId,

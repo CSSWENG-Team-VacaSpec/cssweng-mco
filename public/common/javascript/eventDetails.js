@@ -2,15 +2,6 @@ document.addEventListener('DOMContentLoaded', function() {
     const eventData = JSON.parse(sessionStorage.getItem('currentEvent'));
 
     if (eventData) {
-        const eventId = eventData?._id
-        document.getElementById('event-name').textContent = eventData.eventName;
-        document.getElementById('client-name').textContent = eventData.clientName;
-        document.getElementById('date').textContent = eventData.eventDate;
-        document.getElementById('location').textContent = eventData.location;
-        document.getElementById('description').textContent = eventData.description;
-        document.getElementById('contact-name').textContent = 
-            `${eventData.CPFirstName} ${eventData.CPLastName}`;
-        document.getElementById('contact-info').textContent = eventData.CPContactNo;
         document.getElementById('status').textContent = eventData.status;
 
         const statusElement = document.getElementById('status');
@@ -53,7 +44,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 window.location.href = `/eventAttendance?id=${eventData._id}`;
             });
         }
-
 
         modalDeleteCloseButton.addEventListener('click', () => {
             modalDeleteContainer.classList.add('modal-container-hidden');

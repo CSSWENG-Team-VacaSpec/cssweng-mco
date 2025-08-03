@@ -19,7 +19,11 @@ exports.getEditEventPage = async (req, res) => {
             return res.status(403).send('Access denied: Managers only.'); 
         }
 
-        const members = await EmployeeAccount.find({ status: 'active' }).lean();
+        const members = await EmployeeAccount.find({ 
+            status: 'active',
+            _id: { $ne: userId },
+            role: { $ne: 'Manager'}
+        }).lean();
         const suppliers = await Suppliers.find({ status: 'active' }).lean();
         const team = await Team.findOne({ _id: eventId }).lean();
         const event = await Event.findById(eventId).lean();
@@ -71,6 +75,14 @@ exports.getEditEventPage = async (req, res) => {
             !team.supplierList?.some(id => id.toString() === supplier._id.toString())
         );
 
+        const startDate = event.eventDate ? new Date(event.eventDate) : null;
+        const endDate = event.eventEndDate ? new Date(event.eventEndDate) : startDate;
+        const formattedEvent = {
+            ...event,
+            formattedStartDate: startDate ? startDate.toISOString().split('T')[0] : '',
+            formattedEndDate: endDate ? endDate.toISOString().split('T')[0] : ''
+        };
+
         console.log("Team Members List:", memberList);
         console.log("Supplier List:", supplierList);
         console.log("Current Team Members:", currentTeamMembers);
@@ -83,7 +95,7 @@ exports.getEditEventPage = async (req, res) => {
         title: 'Edit Event',
         page: 'edit-event',
         clientName: `${event.clientFirstName} ${event.clientLastName}`,
-        event,
+        event: formattedEvent,
         currentTeamMembers,
         currentSuppliers,
         otherMembers,
@@ -116,7 +128,7 @@ exports.editEvent = async (req, res) => {
             'client-name': clientName,
             'event-description': description,
             location,
-            'start-date': eventDate,
+            'start-date': startDate,
             'end-date': endDate,
             'contact-name': contactName,
             'phone-number': phoneNumber,
@@ -124,6 +136,8 @@ exports.editEvent = async (req, res) => {
             addedSuppliers,
             status
         } = req.body;
+
+        const finalEndDate = endDate || startDate;
 
         const [CPFirstName, ...CPLastNameParts] = contactName.trim().split(' ');
         const CPLastName = CPLastNameParts.join(' ');
@@ -174,12 +188,15 @@ exports.editEvent = async (req, res) => {
                 clientName,
                 description,
                 location,
-                eventDate,
                 clientFirstName,
                 clientLastName,
                 CPFirstName,
                 CPLastName,
-                CPContactNo: phoneNumber
+                CPContactNo: phoneNumber,
+                members: parsedMembers,
+                suppliers: parsedSuppliers,
+                eventDate: new Date(startDate).toISOString().split('T')[0],
+                eventEndDate: finalEndDate ? new Date(finalEndDate).toISOString().split('T')[0] : null
             },
             { new: true } 
         );

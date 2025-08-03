@@ -21,8 +21,16 @@ document.addEventListener('DOMContentLoaded', () => {
     const startDateInput = document.getElementById('start-date');
     const endDateInput = document.getElementById('end-date');
 
+    // needed for ios.
+    function getLocalDateString(date) {
+        const offset = date.getTimezoneOffset();
+        const local = new Date(date.getTime() - (offset * 60000));
+        return local.toISOString().split('T')[0];
+    }
+
     let startDate = new Date();
-    let formattedStartDate = startDate.toISOString().split('T')[0];
+    
+    let formattedStartDate = getLocalDateString(new Date());
 
     // set minimum date to today for both on page load.
     startDateInput.setAttribute('min', formattedStartDate);
@@ -84,6 +92,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 member._cloneRef = null;
             }
         }
+
+        updateNavigationButtons();
+        updateSubmitButton();
     });
 
     suppliersContainer.addEventListener('click', (event) => {
@@ -112,6 +123,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 supplier._cloneRef = null;
             }
         }
+        updateNavigationButtons();
+        updateSubmitButton();
     });
 
     function updatePage() {
@@ -120,7 +133,31 @@ document.addEventListener('DOMContentLoaded', () => {
         } else {
             formContainer.style.transform = `translateX(calc(-${page * 100}% - ${page} * var(--big-gap)))`;
         }
+
+        const pages = document.querySelectorAll('.form-page');
+        pages.forEach((p, index) => {
+            const isActive = index === page;
+            
+            // Enable or disable tabbing for inputs in each page
+            const focusable = p.querySelectorAll('input, select, textarea, button, [tabindex]');
+            focusable.forEach(el => {
+                el.tabIndex = isActive ? 0 : -1;
+            });
+        });
     }
+
+    const form = document.querySelector('.form');
+
+    form.addEventListener('keydown', (e) => {
+        const isEnter = e.key === 'Enter';
+        const isTextInput = ['input', 'textarea'].includes(e.target.tagName) &&
+                            e.target.type !== 'textarea'; // allow enter in textarea
+
+        if (isEnter && isTextInput) {
+            e.preventDefault(); // block enter key from submitting
+        }
+    });
+
 
     function updateNavigationButtons() {
         const valid = validatePage(page);
@@ -144,9 +181,12 @@ document.addEventListener('DOMContentLoaded', () => {
         submitButton.classList.toggle('submit-button', showSubmit);
     }
 
+    const validPhoneNumber = /^\d{4} ?\d{3} ?\d{4}|\+\d{2} ?\d{3} ?\d{3} ?\d{4}$/;
+
     const validators = {
-        0: () => pageInputs[0].every(input => input.value.trim() !== ''),
-        1: () => true,
+        0: () => pageInputs[0].every(input => input.value.trim() !== '') &&
+                 pageInputs[0][7].value.match(validPhoneNumber), // check for valid phone number.
+        1: () => addedMembers.length > 0,
         2: () => true
     };
 
@@ -182,4 +222,6 @@ document.addEventListener('DOMContentLoaded', () => {
         membersInput.value = JSON.stringify(addedMembers);
         suppliersInput.value = JSON.stringify(addedSuppliers);
     });
+
+    updatePage();
 });

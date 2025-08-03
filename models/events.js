@@ -5,6 +5,7 @@ const eventSchema = new mongoose.Schema({
     eventName: { type: String, required: true },
     description: { type: String},
     eventDate: { type: String, required: true },
+    eventEndDate: { type: String, required: true },
     location: { type: String, required: true },
     status: {
         type: String, 
@@ -20,6 +21,14 @@ const eventSchema = new mongoose.Schema({
    
 },
 { collection: "events" });
+
+eventSchema.virtual('startDate').get(function() {
+    return new Date(this.eventDate);
+});
+
+eventSchema.virtual('endDate').get(function() {
+    return new Date(this.eventEndDate);
+});
 
 const Event = mongoose.model("Event", eventSchema);
 module.exports = Event;
