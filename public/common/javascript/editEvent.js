@@ -26,8 +26,8 @@ document.addEventListener('DOMContentLoaded', () => {
     let formattedStartDate = startDate.toISOString().split('T')[0];
 
     // set minimum date to today for both on page load.
-    startDateInput.setAttribute('min', formattedStartDate);
-    endDateInput.setAttribute('min', formattedStartDate);
+    // startDateInput.setAttribute('min', formattedStartDate);
+    // endDateInput.setAttribute('min', formattedStartDate);
 
     // addedMembers = currentMembers.map(m => m._id);
     // addedSuppliers = currentSuppliers.map(s => s._id);
