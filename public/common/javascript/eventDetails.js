@@ -110,7 +110,13 @@ document.addEventListener('DOMContentLoaded', function() {
                         el.setAttribute('data-lastName', member.lastName);
                         el.setAttribute('data-email', member.email);
                         el.setAttribute('data-role', member.role);
+                        el.setAttribute('data-pfp', member.pfp || '');
+                        el.setAttribute('data-status', member.status || '');
 
+                        if (member._id === currentUserId) {
+                            el.classList.add('team-member-self');
+                        }
+                      
                         el.innerHTML = `
                             <div class="team-member-mini-picture" style="background-image: url('${member.pfp || ''}');"></div>
                             <span id="full-name">${member.firstName} ${member.lastName}</span>
@@ -118,6 +124,7 @@ document.addEventListener('DOMContentLoaded', function() {
                             <i id="teamMiniAddButton" class="lni lni-plus"></i>
                             <i id="teamMiniRemoveButton" class="lni lni-xmark"></i>
                         `;
+                        
                         memberListContainer.appendChild(el);
                     });
                 }

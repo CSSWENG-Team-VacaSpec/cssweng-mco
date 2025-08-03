@@ -78,6 +78,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 button.className = 'team-member-mini-card';
                 button.dataset.id = supplier._id;
                 button.dataset.company = supplier.companyName;
+                button.dataset.status = supplier.status;
 
                 button.innerHTML = `
                     <div class="team-member-mini-picture" style="background-image: url('/images/default-supplier.png');"></div>

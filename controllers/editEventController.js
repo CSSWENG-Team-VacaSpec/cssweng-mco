@@ -53,7 +53,7 @@ exports.getEditEventPage = async (req, res) => {
         //             _id: supplier._id,
         //             name: supplier.companyName,
         //             contactNames: supplier.contactNames,
-        //             contactNumbers: supplier.contactNumbers
+        //             contactNumbers: supplier.contactNumbers,
         //         });
         //     }
         // }
