@@ -91,7 +91,7 @@
             </div>
             <div class="form-page" id="team-members-page">
                 <h1 class="secondary-header">Assign team members</h1>
-                <div class="grid-container">
+                <div class="grid-container" >
                     <h1 class="secondary-header">Search</h1>
                     <div role="search" class="search-bar" id="memberSearchForm">
                         <button type="submit" id="search-icon"><i class="lni lni-search-1"></i></button>
@@ -157,6 +157,7 @@
 
     </form>
 </div>
+
 <script>
 document.addEventListener('DOMContentLoaded', () => {
     const memberSearchInput = document.getElementById('memberSearchInput');
@@ -165,8 +166,83 @@ document.addEventListener('DOMContentLoaded', () => {
     const membersContainer = document.getElementById('memberSearchResults');
     const suppliersContainer = document.getElementById('supplierSearchResults');
 
-    let addedMembers = []; // This should be shared with your main logic
-    let addedSuppliers = [];
+    const allMembers = [
+        {{#each members}} {
+            _id: "{{this._id}}",
+            firstName: "{{this.firstName}}",
+            lastName: "{{this.lastName}}",
+            role: "{{this.role}}",
+            email: "{{this.email}}",
+            pfp: "{{this.pfp}}",
+            bio: "{{this.bio}}",
+            status: "{{this.status}}"
+        }{{#unless @last}},{{/unless}}
+        {{/each}}
+    ];
+
+    const allSuppliers = [
+        {{#each suppliers}} {
+            _id: "{{this._id}}",
+            companyName: "{{this.companyName}}",
+            status: "{{this.status}}"
+        }{{#unless @last}},{{/unless}}
+        {{/each}}
+    ];
+
+    const renderMembers = (filtered) => {
+        membersContainer.innerHTML = '';
+        if (filtered.length === 0) {
+            membersContainer.innerHTML = '<p>No matching members found.</p>';
+            return;
+        }
+
+        filtered.forEach(member => {
+            const button = document.createElement('button');
+            button.className = 'team-member-mini-card';
+            button.setAttribute('type', 'button');
+            button.setAttribute('data-id', member._id);
+            button.setAttribute('data-firstName', member.firstName);
+            button.setAttribute('data-lastName', member.lastName);
+            button.setAttribute('data-role', member.role);
+            button.setAttribute('data-email', member.email);
+            button.setAttribute('data-pfp', member.pfp);
+            button.setAttribute('data-bio', member.bio);
+            button.setAttribute('data-status', member.status);
+
+            button.innerHTML = `
+                <img class="team-member-mini-picture" src="/api/avatar/${member._id}"></img>
+                <span id="full-name">${member.firstName} ${member.lastName}</span>
+                <span id="role">${member.role}</span>
+                <i id="teamMiniAddButton" class="lni lni-plus"></i>
+                <i id="teamMiniRemoveButton" class="lni lni-xmark"></i>
+            `;
+            membersContainer.appendChild(button);
+        });
+    };
+
+    const renderSuppliers = (filtered) => {
+        suppliersContainer.innerHTML = '';
+        if (filtered.length === 0) {
+            suppliersContainer.innerHTML = '<p>No matching suppliers found.</p>';
+            return;
+        }
+
+        filtered.forEach(supplier => {
+            const button = document.createElement('button');
+            button.className = 'team-member-mini-card';
+            button.setAttribute('type', 'button');
+            button.setAttribute('data-id', supplier._id);
+            button.setAttribute('data-company', supplier.companyName);
+            button.setAttribute('data-status', supplier.status);
+
+            button.innerHTML = `
+                <span id="full-name">${supplier.companyName}</span>
+                <i id="teamMiniAddButton" class="lni lni-plus"></i>
+                <i id="teamMiniRemoveButton" class="lni lni-xmark"></i>
+            `;
+            suppliersContainer.appendChild(button);
+        });
+    };
 
     const debounce = (fn, delay) => {
         let timeout;
@@ -176,98 +252,33 @@ document.addEventListener('DOMContentLoaded', () => {
         };
     };
 
-    const fetchFilteredMembers = async (query) => {
-        const eventId = sessionStorage.getItem('currentEvent')
-            ? JSON.parse(sessionStorage.getItem('currentEvent'))._id
-            : null;
-
-        if (!eventId || !query.trim()) return;
-
-        try {
-            const res = await fetch(`/searchEmployees?q=${encodeURIComponent(query)}`);
-            const data = await res.json();
-            membersContainer.innerHTML = '';
-
-            if (!data.members || data.members.length === 0) {
-                membersContainer.innerHTML = '<p>No matching members found.</p>';
-                return;
-            }
-
-            data.members.forEach(member => {
-                if (addedMembers.includes(member._id)) return;
-
-                const el = document.createElement('div');
-                el.className = 'team-member-mini-card';
-                el.setAttribute('data-id', member._id);
-                el.setAttribute('data-firstName', member.firstName);
-                el.setAttribute('data-lastName', member.lastName);
-                el.setAttribute('data-email', member.email);
-                el.setAttribute('data-role', member.role);
-                el.setAttribute('data-pfp', member.pfp || '');
-                el.setAttribute('data-status', member.status || '');
-
-                el.innerHTML = `
-                    <div class="team-member-mini-picture" style="background-image: url('${member.pfp || ''}');"></div>
-                    <span id="full-name">${member.firstName} ${member.lastName}</span>
-                    <span id="role">${member.role}</span>
-                    <i id="teamMiniAddButton" class="lni lni-plus"></i>
-                    <i id="teamMiniRemoveButton" class="lni lni-xmark"></i>
-                `;
-
-                membersContainer.appendChild(el);
-            });
-        } catch (err) {
-            console.error('Member search failed:', err);
-        }
+    const filterMembers = (query) => {
+        const filtered = allMembers.filter(member =>
+            `${member.firstName} ${member.lastName}`.toLowerCase().includes(query.toLowerCase())
+        );
+        renderMembers(filtered);
     };
 
-    const fetchFilteredSuppliers = async (query) => {
-        const eventId = sessionStorage.getItem('currentEvent')
-            ? JSON.parse(sessionStorage.getItem('currentEvent'))._id
-            : null;
-
-        if (!eventId || !query.trim()) return;
-
-        try {
-            const res = await fetch(`/search/suppliers?q=${encodeURIComponent(query)}&id=${eventId}`);
-            const data = await res.json();
-            suppliersContainer.innerHTML = '';
-
-            if (!data.suppliers || data.suppliers.length === 0) {
-                suppliersContainer.innerHTML = '<p>No matching suppliers found.</p>';
-                return;
-            }
-
-            data.suppliers.forEach(supplier => {
-                if (addedSuppliers.includes(supplier._id)) return;
-
-                const el = document.createElement('button');
-                el.className = 'team-member-mini-card';
-                el.setAttribute('data-id', supplier._id);
-                el.setAttribute('data-company', supplier.companyName);
-                el.setAttribute('data-status', supplier.status || '');
-                el.setAttribute('type', 'button');
-
-                el.innerHTML = `
-                    <span id="full-name">${supplier.companyName}</span>
-                    <i id="teamMiniAddButton" class="lni lni-plus"></i>
-                    <i id="teamMiniRemoveButton" class="lni lni-xmark"></i>
-                `;
-
-                suppliersContainer.appendChild(el);
-            });
-        } catch (err) {
-            console.error('Supplier search failed:', err);
-        }
+    const filterSuppliers = (query) => {
+        const filtered = allSuppliers.filter(supplier =>
+            supplier.companyName.toLowerCase().includes(query.toLowerCase())
+        );
+        renderSuppliers(filtered);
     };
 
     memberSearchInput.addEventListener('input', debounce((e) => {
-        fetchFilteredMembers(e.target.value);
+        filterMembers(e.target.value);
     }, 300));
 
     supplierSearchInput.addEventListener('input', debounce((e) => {
-        fetchFilteredSuppliers(e.target.value);
+        filterSuppliers(e.target.value);
     }, 300));
+
+    // render
+    renderMembers(allMembers);
+    renderSuppliers(allSuppliers);
 });
+
 </script>
+
 

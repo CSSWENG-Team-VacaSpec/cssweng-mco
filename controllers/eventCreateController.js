@@ -118,29 +118,3 @@ exports.createEvent = async (req, res) => {
     }
 };
 
-// exports.searchEmployees = async (req, res) => {
-//     try {
-//         const { q, id } = req.query;
-//         if (!q || !id) return res.status(400).json({ members: []});
-
-//         const results = await searchEmployees(EmployeeAccount, q);
-//         res.json(results);
-
-//     } catch (err) {
-//         console.error('Search error:', err);
-//         res.status(500).json({ members: []});
-//     }
-// };
-
-// exports.searchSuppliers= async (req, res) => {
-//     try {
-//         const { q, id } = req.query;
-//         if (!q || !id) return res.status(400).json({suppliers: [] });
-
-//         const results = await searchSuppliers(Suppliers, q);
-//         res.json(results);
-//     } catch (err) {
-//         console.error('Search error:', err);
-//         res.status(500).json({suppliers: [] });
-//     }
-// };
