@@ -2,6 +2,7 @@ const Team = require('../models/teams');
 const Event = require('../models/events');
 const User = require('../models/employeeAccounts');
 const searchEventParticipants = require('../utils/searchEventParticipants');
+const Invitation = require ('../models/eventInvitations');
 const Suppliers = require('../models/suppliers');
 const EmployeeAccount = require('../models/employeeAccounts');
 
@@ -45,6 +46,26 @@ exports.getEventDetailsPage = async (req, res) => {
             }));
         const supplierList = await Suppliers.find({_id: { $in: team.supplierList }}).lean();
         
+        const unavailableInvitations = await Invitation.find({ 
+            event: eventId,
+            response: 'unavailable'
+        });
+        const pendingInvitations = await Invitation.find({ 
+            event: eventId,
+            response: 'pending'
+        });
+
+        const unavailableContacts = unavailableInvitations.map(invite => invite.employeeCN);
+        const pendingContacts = pendingInvitations.map(invite => invite.employeeCN)
+
+        const unavailableMembers = await User.find({
+            _id: { $in: unavailableContacts }
+        }).lean();
+
+        const pendingMembers = await User.find({
+            _id: { $in: pendingContacts }
+        }).lean();
+        
         res.render('eventDetails', {
             user: req.session.user,
             currentUserId: userId,
@@ -55,6 +76,8 @@ exports.getEventDetailsPage = async (req, res) => {
             page: 'event-details',
             showButtons,
             teamMembers: users,
+            unavailableMembers: unavailableMembers,
+            pendingMembers: pendingMembers,
             team,
             event,
             supplierList
