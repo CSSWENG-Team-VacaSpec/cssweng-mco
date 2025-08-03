@@ -22,5 +22,13 @@ const eventSchema = new mongoose.Schema({
 },
 { collection: "events" });
 
+eventSchema.virtual('startDate').get(function() {
+    return new Date(this.eventDate);
+});
+
+eventSchema.virtual('endDate').get(function() {
+    return new Date(this.eventEndDate);
+});
+
 const Event = mongoose.model("Event", eventSchema);
 module.exports = Event;

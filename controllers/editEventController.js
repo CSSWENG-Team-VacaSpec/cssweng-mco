@@ -69,6 +69,14 @@ exports.getEditEventPage = async (req, res) => {
             !team.supplierList?.some(id => id.toString() === supplier._id.toString())
         );
 
+        const startDate = event.eventDate ? new Date(event.eventDate) : null;
+        const endDate = event.eventEndDate ? new Date(event.eventEndDate) : startDate;
+        const formattedEvent = {
+            ...event,
+            formattedStartDate: startDate ? startDate.toISOString().split('T')[0] : '',
+            formattedEndDate: endDate ? endDate.toISOString().split('T')[0] : ''
+        };
+
         console.log("Team Members List:", memberList);
         console.log("Supplier List:", supplierList);
         console.log("Current Team Members:", currentTeamMembers);
@@ -81,7 +89,7 @@ exports.getEditEventPage = async (req, res) => {
         title: 'Edit Event',
         page: 'edit-event',
         clientName: `${event.clientFirstName} ${event.clientLastName}`,
-        event,
+        event: formattedEvent,
         currentTeamMembers,
         currentSuppliers,
         otherMembers,
