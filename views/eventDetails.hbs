@@ -88,7 +88,7 @@
         <div class="card-description-item">
             <i class="lni lni-calendar-days card-secondary"></i>
             <span class="card-header card-secondary">Date</span>
-            <span id="date">{{event.eventDate}}</span>
+            <span id="date">{{event.eventDate}} to {{#if event.eventEndDate}} {{event.eventEndDate}} {{else}} {{event.eventDate}} {{/if}}</span>
         </div>
         <div class="card-description-item">
             <i class="lni lni-map-pin-5 card-secondary"></i>
