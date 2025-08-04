@@ -228,13 +228,7 @@ document.addEventListener('DOMContentLoaded', () => {
         suppliersInput.value = JSON.stringify(addedSuppliers);
     });
 
-    memberSearchInput.addEventListener('input', debounce((e) => {
-        fetchFilteredMembers(e.target.value);
-    }, 300));
-
-    supplierSearchInput.addEventListener('input', debounce((e) => {
-        fetchFilteredSuppliers(e.target.value);
-    }, 300));
+    
 
 
     updatePage();

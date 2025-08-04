@@ -94,7 +94,6 @@
                 <div class="grid-container" >
                     <h1 class="secondary-header">Search</h1>
                     <div role="search" class="search-bar" id="memberSearchForm">
-                        <button type="submit" id="search-icon"><i class="lni lni-search-1"></i></button>
                         <input type="search" name="q" id="memberSearchInput" placeholder="Search team members...">
                     </div>
                     <div class="team-mini-grid" id="memberSearchResults">
@@ -163,6 +162,14 @@ document.addEventListener('DOMContentLoaded', () => {
     const memberSearchInput = document.getElementById('memberSearchInput');
     const supplierSearchInput = document.getElementById('supplierSearchInput');
 
+     [memberSearchInput, supplierSearchInput].forEach(input => {
+        input.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') {
+                e.preventDefault(); // stops the form from submitting
+            }
+        });
+    });
+    
     const membersContainer = document.getElementById('memberSearchResults');
     const suppliersContainer = document.getElementById('supplierSearchResults');
 
