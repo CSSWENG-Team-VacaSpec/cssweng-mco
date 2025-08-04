@@ -3,6 +3,9 @@ const Event = require('../models/events');
 const Invite = require('../models/eventInvitations');
 const Suppliers = require('../models/suppliers');
 const Team = require('../models/teams');
+const searchEmployees = require('../utils/searchEmployees');
+const searchSuppliers = require('../utils/searchSuppliers');
+
 const { v4: uuidv4 } = require('uuid');
 
 exports.renderPage = async (req, res) => {
@@ -114,3 +117,4 @@ exports.createEvent = async (req, res) => {
         res.status(500).send('Failed to create event');
     }
 };
+
