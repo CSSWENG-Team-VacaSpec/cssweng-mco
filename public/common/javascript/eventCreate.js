@@ -20,6 +20,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const startDateInput = document.getElementById('start-date');
     const endDateInput = document.getElementById('end-date');
+    const memberSearchInput = document.getElementById('memberSearchInput');
+    const supplierSearchInput = document.getElementById('supplierSearchInput');
 
     // needed for ios.
     function getLocalDateString(date) {
@@ -45,6 +47,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const addedSuppliersContainer = document.getElementById('addedSuppliers');
     let addedSuppliers = [];
+
+
+
 
     nextButton.addEventListener('click', () => {
         if (page < MAX_PAGE) {
@@ -222,6 +227,9 @@ document.addEventListener('DOMContentLoaded', () => {
         membersInput.value = JSON.stringify(addedMembers);
         suppliersInput.value = JSON.stringify(addedSuppliers);
     });
+
+    
+
 
     updatePage();
 });
